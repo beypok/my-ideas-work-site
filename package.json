@@ -1,0 +1,32 @@
+{
+    "name": "myideaswork",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend",
+        "shared"
+    ],
+    "devDependencies": {
+        "@types/passport-jwt": "^3.0.6",
+        "@types/passport-local": "^1.0.34",
+        "nx": "14.1.9",
+        "tslib": "^2.4.0"
+    },
+    "scripts": {
+        "frontend": "yarn workspace @myideaswork/frontend",
+        "backend": "yarn workspace @myideaswork/backend",
+        "shared": "yarn workspace @myideaswork/common",
+        "start:backend": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run start:prod"
+    },
+    "dependencies": {
+        "@nestjs/jwt": "^8.0.1",
+        "@nestjs/passport": "^8.2.2",
+        "angular": "^1.8.3",
+        "passport": "^0.6.0",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0",
+        "tailwindcss": "^3.0.24"
+    }
+}
