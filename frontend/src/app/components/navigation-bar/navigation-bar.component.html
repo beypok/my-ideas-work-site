@@ -1,0 +1,10 @@
+<div class="navigation-bar-container">
+   <div class="lhs">
+      <!-- Potentially Replace with logo -->
+      <p>My Ideas work</p>
+   </div>
+
+   <div class="rhs">
+      <a *ngFor="let route of routes" [routerLink]="route.route" [routerLinkActive]="['active']">{{route.label}}</a>
+   </div>
+</div>

@@ -1,0 +1,26 @@
+@import "variables";
+
+.navigation-bar-container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   background-color: $middleBlue;
+   padding: 1em;
+   color: white;
+
+   .lhs {
+      font-weight: bold;
+      font-size: larger;
+   }
+
+   .rhs {
+      a {
+         margin-left: 1em;
+         text-decoration: none;
+         color: white;
+         &.active {
+            text-decoration: underline;
+         }
+      }
+   }
+}
