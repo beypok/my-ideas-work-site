@@ -9,12 +9,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { reducers, metaReducers } from './state';
+import { AppStateModule } from './state/app/app.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+      AppStateModule,
     BrowserModule,
     NavigationBarModule,
     PagesModule,

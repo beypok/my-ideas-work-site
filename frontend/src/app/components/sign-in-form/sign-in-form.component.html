@@ -1,0 +1,46 @@
+<div class="sign-in-page-container">
+   <div class="sign-in-content">
+     <h2 class="content-heading">Sign up for free and find your next roommate today!</h2>
+ 
+     <div class="form-scrollbox">
+       <form [formGroup]="form">
+            <mat-form-field>
+               <mat-label>Email</mat-label>
+               <input matInput name="email" formControlName="email" type="email" placeholder="Email" />
+               <mat-error *ngIf="form.get('email')?.hasError('required')">* Must enter a valid email</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+               <mat-label>Password</mat-label>
+               <input matInput name="password" formControlName="password" type="password" placeholder="Password" />
+               <mat-error>
+                  <span *ngIf="form.get('password')?.hasError('required')">* Must enter a valid password</span>
+                  <span *ngIf="form.get('password')?.hasError('invalidPassword')">(At least 8 characters: 1 lower case, 1 upper case, and 1 number)</span>
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+               <mat-label>Confirm Password</mat-label>
+               <input matInput name="confirmPassword" formControlName="confirmPassword" type="password" placeholder="Confirm password" />
+               <mat-error>
+                  <span *ngIf="form.get('confirmPassword')?.hasError('required')">* Must enter a confirmation password</span>
+                  <span *ngIf="form.get('confirmPassword')?.hasError('matchPassword')">* Passwords do not match</span>
+               </mat-error>
+            </mat-form-field>
+         
+       </form>
+     </div>
+ 
+     <button
+      mat-raised-button 
+      color="primary"
+       class="form-button primary-button my-4"
+       (click)="handleFormButtonClick()"
+     >
+       <i *ngIf="signingUp$ | async" class="fa fa-spin fa-circle-notch"></i>
+       Sign up
+     </button>
+ 
+   </div>
+ </div>
+ 

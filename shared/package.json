@@ -19,5 +19,9 @@
         "./interfaces": "./dist/interfaces/index.js",
         "./enums": "./dist/enums/index.js",
         "./dtos": "./dist/dtos/index.js"
+    },
+    "dependencies": {
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.13.2"
     }
 }

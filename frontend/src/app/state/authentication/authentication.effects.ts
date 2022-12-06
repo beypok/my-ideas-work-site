@@ -92,7 +92,7 @@ export class AuthenticationEffects {
       ofType(AuthenticationActions.signup),
       switchMap(
         (action): Observable<any> =>
-          this.authService.signup(action.createUserInfo, action.profileImage).pipe(
+          this.authService.signup(action.createUserInfo).pipe(
             map((response: any) => {
               return AuthenticationActions.signupSuccess({
                 user: response.user,

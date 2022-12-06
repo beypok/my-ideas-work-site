@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AuthenticatedUser, User } from '@rmtd/common/interfaces';
 import jwt_decode from 'jwt-decode';
 
 @Injectable({
@@ -24,8 +23,7 @@ export class JWTTokenService {
     return decodedToken
       ? {
           id: decodedToken['sub'],
-          firstName: decodedToken['firstname'],
-          lastName: decodedToken['lastname'],
+          email: decodedToken['email'],
           isAdmin: decodedToken['isAdmin'],
         }
       : null;

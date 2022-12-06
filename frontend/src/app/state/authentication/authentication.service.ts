@@ -27,28 +27,9 @@ export class AuthenticationService {
   }
 
   signup(
-    createUserInfo: any,
-    profileImage: File | undefined
+    createUserInfo: any
   ): Observable<any> {
     let body: any = { ...createUserInfo };
-
-    if (profileImage) {
-      const formData = new FormData();
-      formData.append('file', profileImage);
-      return this.http
-        .post(`${environment.serverUrl}/users/profileImage`, formData, {
-          responseType: 'text',
-        })
-        .pipe(
-          mergeMap((profileImageUrl) => {
-            if (profileImageUrl) {
-              body.profileImageUrl = profileImageUrl;
-            }
-            return this.http.post<any>(`${environment.serverUrl}/users`, body);
-          })
-        );
-    }
-
     return this.http.post<any>(`${environment.serverUrl}/users`, body);
   }
 

@@ -1,0 +1,43 @@
+@import "variables";
+
+.sign-in-page-container {
+   position: relative;
+   min-height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ 
+   .sign-in-content {
+      background-color: white;
+      border-radius: .25em;
+      padding: 2em;
+      margin: .75em .5em;
+      max-width: 25em;
+      display: flex;
+      flex-direction: column;
+ 
+     .content-heading {
+      font-family: 'Comfortaa';
+      font-weight: bold;
+      color: $darkBlue;
+      font-size: large;
+      text-align: center;
+      line-height: 1.25;
+     }
+ 
+     .form-scrollbox {
+       form {
+         margin: 1em 0;
+         mat-form-field {
+            width: 100%;
+            margin-top: .25em;
+         }
+       }
+     }
+
+     button {
+      margin-top: .5em;
+     }
+   }
+ }
+ 

@@ -27,7 +27,7 @@ export const loginFailure = createAction(
 
 export const signup = createAction(
   '[Authentication] signup',
-  props<{ createUserInfo: any; profileImage?: File }>()
+  props<{ createUserInfo: any; }>()
 );
 export const signupSuccess = createAction(
   '[Authentication] signup success',

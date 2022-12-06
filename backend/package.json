@@ -21,12 +21,14 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@myideaswork/common": "1.0.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^9.0.1",
-    "@myideaswork/common": "1.0.0",
+    "backend": "^0.0.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
@@ -35,10 +37,10 @@
     "typeorm": "^0.3.10"
   },
   "devDependencies": {
+    "@myideaswork/common": "1.0.0",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
-    "@myideaswork/common": "1.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "27.5.0",
     "@types/node": "^16.0.0",

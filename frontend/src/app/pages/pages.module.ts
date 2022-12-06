@@ -21,6 +21,7 @@ export enum SiteRouteNames {
    Contact = 'contact-us',
    Offerings = 'offerings',
    Signin = 'signin',
+   MyInfo = 'my-info',
 }
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
    { path: SiteRouteNames.Contact, component: ContactPageComponent },
    { path: SiteRouteNames.Offerings, component: OfferingsPageComponent },
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
+   { path: SiteRouteNames.MyInfo, component: HomePageComponent },
 ];
 
 @NgModule({
