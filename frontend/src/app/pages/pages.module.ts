@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthorizeGuard } from '../guards/authorization-guard.guard';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { AboutPageModule } from './about-page/about-page.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
@@ -9,6 +10,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HomePageModule } from './home-page/home-page.module';
 import { HowItWorksPageComponent } from './how-it-works-page/how-it-works-page.component';
 import { HowItWorksPageModule } from './how-it-works-page/how-it-works-page.module';
+import { MyInfoPageComponent } from './my-info-page/my-info-page.component';
+import { MyInfoPageModule } from './my-info-page/my-info-page.module';
 import { OfferingsPageComponent } from './offerings-page/offerings-page.component';
 import { OfferingsPageModule } from './offerings-page/offerings-page.module';
 import { SignInPageComponent } from './signin-page/signin-page.component';
@@ -39,7 +42,7 @@ const routes: Routes = [
    { path: SiteRouteNames.Offerings, component: OfferingsPageComponent },
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
    { path: SiteRouteNames.Signup, component: SignUpPageComponent },
-   { path: SiteRouteNames.MyInfo, component: HomePageComponent },
+   { path: SiteRouteNames.MyInfo, component: MyInfoPageComponent, canActivate: [AuthorizeGuard] },
 ];
 
 @NgModule({
@@ -51,6 +54,7 @@ const routes: Routes = [
       ContactPageModule,
       SignInPageModule,
       SignUpPageModule,
+      MyInfoPageModule,
    ],
    exports: [RouterModule],
 })

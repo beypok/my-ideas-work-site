@@ -1,0 +1,50 @@
+@import 'variables';
+
+.my-info-page-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: $darkBlue;
+   height: 100%;
+
+   .lhs {
+      height: 100%;
+      min-width: 20em;
+      padding: 1em;
+      background-color: $offWhite;
+      .account-info {
+         padding-bottom: 1em;
+         border-bottom: 1px solid $gray;
+         p {
+            margin-top: 1em;
+         }
+      }
+
+      .offerings {
+         padding-top: 1em;
+         .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            h2 {
+               flex-grow: 1;
+            }
+            mat-icon {
+               font-size: xx-large;
+               height: 100%;
+               width: max-content;
+               cursor: pointer;
+               transition: 0.3s;
+               &:hover {
+                  color: $middleBlue;
+               }
+            }
+         }
+      }
+   }
+
+   .rhs {
+      height: 100%;
+      flex-grow: 1;
+   }
+}

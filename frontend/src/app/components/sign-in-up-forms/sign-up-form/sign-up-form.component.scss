@@ -44,6 +44,20 @@
 
       button {
          margin-top: 0.5em;
+         .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            mat-spinner {
+               margin-right: 0.5em;
+               svg {
+                  circle {
+                     stroke: white !important;
+                  }
+               }
+            }
+         }
       }
    }
 }

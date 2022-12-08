@@ -77,8 +77,10 @@
          class="form-button primary-button my-4"
          (click)="handleFormButtonClick()"
       >
-         <i *ngIf="signingUp$ | async" class="fa fa-spin fa-circle-notch"></i>
-         Sign up
+         <span class="content">
+            <mat-spinner *ngIf="signingUp$ | async" [diameter]="15"></mat-spinner>
+            <span>Sign up</span>
+         </span>
       </button>
    </div>
 </div>

@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
    declarations: [SignUpFormComponent],
@@ -21,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
       MatButtonModule,
       MatOptionModule,
       MatSelectModule,
+      MatProgressSpinnerModule,
    ],
    exports: [SignUpFormComponent],
 })
