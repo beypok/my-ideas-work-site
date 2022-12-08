@@ -35,6 +35,13 @@
          }
       }
 
+      .sign-up-failure {
+         color: $deniedRed;
+         font-weight: bold;
+         text-align: center;
+         margin-bottom: 0.5em;
+      }
+
       button {
          margin-top: 0.5em;
       }

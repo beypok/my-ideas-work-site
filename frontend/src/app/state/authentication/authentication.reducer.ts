@@ -44,7 +44,6 @@ const authenticationReducer = createReducer(
    })),
    on(AuthenticationActions.reAuthenticateFailure, (state, action) => ({
       ...state,
-      error: action.error,
       reauthProcessed: true,
    })),
    on(AuthenticationActions.signup, (state) => ({

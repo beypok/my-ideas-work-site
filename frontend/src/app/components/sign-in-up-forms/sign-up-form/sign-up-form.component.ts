@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { PasswordValidationService } from '../passwordvalidation.service';
 import * as AuthenticationActions from 'src/app/state/authentication/authentication.actions';
 import { Observable, Subject } from 'rxjs';
-import { selectSigningUp } from 'src/app/state/authentication';
+import { selectAuthErrors, selectSigningUp } from 'src/app/state/authentication';
 import { AccountType } from '@myideaswork/common/enums';
 import { CreateUserDto } from '@myideaswork/common/dtos';
 
@@ -23,6 +23,10 @@ export class SignUpFormComponent implements OnDestroy {
    form: UntypedFormGroup;
 
    signingUp$: Observable<boolean>;
+
+   error$: Observable<Error | null>;
+
+   _accountType = AccountType;
 
    private destroyed$ = new Subject<void>();
 
@@ -47,6 +51,7 @@ export class SignUpFormComponent implements OnDestroy {
       );
 
       this.signingUp$ = this.store.select(selectSigningUp);
+      this.error$ = this.store.select(selectAuthErrors);
    }
 
    ngOnDestroy(): void {

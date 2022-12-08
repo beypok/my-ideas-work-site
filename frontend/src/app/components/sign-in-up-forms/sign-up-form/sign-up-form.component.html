@@ -55,7 +55,20 @@
                   </span>
                </mat-error>
             </mat-form-field>
+
+            <mat-form-field appearance="fill">
+               <mat-label>Account Type</mat-label>
+               <mat-select formControlName="accountType">
+                  <mat-option [value]="_accountType.Advertiser">Advertiser</mat-option>
+                  <mat-option [value]="_accountType.Investor">Investor</mat-option>
+               </mat-select>
+            </mat-form-field>
          </form>
+      </div>
+
+      <div *ngIf="(error$ | async) != null" class="sign-up-failure">
+         <p>There was an error signing you up</p>
+         <p>Please try again</p>
       </div>
 
       <button
