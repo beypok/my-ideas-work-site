@@ -1,6 +1,23 @@
-@import "variables";
+@import 'variables';
 
 .app-container {
    background-color: $darkBlue;
    min-height: 100vh;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   overflow-y: hidden;
+
+   & > * {
+      width: 100%;
+   }
+
+   #page-scroll-container {
+      height: 0;
+      flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+   }
 }

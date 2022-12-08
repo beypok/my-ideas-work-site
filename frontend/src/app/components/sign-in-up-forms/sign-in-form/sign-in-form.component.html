@@ -1,0 +1,54 @@
+<div class="sign-in-form-container">
+   <div class="sign-in-content">
+      <h2 class="content-heading">Sign in to view and make offerings!</h2>
+
+      <div class="form-scrollbox">
+         <form [formGroup]="form">
+            <mat-form-field>
+               <mat-label>Email</mat-label>
+               <input
+                  matInput
+                  name="email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Email"
+               />
+               <mat-error *ngIf="form.get('email')?.hasError('required')">
+                  * Must enter a valid email
+               </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+               <mat-label>Password</mat-label>
+               <input
+                  matInput
+                  name="password"
+                  formControlName="password"
+                  type="password"
+                  placeholder="Password"
+               />
+               <mat-error>
+                  <span *ngIf="form.get('password')?.hasError('required')">
+                     * Must enter a valid password
+                  </span>
+               </mat-error>
+            </mat-form-field>
+         </form>
+      </div>
+
+      <div *ngIf="signInFailure$ | async" class="sign-in-failure">
+         <p>There was an error logging you in</p>
+         <p>Please try again</p>
+      </div>
+
+      <button
+         mat-raised-button
+         color="primary"
+         class="form-button primary-button my-4"
+         (click)="handleFormButtonClick()"
+      >
+         <i *ngIf="signingIn$ | async" class="fa fa-spin fa-circle-notch"></i>
+         Sign in
+      </button>
+   </div>
+</div>

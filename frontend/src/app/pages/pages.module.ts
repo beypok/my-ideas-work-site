@@ -13,6 +13,8 @@ import { OfferingsPageComponent } from './offerings-page/offerings-page.componen
 import { OfferingsPageModule } from './offerings-page/offerings-page.module';
 import { SignInPageComponent } from './signin-page/signin-page.component';
 import { SignInPageModule } from './signin-page/signin-page.module';
+import { SignUpPageComponent } from './signup-page/signup-page.component';
+import { SignUpPageModule } from './signup-page/signup-page.module';
 
 export enum SiteRouteNames {
    Home = 'home',
@@ -21,6 +23,7 @@ export enum SiteRouteNames {
    Contact = 'contact-us',
    Offerings = 'offerings',
    Signin = 'signin',
+   Signup = 'signup',
    MyInfo = 'my-info',
 }
 
@@ -28,25 +31,27 @@ const routes: Routes = [
    //   Default site routes
    { path: SiteRouteNames.Home, component: HomePageComponent },
    { path: '', redirectTo: SiteRouteNames.Home, pathMatch: 'full' },
-   
+
    // Other site routes
    { path: SiteRouteNames.About, component: AboutPageComponent },
    { path: SiteRouteNames.HowItWorks, component: HowItWorksPageComponent },
    { path: SiteRouteNames.Contact, component: ContactPageComponent },
    { path: SiteRouteNames.Offerings, component: OfferingsPageComponent },
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
+   { path: SiteRouteNames.Signup, component: SignUpPageComponent },
    { path: SiteRouteNames.MyInfo, component: HomePageComponent },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes),
-    HomePageModule,
-    AboutPageModule,
-    HowItWorksPageModule,
-    ContactPageModule,
-    SignInPageModule,
-  ],
-  exports: [RouterModule]
+   imports: [
+      RouterModule.forRoot(routes),
+      HomePageModule,
+      AboutPageModule,
+      HowItWorksPageModule,
+      ContactPageModule,
+      SignInPageModule,
+      SignUpPageModule,
+   ],
+   exports: [RouterModule],
 })
 export class PagesModule {}

@@ -12,25 +12,23 @@ import { reducers, metaReducers } from './state';
 import { AppStateModule } from './state/app/app.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
+   declarations: [AppComponent],
+   imports: [
       AppStateModule,
-    BrowserModule,
-    NavigationBarModule,
-    PagesModule,
-    BrowserAnimationsModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+      NavigationBarModule,
+      PagesModule,
+      BrowserAnimationsModule,
+      StoreModule.forRoot(reducers, {
+         metaReducers,
+      }),
+      StoreDevtoolsModule.instrument({
+         maxAge: 25,
+         logOnly: environment.production,
+      }),
+      EffectsModule.forRoot([]),
+   ],
+   providers: [],
+   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
+

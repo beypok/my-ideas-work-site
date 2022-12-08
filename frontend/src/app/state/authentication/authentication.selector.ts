@@ -4,36 +4,36 @@ import { AuthenticationState } from './authentication.state';
 export const selectAuthentication = createFeatureSelector<AuthenticationState>('authentication');
 
 export const selectIsLoggedIn = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.isLoggedIn
+   selectAuthentication,
+   (state: AuthenticationState) => state.isLoggedIn,
 );
 
 export const selectLoggingIn = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.loggingIn
+   selectAuthentication,
+   (state: AuthenticationState) => state.loggingIn,
 );
 
 export const selectCurrentUser = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.currentUser
+   selectAuthentication,
+   (state: AuthenticationState) => state.currentUser,
 );
 
 export const selectSigningUp = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.signingUp
+   selectAuthentication,
+   (state: AuthenticationState) => state.signingUp,
 );
 
 export const selectAuthErrors = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.error
+   selectAuthentication,
+   (state: AuthenticationState) => state.error,
 );
 
 export const selectLoginFail = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.loginFailAttempt
+   selectAuthentication,
+   (state: AuthenticationState) => state.loginFailAttempt,
 );
 
 export const selectReAuthProcessed = createSelector(
-  selectAuthentication,
-  (state: AuthenticationState) => state.reauthProcessed
+   selectAuthentication,
+   (state: AuthenticationState) => state.reauthProcessed,
 );

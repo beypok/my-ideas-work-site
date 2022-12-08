@@ -6,18 +6,19 @@ import { selectIsAppLoaded } from './state/app/app.selector';
 import { selectReAuthProcessed } from './state/authentication';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+   selector: 'app-root',
+   templateUrl: './app.component.html',
+   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
    $appLoaded: Observable<boolean>;
 
-  $reauthProcessed: Observable<boolean>;
+   $reauthProcessed: Observable<boolean>;
 
-  constructor(private store: Store) {
-    this.store.dispatch(appLoaded());
-    this.$appLoaded = this.store.select(selectIsAppLoaded);
-    this.$reauthProcessed = this.store.select(selectReAuthProcessed);
-  }
+   constructor(private store: Store) {
+      this.store.dispatch(appLoaded());
+      this.$appLoaded = this.store.select(selectIsAppLoaded);
+      this.$reauthProcessed = this.store.select(selectReAuthProcessed);
+   }
 }
+
