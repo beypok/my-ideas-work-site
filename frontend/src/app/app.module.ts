@@ -10,6 +10,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { reducers, metaReducers } from './state';
 import { AppStateModule } from './state/app/app.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
 @NgModule({
    declarations: [AppComponent],
@@ -27,7 +29,7 @@ import { AppStateModule } from './state/app/app.module';
       }),
       EffectsModule.forRoot([]),
    ],
-   providers: [],
+   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
    bootstrap: [AppComponent],
 })
 export class AppModule {}

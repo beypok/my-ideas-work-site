@@ -1,0 +1,75 @@
+<form [formGroup]="form" (submit)="onSubmit($event)">
+   <h2>Create an offering</h2>
+
+   <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>{{
+         isLoggedInUserAdvertiser ? 'Business/Industry' : 'Investor/Lender'
+      }}</mat-label>
+      <mat-select formControlName="offeringType">
+         <ng-container *ngIf="isLoggedInUserAdvertiser">
+            <mat-option [value]="_offeringType.Business">Business</mat-option>
+            <mat-option [value]="_offeringType.Industry">Industry</mat-option>
+         </ng-container>
+         <ng-container *ngIf="!isLoggedInUserAdvertiser">
+            <mat-option [value]="_offeringType.Investor">Investor</mat-option>
+            <mat-option [value]="_offeringType.Lender">Lender</mat-option>
+         </ng-container>
+      </mat-select>
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" formControlName="description"></textarea>
+   </mat-form-field>
+
+   <div class="grid">
+      <mat-form-field>
+         <mat-label>Location</mat-label>
+         <input matInput type="text" formControlName="location" />
+      </mat-form-field>
+
+      <mat-form-field *ngIf="isLoggedInUserAdvertiser">
+         <mat-label>Amount Requested</mat-label>
+         <input matInput type="text" formControlName="amountRequested" />
+      </mat-form-field>
+
+      <span *ngIf="!isLoggedInUserAdvertiser" class="amount-range">
+         <mat-form-field>
+            <mat-label>Amount Range Start</mat-label>
+            <input matInput type="text" formControlName="amountRangeStart" />
+         </mat-form-field>
+         <p>to</p>
+         <mat-form-field>
+            <mat-label>Amount Range End</mat-label>
+            <input matInput type="text" formControlName="amountRangeEnd" />
+         </mat-form-field>
+      </span>
+
+      <mat-form-field>
+         <mat-label>{{ isLoggedInUserAdvertiser ? 'Funding Type' : 'Project Phase' }}</mat-label>
+         <input matInput type="text" formControlName="projectPhase" />
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Terms</mat-label>
+         <input matInput type="text" formControlName="terms" />
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Collateral</mat-label>
+         <input matInput type="text" formControlName="collateral" />
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Contact Email</mat-label>
+         <input matInput type="text" formControlName="contactEmail" />
+      </mat-form-field>
+   </div>
+
+   <button type="submit" mat-raised-button color="primary">Submit</button>
+</form>

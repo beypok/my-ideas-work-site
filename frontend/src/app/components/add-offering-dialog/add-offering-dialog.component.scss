@@ -1,0 +1,39 @@
+form {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   min-width: 50em;
+
+   h2 {
+      margin-bottom: 1em;
+   }
+
+   mat-form-field {
+      width: 100%;
+      input.hidden {
+         display: none;
+      }
+   }
+
+   .amount-range {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      p {
+         margin: 0 1em;
+         margin-top: -1em;
+      }
+   }
+
+   .grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      place-items: center;
+      grid-gap: 1em;
+      mat-form-field {
+         width: 100%;
+      }
+   }
+}

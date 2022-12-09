@@ -1,5 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ApprovalState, Collateral, Location, ProjectPhase, Terms } from '@myideaswork/common/enums';
+import {
+   ApprovalState,
+   Collateral,
+   Location,
+   OfferingType,
+   ProjectPhase,
+   Terms,
+} from '@myideaswork/common/enums';
 
 @Entity()
 export class Offerings {
@@ -8,6 +15,9 @@ export class Offerings {
 
    @Column()
    description: string;
+
+   @Column()
+   offeringType: OfferingType;
 
    @Column()
    location: Location;
@@ -27,12 +37,12 @@ export class Offerings {
    @Column()
    projectPhase: ProjectPhase;
 
-   @Column({nullable: true})
+   @Column({ nullable: true })
    amountRequested: number | null;
 
-   @Column({nullable: true})
+   @Column({ nullable: true })
    amountRangeStart: number | null;
 
-   @Column({nullable: true})
+   @Column({ nullable: true })
    amountRangeEnd: number | null;
 }
