@@ -1,10 +1,10 @@
 export enum Collateral {
-   Bond,
-   ConvertibleDebenture,
-   CopyrightPatentTrademark,
-   EquityStock,
-   IntellectualProperty,
-   PromissoryNote,
-   RealEstate,
-   Stock,
+   Bond = 'Bond',
+   ConvertibleDebenture = 'Convertible Debenture',
+   CopyrightPatentTrademark = 'Copyright Patent Trademark',
+   EquityStock = 'Equity Stock',
+   IntellectualProperty = 'Intellectual Property',
+   PromissoryNote = 'Promissory Note',
+   RealEstate = 'Real Estate',
+   Stock = 'Stock',
 }

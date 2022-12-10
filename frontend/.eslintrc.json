@@ -3,20 +3,25 @@
    "overrides": [
       {
          "files": ["*.ts"],
-         "extends": ["plugin:prettier/recommended"]
+         "extends": ["plugin:prettier/recommended"],
+         "plugins": ["unused-imports"],
+         "rules": { "unused-imports/no-unused-imports": "warn" }
       },
       // NOTE: WE ARE NOT APPLYING PRETTIER IN THIS OVERRIDE, ONLY @ANGULAR-ESLINT/TEMPLATE
       {
          "files": ["*.html"],
          "extends": ["plugin:@angular-eslint/template/recommended"],
-         "rules": {}
+         "plugins": ["unused-imports"],
+         "rules": { "unused-imports/no-unused-imports": "warn" }
       },
       // NOTE: WE ARE NOT APPLYING @ANGULAR-ESLINT/TEMPLATE IN THIS OVERRIDE, ONLY PRETTIER
       {
          "files": ["*.html"],
          "excludedFiles": ["*inline-template-*.component.html"],
          "extends": ["plugin:prettier/recommended"],
+         "plugins": ["unused-imports"],
          "rules": {
+            "unused-imports/no-unused-imports": "warn",
             // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
             "prettier/prettier": [
                "error",

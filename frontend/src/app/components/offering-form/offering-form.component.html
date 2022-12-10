@@ -1,0 +1,108 @@
+<form *ngIf="form" [formGroup]="form" (submit)="onSubmit($event)">
+   <ng-content select="[heading]"></ng-content>
+
+   <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>{{
+         currentUser?.accountType === _accountType.Advertiser
+            ? 'Business/Industry'
+            : 'Investor/Lender'
+      }}</mat-label>
+      <mat-select formControlName="offeringType">
+         <ng-container
+            *ngIf="currentUser?.accountType === _accountType.Advertiser; else investorOfferingTypes"
+         >
+            <mat-option [value]="_offeringType.Business">Business</mat-option>
+            <mat-option [value]="_offeringType.Industry">Industry</mat-option>
+         </ng-container>
+         <ng-template #investorOfferingTypes>
+            <mat-option [value]="_offeringType.Investor">Investor</mat-option>
+            <mat-option [value]="_offeringType.Lender">Lender</mat-option>
+         </ng-template>
+      </mat-select>
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" formControlName="description"></textarea>
+   </mat-form-field>
+
+   <div class="grid">
+      <mat-form-field>
+         <mat-label>Location</mat-label>
+         <mat-select formControlName="location">
+            <mat-option
+               *ngFor="let location of _locationKeys"
+               [value]="mapEnumKeyToValue(location, _locations)"
+            >
+               {{ location }} - {{ mapEnumKeyToValue(location, _locations) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="currentUser?.accountType === _accountType.Advertiser">
+         <mat-label>Amount Requested</mat-label>
+         <input matInput type="text" formControlName="amountRequested" />
+      </mat-form-field>
+      <span *ngIf="!(currentUser?.accountType === _accountType.Advertiser)" class="amount-range">
+         <mat-form-field>
+            <mat-label>Amount Range Start</mat-label>
+            <input matInput type="text" formControlName="amountRangeStart" />
+         </mat-form-field>
+         <p>to</p>
+         <mat-form-field>
+            <mat-label>Amount Range End</mat-label>
+            <input matInput type="text" formControlName="amountRangeEnd" />
+         </mat-form-field>
+      </span>
+
+      <mat-form-field>
+         <mat-label>{{
+            currentUser?.accountType === _accountType.Advertiser ? 'Funding Type' : 'Project Phase'
+         }}</mat-label>
+         <mat-select formControlName="projectPhase">
+            <mat-option
+               *ngFor="let projectPhase of _projectPhaseKeys"
+               [value]="mapEnumKeyToValue(projectPhase, _projectPhases)"
+            >
+               {{ mapEnumKeyToValue(projectPhase, _projectPhases) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Terms</mat-label>
+         <mat-select formControlName="terms">
+            <mat-option *ngFor="let terms of _termsKeys" [value]="mapEnumKeyToValue(terms, _terms)">
+               {{ mapEnumKeyToValue(terms, _terms) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Collateral</mat-label>
+         <mat-select formControlName="collateral">
+            <mat-option
+               *ngFor="let collateral of _collateralKeys"
+               [value]="mapEnumKeyToValue(collateral, _collateral)"
+            >
+               {{ mapEnumKeyToValue(collateral, _collateral) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Contact Email</mat-label>
+         <input matInput type="email" formControlName="contactEmail" />
+      </mat-form-field>
+   </div>
+
+   <div *ngIf="showFooterButtons" class="buttons">
+      <button type="button" mat-stroked-button color="primary" (click)="onCancel()">Cancel</button>
+      <button type="submit" mat-raised-button color="primary">Submit</button>
+   </div>
+</form>

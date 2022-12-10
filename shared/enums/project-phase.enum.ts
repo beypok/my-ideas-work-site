@@ -1,8 +1,8 @@
 export enum ProjectPhase {
-   Acquisition,
-   SeedStartup,
-   ResearchAndDevelopment,
-   Growth,
-   Expansion,
-   IPO
+   Acquisition = 'Acquisition',
+   SeedStartup = 'Seed Startup',
+   ResearchAndDevelopment = 'Research And Development',
+   Growth = 'Growth',
+   Expansion = 'Expansion',
+   IPO = 'IPO',
 }

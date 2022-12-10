@@ -3,14 +3,14 @@ import {
    CreateOfferingDto,
    ResponseOfferingDto,
 } from '@myideaswork/common/dtos';
+import { ApprovalState } from '@myideaswork/common/enums';
 import { Offering } from '@myideaswork/common/interfaces';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { instanceToPlain, plainToClass } from 'class-transformer';
+import { User } from 'src/users/users.entity';
 import { In, Repository } from 'typeorm';
 import { Offerings } from './offerings.entity';
-import { instanceToPlain, plainToClass } from 'class-transformer';
-import { ApprovalState } from '@myideaswork/common/enums';
-import { User } from 'src/users/users.entity';
 
 @Injectable()
 export class OfferingsService {
@@ -18,6 +18,16 @@ export class OfferingsService {
       @InjectRepository(Offerings)
       private offeringsRepository: Repository<Offerings>,
    ) {}
+
+   async getAllOfferings(user: User) {
+      try {
+         return await this.offeringsRepository.find({ relations: ['user'] });
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
 
    async getMyOfferings(user: User) {
       try {
@@ -48,7 +58,7 @@ export class OfferingsService {
 
    async batchSaveOffering(batchSaveOfferings: BatchSaveOfferingsDto, user: User) {
       try {
-         const creates = await this.offeringsRepository.save(
+         await this.offeringsRepository.save(
             batchSaveOfferings.itemsToCreate.map((i) => {
                return {
                   ...i,
@@ -57,7 +67,7 @@ export class OfferingsService {
                };
             }),
          );
-         const saves = await this.offeringsRepository.save(
+         await this.offeringsRepository.save(
             batchSaveOfferings.itemsToUpdate.map((i) => {
                return {
                   ...i,
@@ -66,7 +76,7 @@ export class OfferingsService {
                };
             }),
          );
-         const deletes = await this.offeringsRepository.delete({
+         await this.offeringsRepository.delete({
             offeringId: In(batchSaveOfferings.itemsToDeleteIds),
          });
 

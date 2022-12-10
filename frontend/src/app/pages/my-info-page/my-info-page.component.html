@@ -15,9 +15,9 @@
             <mat-icon (click)="addOfferingClick($event)">add</mat-icon>
          </div>
 
-         <div *ngIf="allMyOfferings$" class="offerings-list">
+         <div *ngIf="allMyOfferings" class="offerings-list">
             <div
-               *ngFor="let offering of allMyOfferings$ | async"
+               *ngFor="let offering of allMyOfferings"
                class="offering"
                [class]="getOfferingApprovalStateClass(offering)"
                (click)="onSelectOffering(offering)"
@@ -30,7 +30,13 @@
    </div>
 
    <div class="rhs">
-      <div class="selected-offering"></div>
+      <div *ngIf="selectedOffering" class="selected-offering">
+         <offering-form
+            [showFooterButtons]="false"
+            [initOffering]="selectedOffering"
+            (formChange)="handleSelectedOfferingFormChange($event)"
+         ></offering-form>
+      </div>
 
       <div *ngIf="hasChanges" class="form-footer">
          <p>You have unsaved changes *</p>

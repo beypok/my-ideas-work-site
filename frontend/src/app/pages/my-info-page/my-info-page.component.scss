@@ -103,6 +103,13 @@
       flex-grow: 1;
       position: relative;
 
+      .selected-offering {
+         background-color: white;
+         padding: 1em;
+         margin: 1em;
+         border-radius: 0.5em;
+      }
+
       .form-footer {
          position: absolute;
          bottom: 0;
