@@ -49,7 +49,7 @@ export class AuthenticationEffects {
                this.router.navigateByUrl(parsedRoute.queryParams['redirect_uri']);
                return EMPTY;
             }
-            this.router.navigateByUrl('/' + SiteRouteNames.Home);
+            this.router.navigateByUrl('/' + SiteRouteNames.MyInfo);
 
             return EMPTY;
          }),
@@ -110,7 +110,7 @@ export class AuthenticationEffects {
          ofType(AuthenticationActions.signupSuccess),
          switchMap((action): Observable<any> => {
             this.authService.setAccessToken(action.access_token);
-            this.router.navigateByUrl('/' + SiteRouteNames.Home);
+            this.router.navigateByUrl('/' + SiteRouteNames.MyInfo);
             return EMPTY;
          }),
       ),
