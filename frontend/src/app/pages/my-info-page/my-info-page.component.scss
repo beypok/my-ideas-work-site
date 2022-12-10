@@ -6,6 +6,7 @@
    align-items: center;
    color: $darkBlue;
    height: 100%;
+   position: relative;
 
    .lhs {
       height: 100%;
@@ -100,5 +101,28 @@
    .rhs {
       height: 100%;
       flex-grow: 1;
+      position: relative;
+
+      .form-footer {
+         position: absolute;
+         bottom: 0;
+         left: 50%;
+         transform: translateX(-50%);
+         width: max-content;
+         background-color: white;
+         border-radius: 0.5em;
+         display: flex;
+         justify-content: flex-end;
+         align-items: center;
+         padding: 1em 2em;
+         color: $darkBlue;
+         font-weight: bold;
+         p {
+            margin-right: 1em;
+         }
+         button {
+            margin-left: 1em;
+         }
+      }
    }
 }

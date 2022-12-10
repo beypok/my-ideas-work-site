@@ -1,6 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getMyOfferings, openAddOfferingDialog } from 'src/app/state/offerings/offerings.actions';
+import {
+   batchSaveOffering,
+   clearOfferingToCreate,
+   getMyOfferings,
+   openAddOfferingDialog,
+} from 'src/app/state/offerings/offerings.actions';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Offering } from '@myideaswork/common/interfaces';
@@ -9,6 +14,7 @@ import {
    selectOfferingsToCreate,
 } from 'src/app/state/offerings/offerings.selector';
 import { ApprovalState } from '@myideaswork/common/enums';
+import { CreateOfferingDto } from '@myideaswork/common/dtos';
 
 @Component({
    selector: 'my-info-page',
@@ -24,11 +30,11 @@ export class MyInfoPageComponent implements OnDestroy {
 
    offeringsToDelete = new Set<number>();
 
-   get hasChanges(): boolean {
-      return this.hasOfferingsToCreate || this.offeringsToDelete.size > 0;
-   }
+   offeringsToCreate: Offering[] = [];
 
-   private hasOfferingsToCreate: boolean = false;
+   get hasChanges(): boolean {
+      return this.offeringsToCreate.length > 0 || this.offeringsToDelete.size > 0;
+   }
 
    private destroyed$ = new Subject<void>();
 
@@ -37,7 +43,7 @@ export class MyInfoPageComponent implements OnDestroy {
       this.allMyOfferings$ = this.store.select(selectAllMyOfferings);
       this.offeringsToCreate$ = this.store.select(selectOfferingsToCreate);
       this.offeringsToCreate$.pipe(takeUntil(this.destroyed$)).subscribe((offeringsToCreate) => {
-         this.hasOfferingsToCreate = offeringsToCreate.length > 0;
+         this.offeringsToCreate = offeringsToCreate;
       });
    }
 
@@ -45,7 +51,8 @@ export class MyInfoPageComponent implements OnDestroy {
       this.destroyed$.next();
    }
 
-   addOfferingClick(): void {
+   addOfferingClick(e: MouseEvent): void {
+      e.stopPropagation();
       this.store.dispatch(openAddOfferingDialog());
    }
 
@@ -69,5 +76,28 @@ export class MyInfoPageComponent implements OnDestroy {
 
    isOfferingMarkedForDelete(offering: Offering): boolean {
       return !!offering.offeringId && this.offeringsToDelete.has(offering.offeringId);
+   }
+
+   handleCancelChanges(): void {
+      this.offeringsToDelete.clear();
+      this.store.dispatch(clearOfferingToCreate());
+   }
+
+   handleSubmitChanges(): void {
+      this.store.dispatch(
+         batchSaveOffering({
+            batchSaveOfferings: {
+               itemsToCreate: this.offeringsToCreate.map((o) => {
+                  return {
+                     ...o,
+                     offeringId: 0,
+                  };
+               }) as CreateOfferingDto[],
+               itemsToUpdate: [],
+               itemsToDeleteIds: Array.from(this.offeringsToDelete).filter((id) => id > 0),
+            },
+         }),
+      );
+      this.offeringsToDelete.clear();
    }
 }

@@ -1,4 +1,8 @@
-import { CreateOfferingDto, ResponseOfferingDto } from '@myideaswork/common/dtos';
+import {
+   BatchSaveOfferingsDto,
+   CreateOfferingDto,
+   ResponseOfferingDto,
+} from '@myideaswork/common/dtos';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Request } from '@nestjs/common/decorators';
 import { OfferingsService } from './offerings.service';
@@ -20,6 +24,15 @@ export class OfferingsController {
    ): Promise<ResponseOfferingDto> {
       const offering = await this.offeringsService.createOffering(body, req.user);
       return this.offeringsService.mapOfferingToResponseDto(offering);
+   }
+
+   @Post('/batchSave')
+   async batchSaveOfferings(
+      @Body() body: BatchSaveOfferingsDto,
+      @Request() req,
+   ): Promise<ResponseOfferingDto[]> {
+      const offering = await this.offeringsService.batchSaveOffering(body, req.user);
+      return this.offeringsService.mapOfferingsToResponseDto(offering);
    }
 }
 

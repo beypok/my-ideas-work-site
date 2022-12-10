@@ -13,8 +13,8 @@ export class OfferingEffects {
       this.actions$.pipe(
          ofType(OfferingActions.openAddOfferingDialog),
          switchMap((action): Observable<any> => {
-            const ref = this.dialogService.open(AddOfferingDialogComponent, { disableClose: true });
-            return ref.afterClosed();
+            this.dialogService.open(AddOfferingDialogComponent, { disableClose: true });
+            return EMPTY;
          }),
       ),
    );
@@ -38,6 +38,22 @@ export class OfferingEffects {
                }),
                catchError((error) => {
                   return of(OfferingActions.createOfferingFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
+   batchSaveOfferings$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OfferingActions.batchSaveOffering),
+         switchMap((action): Observable<any> => {
+            return this.offeringService.batchSaveOfferings(action.batchSaveOfferings).pipe(
+               switchMap((response) => {
+                  return of(OfferingActions.batchSaveOfferingSuccess({ offerings: response }));
+               }),
+               catchError((error) => {
+                  return of(OfferingActions.batchSaveOfferingFailure({ error }));
                }),
             );
          }),

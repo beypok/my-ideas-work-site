@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
 import {
    addOfferingToCreate,
    closeAddOfferingDialog,
-   createOffering,
 } from 'src/app/state/offerings/offerings.actions';
 
 @Component({

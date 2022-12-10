@@ -8,6 +8,11 @@ const offeringReducer = createReducer(
       ...state,
       myOfferings: action.offerings,
    })),
+   on(OfferingActions.batchSaveOfferingSuccess, (state, action) => ({
+      ...state,
+      myOfferings: action.offerings,
+      offeringsToCreate: [],
+   })),
    on(OfferingActions.addOfferingToCreate, (state, action) => {
       let firstNegativeValue = -1;
       while (state.offeringsToCreate.some((o) => o.offeringId === firstNegativeValue)) {
@@ -20,6 +25,12 @@ const offeringReducer = createReducer(
             ...state.offeringsToCreate,
             { ...action.offering, offeringId: firstNegativeValue },
          ],
+      };
+   }),
+   on(OfferingActions.clearOfferingToCreate, (state, action) => {
+      return {
+         ...state,
+         offeringsToCreate: [],
       };
    }),
    on(OfferingActions.createOfferingSuccess, (state) => ({

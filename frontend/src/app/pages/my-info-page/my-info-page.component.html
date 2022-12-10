@@ -12,7 +12,7 @@
       <div class="offerings">
          <div class="heading">
             <h2>Offerings</h2>
-            <mat-icon (click)="addOfferingClick()">add</mat-icon>
+            <mat-icon (click)="addOfferingClick($event)">add</mat-icon>
          </div>
 
          <div *ngIf="allMyOfferings$" class="offerings-list">
@@ -26,16 +26,20 @@
                <mat-icon (click)="onDeleteOffering($event, offering)">delete</mat-icon>
             </div>
          </div>
-
-         <p>
-            {{ hasChanges }}
-         </p>
       </div>
    </div>
 
    <div class="rhs">
       <div class="selected-offering"></div>
-   </div>
 
-   <div class="form-footer"></div>
+      <div *ngIf="hasChanges" class="form-footer">
+         <p>You have unsaved changes *</p>
+         <button type="button" (click)="handleCancelChanges()" mat-stroked-button color="primary">
+            Cancel
+         </button>
+         <button type="button" (click)="handleSubmitChanges()" mat-raised-button color="primary">
+            Save
+         </button>
+      </div>
+   </div>
 </div>
