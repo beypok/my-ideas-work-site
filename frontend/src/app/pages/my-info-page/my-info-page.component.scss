@@ -11,15 +11,24 @@
       height: 100%;
       min-width: 20em;
       background-color: $offWhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       .account-info {
+         width: 100%;
          padding: 1em;
          border-bottom: 1px solid $gray;
+         background: linear-gradient(to bottom, white, $offWhite);
          p {
             margin-top: 1em;
          }
       }
 
       .offerings {
+         width: 100%;
+         flex-grow: 1;
+         background: linear-gradient(to bottom, white, $offWhite);
          .heading {
             padding: 1em;
             display: flex;
@@ -52,32 +61,31 @@
                cursor: pointer;
                transition: 0.3s;
 
-               border-top: 4px solid;
-               border-right: 1px solid;
-               border-left: 1px solid;
-
+               border-right: 6px solid;
                &.approved {
-                  border-color: $approvedGreen;
+                  border-right-color: $approvedGreen;
                }
                &.pending {
-                  border-color: $pendingYellow;
+                  border-right-color: $pendingYellow;
                }
                &.denied {
-                  border-color: $deniedRed;
+                  border-right-color: $deniedRed;
                }
+               border-top: 1px solid $offWhite;
 
                &:nth-child(even) {
-                  background-color: $gray;
+                  background-color: $offWhite;
                }
                &:hover {
-                  background-color: rgba(161, 203, 243, 0.897);
+                  background-color: $hoverBlue;
                }
 
                mat-icon {
+                  color: $gray;
                   &:hover {
                      cursor: pointer;
                      transition: 0.3s;
-                     color: lighten($darkBlue, 20%);
+                     color: darken($gray, 20%);
                   }
                }
             }
