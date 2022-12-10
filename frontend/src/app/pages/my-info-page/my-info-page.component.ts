@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { AddOfferingDialogComponent } from 'src/app/components/add-offering-dialog/add-offering-dialog.component';
+import { getMyOfferings, openAddOfferingDialog } from 'src/app/state/offerings/offerings.actions';
 
 @Component({
    selector: 'my-info-page',
@@ -8,9 +10,11 @@ import { AddOfferingDialogComponent } from 'src/app/components/add-offering-dial
    styleUrls: ['./my-info-page.component.scss'],
 })
 export class MyInfoPageComponent {
-   constructor(private dialogService: MatDialog) {}
+   constructor(private store: Store) {
+      this.store.dispatch(getMyOfferings());
+   }
 
    addOfferingClick() {
-      this.dialogService.open(AddOfferingDialogComponent);
+      this.store.dispatch(openAddOfferingDialog());
    }
 }

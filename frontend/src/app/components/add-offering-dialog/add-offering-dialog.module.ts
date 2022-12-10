@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { OfferingsModule } from 'src/app/state/offerings/offerings.module';
 import { AddOfferingDialogComponent } from './add-offering-dialog.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { AddOfferingDialogComponent } from './add-offering-dialog.component';
       MatButtonModule,
       MatSelectModule,
       MatOptionModule,
+      OfferingsModule,
    ],
    exports: [AddOfferingDialogComponent],
 })

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import {
    ApprovalState,
    Collateral,
@@ -7,11 +7,18 @@ import {
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
+import { User } from 'src/users/users.entity';
 
 @Entity()
 export class Offerings {
-   @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
+   @PrimaryGeneratedColumn({ unsigned: true })
    offeringId: number;
+
+   @Column({ unsigned: true })
+   userId: number;
+
+   @Column()
+   name: string;
 
    @Column()
    description: string;
@@ -45,4 +52,8 @@ export class Offerings {
 
    @Column({ nullable: true })
    amountRangeEnd: number | null;
+
+   @ManyToOne(() => User, (user) => user.id)
+   @JoinColumn({ name: 'userId' })
+   user: User;
 }

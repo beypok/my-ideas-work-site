@@ -71,5 +71,8 @@
       </mat-form-field>
    </div>
 
-   <button type="submit" mat-raised-button color="primary">Submit</button>
+   <div class="buttons">
+      <button type="button" mat-stroked-button color="primary" (click)="onCancel()">Cancel</button>
+      <button type="submit" mat-raised-button color="primary">Submit</button>
+   </div>
 </form>

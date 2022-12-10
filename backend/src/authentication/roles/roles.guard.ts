@@ -6,31 +6,32 @@ import { ROLE_KEY } from './roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+   constructor(private reflector: Reflector) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const role = this.reflector.getAllAndOverride<AuthRole>(ROLE_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
-    const user = context.switchToHttp().getRequest().user;
+   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+      const role = this.reflector.getAllAndOverride<AuthRole>(ROLE_KEY, [
+         context.getHandler(),
+         context.getClass(),
+      ]);
+      const user = context.switchToHttp().getRequest().user;
 
-    // Always allow if user is a founder
-    if (user.isAdmin) return true;
-    else {
-      // Make sure that they are in a group
-      // if (!(user.groupId && user.groupRole)) throw new UnauthorizedException();
+      // Always allow if user is a founder
+      if (user.isAdmin) return true;
+      else {
+         // Make sure that they are in a group
+         // if (!(user.groupId && user.groupRole)) throw new UnauthorizedException();
 
-      // // Allow if valid group role
-      // if (role == AuthRole.GroupAdmin) {
-      //   if (user.groupRole == GroupUserRole.Admin || user.groupRole == GroupUserRole.Owner)
-      //     return true;
-      // } else if (role == AuthRole.GroupOwner) {
-      //   if (user.groupRole == GroupUserRole.Owner) return true;
-      // }
-    }
+         // // Allow if valid group role
+         // if (role == AuthRole.GroupAdmin) {
+         //   if (user.groupRole == GroupUserRole.Admin || user.groupRole == GroupUserRole.Owner)
+         //     return true;
+         // } else if (role == AuthRole.GroupOwner) {
+         //   if (user.groupRole == GroupUserRole.Owner) return true;
+         // }
+         return false;
+      }
 
-    // Default deny
-    throw new UnauthorizedException();
-  }
+      // Default deny
+      throw new UnauthorizedException();
+   }
 }

@@ -1,8 +1,10 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CreateOfferingDto } from '@myideaswork/common/dtos';
 import { Collateral, Location, OfferingType, ProjectPhase, Terms } from '@myideaswork/common/enums';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
+import { closeAddOfferingDialog, createOffering } from 'src/app/state/offerings/offerings.actions';
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -42,6 +44,23 @@ export class AddOfferingDialogComponent implements OnDestroy {
    onSubmit(e: SubmitEvent) {
       e.preventDefault();
 
-      console.log(this.form.getRawValue());
+      const createOfferingDto: CreateOfferingDto = {
+         name: this.form.get('name')?.value,
+         offeringType: this.form.get('offeringType')?.value,
+         description: this.form.get('description')?.value,
+         location: this.form.get('location')?.value,
+         projectPhase: this.form.get('projectPhase')?.value,
+         collateral: this.form.get('collateral')?.value,
+         terms: this.form.get('terms')?.value,
+         contactEmail: this.form.get('contactEmail')?.value,
+         amountRangeStart: this.form.get('amountRangeStart')?.value,
+         amountRangeEnd: this.form.get('amountRangeEnd')?.value,
+         amountRequested: this.form.get('amountRequested')?.value,
+      };
+      this.store.dispatch(createOffering({ offering: createOfferingDto }));
+   }
+
+   onCancel() {
+      this.store.dispatch(closeAddOfferingDialog());
    }
 }
