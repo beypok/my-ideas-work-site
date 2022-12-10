@@ -20,6 +20,7 @@
                *ngFor="let offering of allMyOfferings"
                class="offering"
                [class]="getOfferingApprovalStateClass(offering)"
+               [class.selected]="offering.offeringId === selectedOffering?.offeringId"
                (click)="onSelectOffering(offering)"
             >
                <p [class.deleting]="isOfferingMarkedForDelete(offering)">{{ offering.name }}</p>
@@ -31,11 +32,34 @@
 
    <div class="rhs">
       <div *ngIf="selectedOffering" class="selected-offering">
-         <offering-form
-            [showFooterButtons]="false"
-            [initOffering]="selectedOffering"
-            (formChange)="handleSelectedOfferingFormChange($event)"
-         ></offering-form>
+         <div
+            *ngIf="
+               selectedOffering.offeringId && offeringsToDelete.has(selectedOffering.offeringId);
+               else selectedOfferingForm
+            "
+            class="deleting-selected-offering"
+         >
+            <h2>This offerings is marked for deletion</h2>
+            <p>Would you like to undo this?</p>
+            <div class="buttons">
+               <button
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="handleUndeleteSelectedForm()"
+               >
+                  Yes
+               </button>
+            </div>
+         </div>
+
+         <ng-template #selectedOfferingForm>
+            <offering-form
+               [showFooterButtons]="false"
+               [initOffering]="selectedOffering"
+               (formChange)="handleSelectedOfferingFormChange($event)"
+            ></offering-form>
+         </ng-template>
       </div>
 
       <div *ngIf="hasChanges" class="form-footer">

@@ -156,6 +156,11 @@ export class MyInfoPageComponent implements OnDestroy, OnInit {
       this.selectedOffering = { ...this.selectedOffering, ...offering };
    }
 
+   handleUndeleteSelectedForm() {
+      if (this.selectedOffering?.offeringId)
+         this.offeringsToDelete.delete(this.selectedOffering.offeringId);
+   }
+
    private updateOfferingArrayOnChange(array: Offering[], offering: Offering) {
       return array.map((o) => {
          if (o.offeringId === this.selectedOffering?.offeringId) {
