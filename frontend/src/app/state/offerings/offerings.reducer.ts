@@ -6,7 +6,7 @@ const offeringReducer = createReducer(
    initialState,
    on(OfferingActions.getMyOfferingsSuccess, (state, action) => ({
       ...state,
-      offerings: action.offerings,
+      myOfferings: action.offerings,
    })),
    on(OfferingActions.createOffering, (state) => ({
       ...state,

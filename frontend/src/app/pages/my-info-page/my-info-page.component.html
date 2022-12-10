@@ -14,6 +14,17 @@
             <h2>Offerings</h2>
             <mat-icon (click)="addOfferingClick()">add</mat-icon>
          </div>
+
+         <div *ngIf="myOfferings$" class="offerings-list">
+            <div
+               *ngFor="let offering of myOfferings$ | async"
+               class="offering"
+               [class]="getOfferingApprovalStateClass(offering)"
+            >
+               <p>{{ offering.name }}</p>
+               <mat-icon>delete</mat-icon>
+            </div>
+         </div>
       </div>
    </div>
 

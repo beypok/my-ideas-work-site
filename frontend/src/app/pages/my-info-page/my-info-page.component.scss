@@ -10,10 +10,9 @@
    .lhs {
       height: 100%;
       min-width: 20em;
-      padding: 1em;
       background-color: $offWhite;
       .account-info {
-         padding-bottom: 1em;
+         padding: 1em;
          border-bottom: 1px solid $gray;
          p {
             margin-top: 1em;
@@ -21,8 +20,8 @@
       }
 
       .offerings {
-         padding-top: 1em;
          .heading {
+            padding: 1em;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,6 +36,49 @@
                transition: 0.3s;
                &:hover {
                   color: $middleBlue;
+               }
+            }
+         }
+
+         .offerings-list {
+            .offering {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               width: 100%;
+               padding: 0.5em;
+               color: $darkBlue;
+               font-weight: 600;
+               cursor: pointer;
+               transition: 0.3s;
+
+               border-top: 4px solid;
+               border-right: 1px solid;
+               border-left: 1px solid;
+
+               &.approved {
+                  border-color: $approvedGreen;
+               }
+               &.pending {
+                  border-color: $pendingYellow;
+               }
+               &.denied {
+                  border-color: $deniedRed;
+               }
+
+               &:nth-child(even) {
+                  background-color: $gray;
+               }
+               &:hover {
+                  background-color: rgba(161, 203, 243, 0.897);
+               }
+
+               mat-icon {
+                  &:hover {
+                     cursor: pointer;
+                     transition: 0.3s;
+                     color: lighten($darkBlue, 20%);
+                  }
                }
             }
          }

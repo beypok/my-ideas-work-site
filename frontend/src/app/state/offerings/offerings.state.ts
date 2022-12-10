@@ -1,11 +1,11 @@
 import { Offering } from '@myideaswork/common/interfaces';
 
 export interface OfferingState {
-   offerings: Offering[];
+   myOfferings: Offering[];
    error: Error | null;
 }
 
 export const initialState: OfferingState = {
-   offerings: [],
+   myOfferings: [],
    error: null,
 };
