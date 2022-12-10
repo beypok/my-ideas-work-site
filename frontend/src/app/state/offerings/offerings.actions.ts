@@ -4,6 +4,10 @@ import { createAction, props } from '@ngrx/store';
 export const openAddOfferingDialog = createAction('[Offerings] Open add offering dialog');
 export const closeAddOfferingDialog = createAction('[Offerings] Close add offering dialog');
 
+export const addOfferingToCreate = createAction(
+   '[Offerings] Add Offering to Create',
+   props<{ offering: CreateOfferingDto }>(),
+);
 export const createOffering = createAction(
    '[Offerings] Create Offering',
    props<{ offering: CreateOfferingDto }>(),

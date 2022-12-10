@@ -15,16 +15,21 @@
             <mat-icon (click)="addOfferingClick()">add</mat-icon>
          </div>
 
-         <div *ngIf="myOfferings$" class="offerings-list">
+         <div *ngIf="allMyOfferings$" class="offerings-list">
             <div
-               *ngFor="let offering of myOfferings$ | async"
+               *ngFor="let offering of allMyOfferings$ | async"
                class="offering"
                [class]="getOfferingApprovalStateClass(offering)"
+               (click)="onSelectOffering(offering)"
             >
-               <p>{{ offering.name }}</p>
-               <mat-icon>delete</mat-icon>
+               <p [class.deleting]="isOfferingMarkedForDelete(offering)">{{ offering.name }}</p>
+               <mat-icon (click)="onDeleteOffering($event, offering)">delete</mat-icon>
             </div>
          </div>
+
+         <p>
+            {{ hasChanges }}
+         </p>
       </div>
    </div>
 

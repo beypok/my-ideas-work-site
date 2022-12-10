@@ -4,7 +4,11 @@ import { CreateOfferingDto } from '@myideaswork/common/dtos';
 import { Collateral, Location, OfferingType, ProjectPhase, Terms } from '@myideaswork/common/enums';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { closeAddOfferingDialog, createOffering } from 'src/app/state/offerings/offerings.actions';
+import {
+   addOfferingToCreate,
+   closeAddOfferingDialog,
+   createOffering,
+} from 'src/app/state/offerings/offerings.actions';
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -57,7 +61,7 @@ export class AddOfferingDialogComponent implements OnDestroy {
          amountRangeEnd: this.form.get('amountRangeEnd')?.value,
          amountRequested: this.form.get('amountRequested')?.value,
       };
-      this.store.dispatch(createOffering({ offering: createOfferingDto }));
+      this.store.dispatch(addOfferingToCreate({ offering: createOfferingDto }));
    }
 
    onCancel() {

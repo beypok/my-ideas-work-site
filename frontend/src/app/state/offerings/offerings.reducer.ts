@@ -8,9 +8,20 @@ const offeringReducer = createReducer(
       ...state,
       myOfferings: action.offerings,
    })),
-   on(OfferingActions.createOffering, (state) => ({
-      ...state,
-   })),
+   on(OfferingActions.addOfferingToCreate, (state, action) => {
+      let firstNegativeValue = -1;
+      while (state.offeringsToCreate.some((o) => o.offeringId === firstNegativeValue)) {
+         firstNegativeValue--;
+      }
+
+      return {
+         ...state,
+         offeringsToCreate: [
+            ...state.offeringsToCreate,
+            { ...action.offering, offeringId: firstNegativeValue },
+         ],
+      };
+   }),
    on(OfferingActions.createOfferingSuccess, (state) => ({
       ...state,
    })),

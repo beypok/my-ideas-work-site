@@ -80,6 +80,10 @@
                   background-color: $hoverBlue;
                }
 
+               p.deleting {
+                  text-decoration: line-through;
+               }
+
                mat-icon {
                   color: $gray;
                   &:hover {

@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
-import { ResponseOfferingDto } from '@myideaswork/common/dtos';
+import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { getMyOfferings, openAddOfferingDialog } from 'src/app/state/offerings/offerings.actions';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Offering } from '@myideaswork/common/interfaces';
-import { selectMyOfferings } from 'src/app/state/offerings/offerings.selector';
+import {
+   selectAllMyOfferings,
+   selectOfferingsToCreate,
+} from 'src/app/state/offerings/offerings.selector';
 import { ApprovalState } from '@myideaswork/common/enums';
 
 @Component({
@@ -12,15 +15,37 @@ import { ApprovalState } from '@myideaswork/common/enums';
    templateUrl: './my-info-page.component.html',
    styleUrls: ['./my-info-page.component.scss'],
 })
-export class MyInfoPageComponent {
-   myOfferings$: Observable<Offering[]>;
+export class MyInfoPageComponent implements OnDestroy {
+   allMyOfferings$: Observable<Offering[]>;
+
+   offeringsToCreate$: Observable<Offering[]>;
+
+   selectedOffering: Offering | null = null;
+
+   offeringsToDelete = new Set<number>();
+
+   get hasChanges(): boolean {
+      return this.hasOfferingsToCreate || this.offeringsToDelete.size > 0;
+   }
+
+   private hasOfferingsToCreate: boolean = false;
+
+   private destroyed$ = new Subject<void>();
 
    constructor(private store: Store) {
       this.store.dispatch(getMyOfferings());
-      this.myOfferings$ = this.store.select(selectMyOfferings);
+      this.allMyOfferings$ = this.store.select(selectAllMyOfferings);
+      this.offeringsToCreate$ = this.store.select(selectOfferingsToCreate);
+      this.offeringsToCreate$.pipe(takeUntil(this.destroyed$)).subscribe((offeringsToCreate) => {
+         this.hasOfferingsToCreate = offeringsToCreate.length > 0;
+      });
    }
 
-   addOfferingClick() {
+   ngOnDestroy(): void {
+      this.destroyed$.next();
+   }
+
+   addOfferingClick(): void {
       this.store.dispatch(openAddOfferingDialog());
    }
 
@@ -30,7 +55,19 @@ export class MyInfoPageComponent {
       } else if (offering.approvalState === ApprovalState.Denied) {
          return 'denied';
       }
-
       return 'pending';
+   }
+
+   onSelectOffering(offering: Offering): void {
+      this.selectedOffering = offering;
+   }
+
+   onDeleteOffering(e: MouseEvent, offering: Offering): void {
+      e.stopPropagation();
+      if (offering.offeringId) this.offeringsToDelete.add(offering.offeringId);
+   }
+
+   isOfferingMarkedForDelete(offering: Offering): boolean {
+      return !!offering.offeringId && this.offeringsToDelete.has(offering.offeringId);
    }
 }

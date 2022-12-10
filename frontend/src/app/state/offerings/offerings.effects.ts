@@ -20,7 +20,7 @@ export class OfferingEffects {
    );
    closeAddOfferingDialog$ = createEffect(() =>
       this.actions$.pipe(
-         ofType(OfferingActions.closeAddOfferingDialog, OfferingActions.createOfferingSuccess),
+         ofType(OfferingActions.closeAddOfferingDialog, OfferingActions.addOfferingToCreate),
          switchMap((action): Observable<any> => {
             this.dialogService.closeAll();
             return EMPTY;
