@@ -1,9 +1,19 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CreateOfferingDto } from '@myideaswork/common/dtos';
-import { Collateral, Location, OfferingType, ProjectPhase, Terms } from '@myideaswork/common/enums';
+import {
+   AccountType,
+   Collateral,
+   Location,
+   OfferingType,
+   ProjectPhase,
+   Terms,
+} from '@myideaswork/common/enums';
+import { User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { selectCurrentUser } from 'src/app/state/authentication';
 import {
    addOfferingToCreate,
    closeAddOfferingDialog,
@@ -20,7 +30,13 @@ export class AddOfferingDialogComponent implements OnDestroy {
 
    _offeringType = OfferingType;
 
+   _accountType = AccountType;
+
    isLoggedInUserAdvertiser = false;
+
+   currentUser: User | null = null;
+
+   private currentUser$: Observable<User>;
 
    private destroyed$ = new Subject<void>();
 
@@ -37,6 +53,16 @@ export class AddOfferingDialogComponent implements OnDestroy {
          amountRangeStart: new FormControl(0, Validators.required),
          amountRangeEnd: new FormControl(10000, Validators.required),
          amountRequested: new FormControl(10000, Validators.required),
+      });
+
+      this.currentUser$ = this.store.select(selectCurrentUser);
+      this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
+         this.currentUser = user;
+         if (this.currentUser.accountType === AccountType.Advertiser) {
+            this.form.get('offeringType')?.setValue(OfferingType.Business);
+         } else {
+            this.form.get('offeringType')?.setValue(OfferingType.Investor);
+         }
       });
    }
 
