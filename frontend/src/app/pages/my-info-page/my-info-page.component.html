@@ -4,10 +4,10 @@
          <h2>Account Info</h2>
 
          <p>Email Address</p>
-         <strong>test@email.com</strong>
+         <strong>{{ currentUser?.email }}</strong>
 
          <p>Account Type</p>
-         <strong>Advertiser</strong>
+         <strong>{{ currentUser?.accountType }}</strong>
       </div>
       <div class="offerings">
          <div class="heading">
@@ -58,7 +58,11 @@
                [showFooterButtons]="false"
                [initOffering]="selectedOffering"
                (formChange)="handleSelectedOfferingFormChange($event)"
-            ></offering-form>
+            >
+               <div heading [class]="getOfferingApprovalStateClass(selectedOffering)">
+                  <p>{{ getOfferingApprovalStateText(selectedOffering) }}</p>
+               </div>
+            </offering-form>
          </ng-template>
       </div>
 

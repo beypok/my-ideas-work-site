@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateOfferingDto } from '@myideaswork/common/dtos';
+import { CreateOfferingDto, UpdateOfferingDto } from '@myideaswork/common/dtos';
 import { ApprovalState } from '@myideaswork/common/enums';
-import { Offering } from '@myideaswork/common/interfaces';
+import { Offering, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { selectCurrentUser } from 'src/app/state/authentication';
 import {
    batchSaveOffering,
    clearOfferingToCreate,
@@ -23,6 +24,10 @@ import {
 })
 export class MyInfoPageComponent implements OnDestroy, OnInit {
    allMyOfferings$: Observable<Offering[]>;
+
+   currentUser$: Observable<User>;
+
+   currentUser: User | null = null;
 
    preservedOfferings: Offering[] = [];
 
@@ -50,6 +55,10 @@ export class MyInfoPageComponent implements OnDestroy, OnInit {
 
    constructor(private store: Store) {
       this.store.dispatch(getMyOfferings());
+      this.currentUser$ = this.store.select(selectCurrentUser);
+      this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((currentUser) => {
+         this.currentUser = currentUser;
+      });
       this.allMyOfferings$ = this.store.select(selectAllMyOfferings);
       this.allMyOfferings$.pipe(takeUntil(this.destroyed$)).subscribe((allMyOfferings) => {
          this.preservedOfferings = [...allMyOfferings];
@@ -82,6 +91,15 @@ export class MyInfoPageComponent implements OnDestroy, OnInit {
          return 'denied';
       }
       return 'pending';
+   }
+
+   getOfferingApprovalStateText(offering: Offering): string {
+      if (offering.approvalState === ApprovalState.Approved) {
+         return 'Approved';
+      } else if (offering.approvalState === ApprovalState.Denied) {
+         return 'Denied';
+      }
+      return '* This offering is still awaiting approval';
    }
 
    onSelectOffering(offering: Offering): void {
@@ -119,12 +137,13 @@ export class MyInfoPageComponent implements OnDestroy, OnInit {
                      offeringId: 0,
                   };
                }) as CreateOfferingDto[],
-               itemsToUpdate: [],
+               itemsToUpdate: this.offeringsToUpdate as UpdateOfferingDto[],
                itemsToDeleteIds: Array.from(this.offeringsToDelete).filter((id) => id > 0),
             },
          }),
       );
       this.offeringsToDelete.clear();
+      this.offeringsToUpdate = [];
    }
 
    handleSelectedOfferingFormChange(offering: Offering) {

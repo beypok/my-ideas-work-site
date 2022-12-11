@@ -134,6 +134,22 @@
                }
             }
          }
+
+         div[heading] {
+            font-weight: bold;
+            text-align: right;
+            width: 100%;
+            margin-bottom: 1em;
+            &.approved {
+               color: $approvedGreen;
+            }
+            &.pending {
+               color: $pendingYellow;
+            }
+            &.denied {
+               color: $deniedRed;
+            }
+         }
       }
 
       .form-footer {

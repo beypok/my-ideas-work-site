@@ -1,4 +1,4 @@
 export enum AccountType {
-    Advertiser,
-    Investor
+   Advertiser = 'Advertiser',
+   Investor = 'Investor',
 }

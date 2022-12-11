@@ -1,4 +1,3 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import {
    ApprovalState,
    Collateral,
@@ -8,6 +7,7 @@ import {
    Terms,
 } from '@myideaswork/common/enums';
 import { User } from 'src/users/users.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Offerings {
