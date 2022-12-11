@@ -9,7 +9,7 @@
    position: relative;
 
    .lhs {
-      height: 100%;
+      height: inherit;
       min-width: 20em;
       background-color: $offWhite;
       display: flex;
@@ -27,10 +27,17 @@
       }
 
       .offerings {
+         height: 100%;
          width: 100%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
          flex-grow: 1;
+         overflow-y: hidden;
          background: linear-gradient(to bottom, white, $offWhite);
          .heading {
+            width: 100%;
             padding: 1em;
             display: flex;
             justify-content: space-between;
@@ -51,6 +58,9 @@
          }
 
          .offerings-list {
+            width: 100%;
+            flex-grow: 1;
+            overflow-y: auto;
             .offering {
                display: flex;
                justify-content: space-between;
