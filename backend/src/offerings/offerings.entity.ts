@@ -23,25 +23,25 @@ export class Offerings {
    @Column()
    description: string;
 
-   @Column()
+   @Column({ enum: OfferingType })
    offeringType: OfferingType;
 
-   @Column()
+   @Column({ enum: Location })
    location: Location;
 
-   @Column()
+   @Column({ enum: Collateral })
    collateral: Collateral;
 
-   @Column()
+   @Column({ enum: Terms })
    terms: Terms;
 
    @Column()
    contactEmail: string;
 
-   @Column()
+   @Column({ enum: ApprovalState })
    approvalState: ApprovalState;
 
-   @Column()
+   @Column({ enum: ProjectPhase })
    projectPhase: ProjectPhase;
 
    @Column({ nullable: true })

@@ -63,7 +63,14 @@ export class MyInfoPageComponent implements OnDestroy, OnInit {
       this.allMyOfferings$.pipe(takeUntil(this.destroyed$)).subscribe((allMyOfferings) => {
          this.preservedOfferings = [...allMyOfferings];
          this.allMyOfferings = [...allMyOfferings];
-         if (!this.selectedOffering) this.selectedOffering = this.allMyOfferings[0];
+         if (!this.selectedOffering) {
+            this.selectedOffering = this.allMyOfferings[0];
+         } else {
+            this.selectedOffering =
+               this.allMyOfferings.find(
+                  (o) => o.offeringId === this.selectedOffering?.offeringId,
+               ) ?? this.allMyOfferings[0];
+         }
       });
       this.offeringsToCreate$ = this.store.select(selectOfferingsToCreate);
       this.offeringsToCreate$.pipe(takeUntil(this.destroyed$)).subscribe((offeringsToCreate) => {

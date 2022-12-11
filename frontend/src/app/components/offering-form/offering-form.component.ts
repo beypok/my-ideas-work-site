@@ -89,7 +89,10 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    onSubmit(e: SubmitEvent) {
       e.preventDefault();
-      this.submit.emit(this.form?.getRawValue());
+      e.stopPropagation();
+      if (this.form?.valid) {
+         this.submit.emit(this.form?.getRawValue());
+      }
    }
 
    onCancel() {

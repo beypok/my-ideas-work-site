@@ -14,7 +14,7 @@ export class User implements IUser {
    @Column()
    password: string;
 
-   @Column()
+   @Column({ enum: AccountType })
    accountType: AccountType;
 
    /*
