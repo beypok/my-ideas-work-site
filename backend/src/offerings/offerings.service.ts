@@ -19,9 +19,12 @@ export class OfferingsService {
       private offeringsRepository: Repository<Offerings>,
    ) {}
 
-   async getAllOfferings(user: User) {
+   async getApprovedOfferings() {
       try {
-         return await this.offeringsRepository.find({ relations: ['user'] });
+         return await this.offeringsRepository.find({
+            relations: ['user'],
+            where: { approvalState: ApprovalState.Approved },
+         });
       } catch (e: any) {
          if (e.message) {
             throw new BadRequestException(e.message);

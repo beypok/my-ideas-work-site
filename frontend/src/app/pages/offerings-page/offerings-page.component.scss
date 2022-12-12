@@ -1,4 +1,18 @@
-@import "variables";
-h1 {
+@import 'variables';
+
+.offerings-page-wrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
    color: white;
+   height: 100%;
+
+   .lhs {
+      height: inherit;
+      min-width: 20em;
+   }
+   .rhs {
+      height: inherit;
+      flex-grow: 1;
+   }
 }

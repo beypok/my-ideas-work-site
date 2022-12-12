@@ -1,7 +1,7 @@
 import {
    BatchSaveOfferingsDto,
    CreateOfferingDto,
-   ResponseOfferingDto,
+   ResponseOfferingDto
 } from '@myideaswork/common/dtos';
 import { createAction, props } from '@ngrx/store';
 
@@ -29,13 +29,23 @@ export const createOfferingFailure = createAction(
    props<{ error: Error }>(),
 );
 
-export const getMyOfferings = createAction('[Offerings] Get My Offering');
+export const getMyOfferings = createAction('[Offerings] Get My Offerings');
 export const getMyOfferingsSuccess = createAction(
-   '[Offerings] Get My Offering success',
+   '[Offerings] Get My Offerings success',
    props<{ offerings: ResponseOfferingDto[] }>(),
 );
 export const getMyOfferingsFailure = createAction(
-   '[Offerings] Get My Offering failure',
+   '[Offerings] Get My Offerings failure',
+   props<{ error: Error }>(),
+);
+
+export const getApprovedOfferings = createAction('[Offerings] Get Approved Offerings');
+export const getApprovedOfferingsSuccess = createAction(
+   '[Offerings] Get Approved Offerings success',
+   props<{ offerings: ResponseOfferingDto[] }>(),
+);
+export const getApprovedOfferingsFailure = createAction(
+   '[Offerings] Get Approved Offerings failure',
    props<{ error: Error }>(),
 );
 

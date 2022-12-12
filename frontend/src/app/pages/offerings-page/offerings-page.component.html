@@ -1,1 +1,14 @@
-<h1>Offerings Page stuff...</h1>
+<div class="offerings-page-wrapper">
+   <div class="lhs">
+      <offerings-search-sidebar
+         [selectedTab]="selectedTab"
+         (selectedTabChange)="onSelectedTabChange($event)"
+      ></offerings-search-sidebar>
+   </div>
+
+   <div class="rhs">
+      <div *ngFor="let offering of offeringsToShow" class="offering">
+         {{ offering.name }}
+      </div>
+   </div>
+</div>

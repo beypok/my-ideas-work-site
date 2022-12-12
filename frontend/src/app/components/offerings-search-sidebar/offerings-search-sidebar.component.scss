@@ -1,0 +1,63 @@
+@import 'variables';
+
+.offerings-search-sidebar {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   flex-direction: column;
+   background-color: $gray;
+   height: 100%;
+   .tabs {
+      width: 100%;
+      padding-top: 2.5em;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: white;
+      button {
+         color: $middleBlue !important;
+         background-color: $gray;
+         border-radius: 0.5em 0.5em 0 0;
+         padding: 0.25em 1.5em;
+         text-transform: uppercase;
+         &.selected {
+            background-color: white;
+         }
+      }
+   }
+
+   .search-inputs {
+      width: 100%;
+      flex-grow: 1;
+      background-color: white;
+      padding: 1em;
+      color: $middleBlue;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      mat-form-field {
+         width: inherit;
+         mat-icon {
+            color: $middleBlue;
+         }
+      }
+
+      .amount-range {
+         mat-form-field {
+            width: unset;
+         }
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         p {
+            margin: 0 1em;
+            margin-top: -1em;
+         }
+      }
+
+      button {
+         margin-left: auto;
+      }
+   }
+}

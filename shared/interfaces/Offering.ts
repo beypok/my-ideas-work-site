@@ -1,4 +1,5 @@
 import { ApprovalState, Collateral, Location, OfferingType, ProjectPhase, Terms } from '../enums';
+import { User } from './User';
 
 export interface Offering {
    offeringId?: number;
@@ -14,4 +15,5 @@ export interface Offering {
    amountRequested?: number | null;
    amountRangeStart?: number | null;
    amountRangeEnd?: number | null;
+   user?: User;
 }

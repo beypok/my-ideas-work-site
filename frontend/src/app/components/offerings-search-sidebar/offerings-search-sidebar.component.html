@@ -1,0 +1,91 @@
+<div class="offerings-search-sidebar">
+   <div class="tabs">
+      <button
+         (click)="setSelectedTab('Advertisers')"
+         type="button"
+         mat-flat-button
+         disableRipple
+         [class.selected]="selectedTab === 'Advertisers'"
+      >
+         Advertisers
+      </button>
+      <button
+         (click)="setSelectedTab('Investors')"
+         type="button"
+         mat-flat-button
+         disableRipple
+         [class.selected]="selectedTab === 'Investors'"
+      >
+         Investors
+      </button>
+   </div>
+
+   <form [formGroup]="form" class="search-inputs">
+      <mat-form-field>
+         <mat-label>Search By Name</mat-label>
+         <input matInput type="search" formControlName="searchText" />
+         <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Location</mat-label>
+         <mat-select formControlName="location">
+            <mat-option
+               *ngFor="let location of _locationKeys"
+               [value]="mapEnumKeyToValue(location, _locations)"
+            >
+               {{ location }} - {{ mapEnumKeyToValue(location, _locations) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>{{
+            selectedTab === 'Advertisers' ? 'Funding Type' : 'Project Phase'
+         }}</mat-label>
+         <mat-select formControlName="projectPhase">
+            <mat-option
+               *ngFor="let projectPhase of _projectPhaseKeys"
+               [value]="mapEnumKeyToValue(projectPhase, _projectPhases)"
+            >
+               {{ mapEnumKeyToValue(projectPhase, _projectPhases) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Collateral</mat-label>
+         <mat-select formControlName="collateral">
+            <mat-option
+               *ngFor="let collateral of _collateralKeys"
+               [value]="mapEnumKeyToValue(collateral, _collateral)"
+            >
+               {{ mapEnumKeyToValue(collateral, _collateral) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <span class="amount-range">
+         <mat-form-field>
+            <mat-label>Amount Range Start</mat-label>
+            <input matInput type="text" formControlName="amountRangeStart" />
+         </mat-form-field>
+         <p>to</p>
+         <mat-form-field>
+            <mat-label>Amount Range End</mat-label>
+            <input matInput type="text" formControlName="amountRangeEnd" />
+         </mat-form-field>
+      </span>
+
+      <mat-form-field>
+         <mat-label>Terms</mat-label>
+         <mat-select formControlName="terms">
+            <mat-option *ngFor="let terms of _termsKeys" [value]="mapEnumKeyToValue(terms, _terms)">
+               {{ mapEnumKeyToValue(terms, _terms) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Search</button>
+   </form>
+</div>

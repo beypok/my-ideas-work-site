@@ -3,13 +3,22 @@ import {
    CreateOfferingDto,
    ResponseOfferingDto,
 } from '@myideaswork/common/dtos';
+import { AuthRole } from '@myideaswork/common/enums';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Request } from '@nestjs/common/decorators';
+import { Role } from 'src/authentication/roles/roles.decorator';
 import { OfferingsService } from './offerings.service';
 
 @Controller('/offerings')
 export class OfferingsController {
    constructor(private readonly offeringsService: OfferingsService) {}
+
+   @Get()
+   @Role(AuthRole.Public)
+   async allApprovedOfferings(): Promise<ResponseOfferingDto[]> {
+      const offerings = await this.offeringsService.getApprovedOfferings();
+      return this.offeringsService.mapOfferingsToResponseDto(offerings);
+   }
 
    @Get('/me')
    async offerings(@Request() req): Promise<ResponseOfferingDto[]> {
