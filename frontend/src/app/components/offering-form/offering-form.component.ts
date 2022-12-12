@@ -29,6 +29,9 @@ import { selectCurrentUser } from 'src/app/state/authentication';
    selector: 'offering-form',
    templateUrl: './offering-form.component.html',
    styleUrls: ['./offering-form.component.scss'],
+   host: {
+      class: 'offering-form-wrapper',
+   },
 })
 export class OfferingFormComponent implements OnDestroy, OnChanges {
    @Input('initOffering') initOffering: Offering | null = null;

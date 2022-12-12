@@ -1,50 +1,52 @@
-form {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
-   min-width: 50em;
-
-   h2 {
-      margin-bottom: 1em;
-   }
-
-   mat-form-field {
-      width: 100%;
-      input.hidden {
-         display: none;
-      }
-   }
-
-   .amount-range {
-      width: 100%;
+.offering-form-wrapper {
+   form {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      p {
-         margin: 0 1em;
-         margin-top: -1em;
-      }
-   }
+      flex-direction: column;
+      min-width: 50em;
 
-   .grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      place-items: center;
-      grid-gap: 1em;
+      h2 {
+         margin-bottom: 1em;
+      }
+
       mat-form-field {
          width: 100%;
+         input.hidden {
+            display: none;
+         }
       }
-   }
 
-   .buttons {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 100%;
-      button {
-         margin-left: 0.5em;
+      .amount-range {
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         p {
+            margin: 0 1em;
+            margin-top: -1em;
+         }
+      }
+
+      .grid {
+         width: 100%;
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         place-items: center;
+         grid-gap: 1em;
+         mat-form-field {
+            width: 100%;
+         }
+      }
+
+      .buttons {
+         display: flex;
+         justify-content: flex-end;
+         align-items: center;
+         width: 100%;
+         button {
+            margin-left: 0.5em;
+         }
       }
    }
 }

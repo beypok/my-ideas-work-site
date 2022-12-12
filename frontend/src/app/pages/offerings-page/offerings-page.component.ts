@@ -4,6 +4,7 @@ import {
    Component,
    OnDestroy,
    OnInit,
+   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AccountType } from '@myideaswork/common/enums';
@@ -19,6 +20,7 @@ import { selectApprovedOfferings } from 'src/app/state/offerings/offerings.selec
 
 @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
+   encapsulation: ViewEncapsulation.None,
    selector: 'offerings-page',
    templateUrl: './offerings-page.component.html',
    styleUrls: ['./offerings-page.component.scss'],
