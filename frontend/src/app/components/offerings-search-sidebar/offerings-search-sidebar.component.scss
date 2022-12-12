@@ -56,8 +56,15 @@
          }
       }
 
-      button {
-         margin-left: auto;
+      .buttons {
+         display: flex;
+         justify-content: flex-end;
+         align-items: center;
+         width: 100%;
+
+         button {
+            margin-left: 1em;
+         }
       }
    }
 }

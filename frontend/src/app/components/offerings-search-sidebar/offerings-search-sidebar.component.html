@@ -20,7 +20,7 @@
       </button>
    </div>
 
-   <form [formGroup]="form" class="search-inputs">
+   <form *ngIf="form" [formGroup]="form" class="search-inputs" (submit)="handleFormSubmit($event)">
       <mat-form-field>
          <mat-label>Search By Name</mat-label>
          <input matInput type="search" formControlName="searchText" />
@@ -29,7 +29,7 @@
 
       <mat-form-field>
          <mat-label>Location</mat-label>
-         <mat-select formControlName="location">
+         <mat-select multiple formControlName="location">
             <mat-option
                *ngFor="let location of _locationKeys"
                [value]="mapEnumKeyToValue(location, _locations)"
@@ -43,7 +43,7 @@
          <mat-label>{{
             selectedTab === 'Advertisers' ? 'Funding Type' : 'Project Phase'
          }}</mat-label>
-         <mat-select formControlName="projectPhase">
+         <mat-select multiple formControlName="projectPhase">
             <mat-option
                *ngFor="let projectPhase of _projectPhaseKeys"
                [value]="mapEnumKeyToValue(projectPhase, _projectPhases)"
@@ -55,7 +55,7 @@
 
       <mat-form-field>
          <mat-label>Collateral</mat-label>
-         <mat-select formControlName="collateral">
+         <mat-select multiple formControlName="collateral">
             <mat-option
                *ngFor="let collateral of _collateralKeys"
                [value]="mapEnumKeyToValue(collateral, _collateral)"
@@ -79,13 +79,23 @@
 
       <mat-form-field>
          <mat-label>Terms</mat-label>
-         <mat-select formControlName="terms">
+         <mat-select multiple formControlName="terms">
             <mat-option *ngFor="let terms of _termsKeys" [value]="mapEnumKeyToValue(terms, _terms)">
                {{ mapEnumKeyToValue(terms, _terms) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Search</button>
+      <div class="buttons">
+         <button
+            mat-stroked-button
+            color="primary"
+            type="button"
+            (click)="handleClearSearch($event)"
+         >
+            Clear
+         </button>
+         <button mat-raised-button color="primary" type="submit">Search</button>
+      </div>
    </form>
 </div>

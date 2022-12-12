@@ -6,7 +6,7 @@ import {
    Output,
    ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Collateral, Location, ProjectPhase, Terms } from '@myideaswork/common/enums';
 import { User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,16 @@ import { takeUntil } from 'rxjs/operators';
 import { selectCurrentUser } from 'src/app/state/authentication';
 
 export type OfferingsSearchSidebarTab = 'Advertisers' | 'Investors';
+
+export interface OfferingsSearchSidebarForm {
+   searchText: FormControl<string | null>;
+   location: FormControl<Location[] | null>;
+   projectPhase: FormControl<ProjectPhase[] | null>;
+   collateral: FormControl<Collateral[] | null>;
+   amountRangeStart: FormControl<number | null>;
+   amountRangeEnd: FormControl<number | null>;
+   terms: FormControl<Terms[] | null>;
+}
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -25,9 +35,13 @@ export type OfferingsSearchSidebarTab = 'Advertisers' | 'Investors';
 export class OfferingsSearchSidebarComponent implements OnDestroy {
    @Input('selectedTab') selectedTab: OfferingsSearchSidebarTab = 'Advertisers';
 
+   @Input('form') form: FormGroup<OfferingsSearchSidebarForm> | null = null;
+
    @Output() selectedTabChange = new EventEmitter<OfferingsSearchSidebarTab>();
 
-   form: FormGroup;
+   @Output() search = new EventEmitter<void>();
+
+   @Output() clear = new EventEmitter<void>();
 
    // Enums
    _locations = Location;
@@ -45,18 +59,7 @@ export class OfferingsSearchSidebarComponent implements OnDestroy {
 
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store, private fb: FormBuilder) {
-      this.form = this.fb.group({
-         searchText: new FormControl(null),
-         industry: new FormControl(null),
-         location: new FormControl(null),
-         projectPhase: new FormControl(null),
-         collateral: new FormControl(null),
-         amountRangeStart: new FormControl(null),
-         amountRangeEnd: new FormControl(null),
-         terms: new FormControl(null),
-      });
-
+   constructor(private store: Store) {
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
          this.currentUser = user;
@@ -74,5 +77,15 @@ export class OfferingsSearchSidebarComponent implements OnDestroy {
    // Enum mapping methods
    mapEnumKeyToValue(key: string, e: Object) {
       return e[key as keyof typeof e];
+   }
+
+   handleClearSearch(e: MouseEvent) {
+      e.stopPropagation();
+      this.clear.emit();
+   }
+
+   handleFormSubmit(e: SubmitEvent) {
+      e.stopPropagation();
+      this.search.emit();
    }
 }

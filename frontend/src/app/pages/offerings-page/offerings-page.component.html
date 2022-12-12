@@ -3,6 +3,9 @@
       <offerings-search-sidebar
          [selectedTab]="selectedTab"
          (selectedTabChange)="onSelectedTabChange($event)"
+         [form]="searchForm"
+         (search)="handleSearch()"
+         (clear)="handleClearSearch()"
       ></offerings-search-sidebar>
    </div>
 
