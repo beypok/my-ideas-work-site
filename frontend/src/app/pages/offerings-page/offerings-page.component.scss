@@ -12,7 +12,12 @@
       min-width: 20em;
    }
    .rhs {
+      padding: 1em;
       height: inherit;
       flex-grow: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(25em, 1fr));
+      grid-gap: 1em;
+      overflow-y: auto;
    }
 }

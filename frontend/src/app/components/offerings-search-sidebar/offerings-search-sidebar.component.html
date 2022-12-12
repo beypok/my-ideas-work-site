@@ -29,12 +29,12 @@
 
       <mat-form-field>
          <mat-label>Location</mat-label>
-         <mat-select multiple formControlName="location">
+         <mat-select multiple formControlName="continent">
             <mat-option
-               *ngFor="let location of _locationKeys"
-               [value]="mapEnumKeyToValue(location, _locations)"
+               *ngFor="let continent of enumMapper._continentKeys"
+               [value]="enumMapper.mapEnumKeyToValue(continent, enumMapper._continents)"
             >
-               {{ location }} - {{ mapEnumKeyToValue(location, _locations) }}
+               {{ enumMapper.mapEnumKeyToValue(continent, enumMapper._continents) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
@@ -45,10 +45,10 @@
          }}</mat-label>
          <mat-select multiple formControlName="projectPhase">
             <mat-option
-               *ngFor="let projectPhase of _projectPhaseKeys"
-               [value]="mapEnumKeyToValue(projectPhase, _projectPhases)"
+               *ngFor="let projectPhase of enumMapper._projectPhaseKeys"
+               [value]="enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases)"
             >
-               {{ mapEnumKeyToValue(projectPhase, _projectPhases) }}
+               {{ enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
@@ -57,10 +57,10 @@
          <mat-label>Collateral</mat-label>
          <mat-select multiple formControlName="collateral">
             <mat-option
-               *ngFor="let collateral of _collateralKeys"
-               [value]="mapEnumKeyToValue(collateral, _collateral)"
+               *ngFor="let collateral of enumMapper._collateralKeys"
+               [value]="enumMapper.mapEnumKeyToValue(collateral, enumMapper._collateral)"
             >
-               {{ mapEnumKeyToValue(collateral, _collateral) }}
+               {{ enumMapper.mapEnumKeyToValue(collateral, enumMapper._collateral) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
@@ -80,8 +80,11 @@
       <mat-form-field>
          <mat-label>Terms</mat-label>
          <mat-select multiple formControlName="terms">
-            <mat-option *ngFor="let terms of _termsKeys" [value]="mapEnumKeyToValue(terms, _terms)">
-               {{ mapEnumKeyToValue(terms, _terms) }}
+            <mat-option
+               *ngFor="let terms of enumMapper._termsKeys"
+               [value]="enumMapper.mapEnumKeyToValue(terms, enumMapper._terms)"
+            >
+               {{ enumMapper.mapEnumKeyToValue(terms, enumMapper._terms) }}
             </mat-option>
          </mat-select>
       </mat-form-field>

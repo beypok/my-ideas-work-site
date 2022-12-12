@@ -22,6 +22,7 @@ import { Offering, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { EnumMapperService } from 'src/app/services/enum-mapper/enum-mapper.service';
 import { selectCurrentUser } from 'src/app/state/authentication';
 
 @Component({
@@ -46,18 +47,6 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    form: FormGroup | null = null;
 
-   // Enums
-   _accountType = AccountType;
-   _offeringType = OfferingType;
-   _locations = Location;
-   _locationKeys = Object.keys(Location);
-   _projectPhases = ProjectPhase;
-   _projectPhaseKeys = Object.keys(ProjectPhase);
-   _terms = Terms;
-   _termsKeys = Object.keys(Terms);
-   _collateral = Collateral;
-   _collateralKeys = Object.keys(Collateral);
-
    isLoggedInUserAdvertiser = false;
 
    currentUser: User | null = null;
@@ -66,7 +55,11 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store, private fb: FormBuilder) {
+   constructor(
+      private store: Store,
+      private fb: FormBuilder,
+      public enumMapper: EnumMapperService,
+   ) {
       this.buildForm();
 
       this.currentUser$ = this.store.select(selectCurrentUser);
@@ -100,11 +93,6 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    onCancel() {
       this.cancel.emit();
-   }
-
-   // Enum mapping methods
-   mapEnumKeyToValue(key: string, e: Object) {
-      return e[key as keyof typeof e];
    }
 
    private buildForm() {

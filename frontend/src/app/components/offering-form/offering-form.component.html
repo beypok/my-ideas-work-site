@@ -8,20 +8,23 @@
 
    <mat-form-field>
       <mat-label>{{
-         currentUser?.accountType === _accountType.Advertiser
+         currentUser?.accountType === enumMapper._accountType.Advertiser
             ? 'Business/Industry'
             : 'Investor/Lender'
       }}</mat-label>
       <mat-select formControlName="offeringType">
          <ng-container
-            *ngIf="currentUser?.accountType === _accountType.Advertiser; else investorOfferingTypes"
+            *ngIf="
+               currentUser?.accountType === enumMapper._accountType.Advertiser;
+               else investorOfferingTypes
+            "
          >
-            <mat-option [value]="_offeringType.Business">Business</mat-option>
-            <mat-option [value]="_offeringType.Industry">Industry</mat-option>
+            <mat-option [value]="enumMapper._offeringType.Business">Business</mat-option>
+            <mat-option [value]="enumMapper._offeringType.Industry">Industry</mat-option>
          </ng-container>
          <ng-template #investorOfferingTypes>
-            <mat-option [value]="_offeringType.Investor">Investor</mat-option>
-            <mat-option [value]="_offeringType.Lender">Lender</mat-option>
+            <mat-option [value]="enumMapper._offeringType.Investor">Investor</mat-option>
+            <mat-option [value]="enumMapper._offeringType.Lender">Lender</mat-option>
          </ng-template>
       </mat-select>
    </mat-form-field>
@@ -36,19 +39,22 @@
          <mat-label>Location</mat-label>
          <mat-select formControlName="location">
             <mat-option
-               *ngFor="let location of _locationKeys"
-               [value]="mapEnumKeyToValue(location, _locations)"
+               *ngFor="let location of enumMapper._locationKeys"
+               [value]="enumMapper.mapEnumKeyToValue(location, enumMapper._locations)"
             >
-               {{ location }} - {{ mapEnumKeyToValue(location, _locations) }}
+               {{ location }} - {{ enumMapper.mapEnumKeyToValue(location, enumMapper._locations) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="currentUser?.accountType === _accountType.Advertiser">
+      <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Advertiser">
          <mat-label>Amount Requested</mat-label>
          <input matInput type="text" formControlName="amountRequested" />
       </mat-form-field>
-      <span *ngIf="!(currentUser?.accountType === _accountType.Advertiser)" class="amount-range">
+      <span
+         *ngIf="!(currentUser?.accountType === enumMapper._accountType.Advertiser)"
+         class="amount-range"
+      >
          <mat-form-field>
             <mat-label>Amount Range Start</mat-label>
             <input matInput type="text" formControlName="amountRangeStart" />
@@ -62,14 +68,16 @@
 
       <mat-form-field>
          <mat-label>{{
-            currentUser?.accountType === _accountType.Advertiser ? 'Funding Type' : 'Project Phase'
+            currentUser?.accountType === enumMapper._accountType.Advertiser
+               ? 'Funding Type'
+               : 'Project Phase'
          }}</mat-label>
          <mat-select formControlName="projectPhase">
             <mat-option
-               *ngFor="let projectPhase of _projectPhaseKeys"
-               [value]="mapEnumKeyToValue(projectPhase, _projectPhases)"
+               *ngFor="let projectPhase of enumMapper._projectPhaseKeys"
+               [value]="enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases)"
             >
-               {{ mapEnumKeyToValue(projectPhase, _projectPhases) }}
+               {{ enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
@@ -77,8 +85,11 @@
       <mat-form-field>
          <mat-label>Terms</mat-label>
          <mat-select formControlName="terms">
-            <mat-option *ngFor="let terms of _termsKeys" [value]="mapEnumKeyToValue(terms, _terms)">
-               {{ mapEnumKeyToValue(terms, _terms) }}
+            <mat-option
+               *ngFor="let terms of enumMapper._termsKeys"
+               [value]="enumMapper.mapEnumKeyToValue(terms, enumMapper._terms)"
+            >
+               {{ enumMapper.mapEnumKeyToValue(terms, enumMapper._terms) }}
             </mat-option>
          </mat-select>
       </mat-form-field>
@@ -87,10 +98,10 @@
          <mat-label>Collateral</mat-label>
          <mat-select formControlName="collateral">
             <mat-option
-               *ngFor="let collateral of _collateralKeys"
-               [value]="mapEnumKeyToValue(collateral, _collateral)"
+               *ngFor="let collateral of enumMapper._collateralKeys"
+               [value]="enumMapper.mapEnumKeyToValue(collateral, enumMapper._collateral)"
             >
-               {{ mapEnumKeyToValue(collateral, _collateral) }}
+               {{ enumMapper.mapEnumKeyToValue(collateral, enumMapper._collateral) }}
             </mat-option>
          </mat-select>
       </mat-form-field>

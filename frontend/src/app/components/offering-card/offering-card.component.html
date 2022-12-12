@@ -1,0 +1,26 @@
+<div *ngIf="offering" class="offering-card">
+   <p class="offering-card_name">{{ offering.name }}</p>
+   <p class="offering-card_description">{{ offering.description }}</p>
+
+   <div class="offering-card_info">
+      <p>Industry</p>
+      <p>${{ offering.amountRequested?.toLocaleString() }}</p>
+      <p *ngIf="offering.location">
+         {{ getLocationContinent(offering.location) }}
+      </p>
+      <p *ngIf="offering.collateral">
+         {{ offering.collateral }}
+      </p>
+      <p *ngIf="offering.projectPhase">
+         {{ offering.projectPhase }}
+      </p>
+      <p *ngIf="offering.terms">
+         {{ offering.terms }}
+      </p>
+   </div>
+
+   <div class="buttons">
+      <button mat-stroked-button color="primary">Contact</button>
+      <button mat-raised-button color="primary">View more</button>
+   </div>
+</div>

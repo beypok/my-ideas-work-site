@@ -11,7 +11,7 @@
 
    <div class="rhs">
       <div *ngFor="let offering of offeringsToShow" class="offering">
-         {{ offering.name }}
+         <offering-card [offering]="offering"></offering-card>
       </div>
    </div>
 </div>

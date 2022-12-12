@@ -7,18 +7,19 @@ import {
    ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Collateral, Location, ProjectPhase, Terms } from '@myideaswork/common/enums';
+import { Collateral, Continent, ProjectPhase, Terms } from '@myideaswork/common/enums';
 import { User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { EnumMapperService } from 'src/app/services/enum-mapper/enum-mapper.service';
 import { selectCurrentUser } from 'src/app/state/authentication';
 
 export type OfferingsSearchSidebarTab = 'Advertisers' | 'Investors';
 
 export interface OfferingsSearchSidebarForm {
    searchText: FormControl<string | null>;
-   location: FormControl<Location[] | null>;
+   continent: FormControl<Continent[] | null>;
    projectPhase: FormControl<ProjectPhase[] | null>;
    collateral: FormControl<Collateral[] | null>;
    amountRangeStart: FormControl<number | null>;
@@ -43,23 +44,13 @@ export class OfferingsSearchSidebarComponent implements OnDestroy {
 
    @Output() clear = new EventEmitter<void>();
 
-   // Enums
-   _locations = Location;
-   _locationKeys = Object.keys(Location);
-   _projectPhases = ProjectPhase;
-   _projectPhaseKeys = Object.keys(ProjectPhase);
-   _terms = Terms;
-   _termsKeys = Object.keys(Terms);
-   _collateral = Collateral;
-   _collateralKeys = Object.keys(Collateral);
-
    currentUser: User | null = null;
 
    private currentUser$: Observable<User>;
 
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store) {
+   constructor(private store: Store, public enumMapper: EnumMapperService) {
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
          this.currentUser = user;
@@ -72,11 +63,6 @@ export class OfferingsSearchSidebarComponent implements OnDestroy {
 
    setSelectedTab(selectedTab: OfferingsSearchSidebarTab) {
       this.selectedTabChange.emit(selectedTab);
-   }
-
-   // Enum mapping methods
-   mapEnumKeyToValue(key: string, e: Object) {
-      return e[key as keyof typeof e];
    }
 
    handleClearSearch(e: MouseEvent) {
