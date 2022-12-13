@@ -1,17 +1,17 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { PagesModule } from './pages/pages.module';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationBarModule } from './components/navigation-bar/navigation-bar.module';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
-import { reducers, metaReducers } from './state';
+import { AppComponent } from './app.component';
+import { NavigationBarModule } from './components/navigation-bar/navigation-bar.module';
+import { PagesModule } from './pages/pages.module';
+import { metaReducers, reducers } from './state';
 import { AppStateModule } from './state/app/app.module';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { AuthenticationInterceptor } from './state/authentication/AuthenticationInterceptor.service';
 
 @NgModule({
    declarations: [AppComponent],
@@ -29,7 +29,10 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
       }),
       EffectsModule.forRoot([]),
    ],
-   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
+   providers: [
+      { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+      { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
+   ],
    bootstrap: [AppComponent],
 })
 export class AppModule {}
