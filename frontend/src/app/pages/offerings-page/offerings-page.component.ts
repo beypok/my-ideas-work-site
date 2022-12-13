@@ -108,11 +108,21 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
       } = this.searchForm?.getRawValue() ?? {};
 
       if (searchText && !o.name?.includes(searchText)) return false;
-      if (continent && !continent.some((c) => c === this.getLocationContinent(o.location!)))
+      if (
+         continent &&
+         continent.length > 0 &&
+         !continent.some((c) => c === this.getLocationContinent(o.location!))
+      )
          return false;
-      if (projectPhase && !projectPhase.some((p) => p === o.projectPhase)) return false;
-      if (collateral && !collateral.some((c) => c === o.collateral)) return false;
-      if (terms && !terms.some((t) => t === o.terms)) return false;
+      if (
+         projectPhase &&
+         projectPhase.length > 0 &&
+         !projectPhase.some((p) => p === o.projectPhase)
+      )
+         return false;
+      if (collateral && collateral.length > 0 && !collateral.some((c) => c === o.collateral))
+         return false;
+      if (terms && terms.length > 0 && !terms.some((t) => t === o.terms)) return false;
 
       if (o.user?.accountType === AccountType.Advertiser) {
          if (amountRangeStart && o.amountRequested && o.amountRequested < amountRangeStart)
