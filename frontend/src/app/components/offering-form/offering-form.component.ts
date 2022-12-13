@@ -37,6 +37,8 @@ import { selectCurrentUser } from 'src/app/state/authentication';
 export class OfferingFormComponent implements OnDestroy, OnChanges {
    @Input('initOffering') initOffering: Offering | null = null;
 
+   @Input('readonly') readonly: boolean = false;
+
    @Input('showFooterButtons') showFooterButtons: boolean = true;
 
    @Output() formChange = new EventEmitter<Offering>();

@@ -12,6 +12,10 @@ export const selectMyOfferings = createSelector(selectOfferings, (state: Offerin
    ...state.myOfferings,
 ]);
 
+export const selectAllOfferings = createSelector(selectOfferings, (state: OfferingState) => [
+   ...state.allOfferings,
+]);
+
 export const selectOfferingsToCreate = createSelector(selectOfferings, (state: OfferingState) => [
    ...state.offeringsToCreate,
 ]);

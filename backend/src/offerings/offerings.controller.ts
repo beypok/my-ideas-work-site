@@ -5,7 +5,7 @@ import {
 } from '@myideaswork/common/dtos';
 import { AuthRole } from '@myideaswork/common/enums';
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Request } from '@nestjs/common/decorators';
+import { Param, Put, Request } from '@nestjs/common/decorators';
 import { Role } from 'src/authentication/roles/roles.decorator';
 import { OfferingsService } from './offerings.service';
 
@@ -13,7 +13,7 @@ import { OfferingsService } from './offerings.service';
 export class OfferingsController {
    constructor(private readonly offeringsService: OfferingsService) {}
 
-   @Get()
+   @Get('/approved')
    @Role(AuthRole.Public)
    async allApprovedOfferings(): Promise<ResponseOfferingDto[]> {
       const offerings = await this.offeringsService.getApprovedOfferings();
@@ -24,6 +24,27 @@ export class OfferingsController {
    async offerings(@Request() req): Promise<ResponseOfferingDto[]> {
       const offerings = await this.offeringsService.getMyOfferings(req.user);
       return this.offeringsService.mapOfferingsToResponseDto(offerings);
+   }
+
+   @Get('/all')
+   @Role(AuthRole.Founder)
+   async allOfferings(@Request() req): Promise<ResponseOfferingDto[]> {
+      const offerings = await this.offeringsService.getAllOfferings();
+      return this.offeringsService.mapOfferingsToResponseDto(offerings);
+   }
+
+   @Put('/:id/approve')
+   @Role(AuthRole.Founder)
+   async approveOffering(@Request() req, @Param('id') offeringId): Promise<ResponseOfferingDto> {
+      const offering = await this.offeringsService.approveOffering(offeringId);
+      return this.offeringsService.mapOfferingToResponseDto(offering);
+   }
+
+   @Put('/:id/deny')
+   @Role(AuthRole.Founder)
+   async denyOffering(@Request() req, @Param('id') offeringId): Promise<ResponseOfferingDto> {
+      const offering = await this.offeringsService.denyOffering(offeringId);
+      return this.offeringsService.mapOfferingToResponseDto(offering);
    }
 
    @Post()

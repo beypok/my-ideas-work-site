@@ -1,7 +1,7 @@
-import { BaseUserDto } from './BaseUser.dto';
-import { Expose, Exclude, Type } from 'class-transformer';
-import { AuthenticatedUser, User } from './../../interfaces';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { AccountType } from './../../enums';
+import { AuthenticatedUser, User } from './../../interfaces';
+import { BaseUserDto } from './BaseUser.dto';
 
 export class ResponseUserDto extends BaseUserDto {
    @Expose()
@@ -12,6 +12,9 @@ export class ResponseUserDto extends BaseUserDto {
 
    @Expose()
    override accountType!: AccountType;
+
+   @Expose()
+   isAdmin!: boolean;
 }
 
 export class ResponseAuthenticatedUserDto implements AuthenticatedUser {

@@ -1,0 +1,156 @@
+@import 'variables';
+
+.approval-dashboard-page-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: $darkBlue;
+   height: 100%;
+   position: relative;
+
+   .lhs {
+      height: inherit;
+      min-width: 20em;
+      background-color: $offWhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .offerings {
+         height: 100%;
+         width: 100%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+         flex-grow: 1;
+         overflow-y: hidden;
+         background: linear-gradient(to bottom, white, $offWhite);
+         .heading {
+            width: 100%;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            h2 {
+               flex-grow: 1;
+            }
+            mat-icon {
+               font-size: xx-large;
+               height: 100%;
+               width: max-content;
+               cursor: pointer;
+               transition: 0.3s;
+               &:hover {
+                  color: $middleBlue;
+               }
+            }
+         }
+
+         .offerings-list {
+            width: 100%;
+            flex-grow: 1;
+            overflow-y: auto;
+            .offering {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               width: 100%;
+               padding: 0.5em;
+               color: $darkBlue;
+               font-weight: 600;
+               cursor: pointer;
+               transition: 0.3s;
+
+               border-right: 6px solid;
+               &.approved {
+                  border-right-color: $approvedGreen;
+               }
+               &.pending {
+                  border-right-color: $pendingYellow;
+               }
+               &.denied {
+                  border-right-color: $deniedRed;
+               }
+               border-top: 1px solid $offWhite;
+
+               &:nth-child(even) {
+                  background-color: $offWhite;
+               }
+               &:hover {
+                  background-color: $hoverBlue;
+               }
+
+               &.selected {
+                  background-color: lighten($hoverBlue, 5%);
+                  cursor: default;
+                  &:hover {
+                     background-color: lighten($hoverBlue, 5%);
+                  }
+               }
+
+               p.deleting {
+                  text-decoration: line-through;
+               }
+
+               mat-icon {
+                  color: $gray;
+                  &:hover {
+                     cursor: pointer;
+                     transition: 0.3s;
+                     color: darken($gray, 20%);
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   .rhs {
+      height: 100%;
+      flex-grow: 1;
+      position: relative;
+
+      .selected-offering {
+         background-color: white;
+         padding: 1em;
+         margin: 1em;
+         border-radius: 0.5em;
+
+         .deleting-selected-offering {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            p {
+               margin: 0.5em 0;
+            }
+            .buttons {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               button {
+                  margin: 0 0.5em;
+               }
+            }
+         }
+
+         div[heading] {
+            font-weight: bold;
+            text-align: right;
+            width: 100%;
+            margin-bottom: 1em;
+            &.approved {
+               color: $approvedGreen;
+            }
+            &.pending {
+               color: $pendingYellow;
+            }
+            &.denied {
+               color: $deniedRed;
+            }
+         }
+      }
+   }
+}

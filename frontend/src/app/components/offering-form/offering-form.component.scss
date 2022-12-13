@@ -48,5 +48,11 @@
             margin-left: 0.5em;
          }
       }
+
+      &.readonly {
+         mat-form-field {
+            pointer-events: none;
+         }
+      }
    }
 }

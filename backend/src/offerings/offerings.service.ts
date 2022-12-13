@@ -45,6 +45,59 @@ export class OfferingsService {
       }
    }
 
+   async getOfferingById(offeringId: number) {
+      try {
+         return await this.offeringsRepository.findOne({
+            relations: ['user'],
+            where: { offeringId: offeringId },
+         });
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
+
+   async getAllOfferings() {
+      try {
+         return await this.offeringsRepository.find({
+            relations: ['user'],
+         });
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
+
+   async approveOffering(offeringId: number) {
+      try {
+         await this.offeringsRepository.update(
+            { offeringId: offeringId },
+            { approvalState: ApprovalState.Approved },
+         );
+         return await this.getOfferingById(offeringId);
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
+
+   async denyOffering(offeringId: number) {
+      try {
+         await this.offeringsRepository.update(
+            { offeringId: offeringId },
+            { approvalState: ApprovalState.Denied },
+         );
+         return await this.getOfferingById(offeringId);
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
+
    async createOffering(offering: CreateOfferingDto, user: User) {
       try {
          return await this.offeringsRepository.save({

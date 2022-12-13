@@ -76,6 +76,26 @@ export class OfferingEffects {
       ),
    );
 
+   getAllOfferings = createEffect(() =>
+      this.actions$.pipe(
+         ofType(
+            OfferingActions.getAllOfferings,
+            OfferingActions.approveOfferingSuccess,
+            OfferingActions.denyOfferingSuccess,
+         ),
+         switchMap((action): Observable<any> => {
+            return this.offeringService.getAllOffering().pipe(
+               switchMap((response) => {
+                  return of(OfferingActions.getAllOfferingsSuccess({ offerings: response }));
+               }),
+               catchError((error) => {
+                  return of(OfferingActions.getAllOfferingsFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
    getApprovedOfferings = createEffect(() =>
       this.actions$.pipe(
          ofType(OfferingActions.getApprovedOfferings),
@@ -86,6 +106,38 @@ export class OfferingEffects {
                }),
                catchError((error) => {
                   return of(OfferingActions.getApprovedOfferingsFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
+   approvedOffering = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OfferingActions.approveOffering),
+         switchMap((action): Observable<any> => {
+            return this.offeringService.approveOffering(action.offering).pipe(
+               switchMap((response) => {
+                  return of(OfferingActions.approveOfferingSuccess({ offering: response }));
+               }),
+               catchError((error) => {
+                  return of(OfferingActions.approveOfferingFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
+   denyOffering = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OfferingActions.denyOffering),
+         switchMap((action): Observable<any> => {
+            return this.offeringService.denyOffering(action.offering).pipe(
+               switchMap((response) => {
+                  return of(OfferingActions.denyOfferingSuccess({ offering: response }));
+               }),
+               catchError((error) => {
+                  return of(OfferingActions.denyOfferingFailure({ error }));
                }),
             );
          }),

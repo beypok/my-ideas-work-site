@@ -1,4 +1,4 @@
-<form *ngIf="form" [formGroup]="form" (submit)="onSubmit($event)">
+<form *ngIf="form" [formGroup]="form" [class.readonly]="readonly" (submit)="onSubmit($event)">
    <ng-content select="[heading]"></ng-content>
 
    <mat-form-field>
@@ -13,15 +13,24 @@
             : 'Investor/Lender'
       }}</mat-label>
       <mat-select formControlName="offeringType">
-         <ng-container
-            *ngIf="
-               currentUser?.accountType === enumMapper._accountType.Advertiser;
-               else investorOfferingTypes
-            "
-         >
+         <ng-container *ngIf="!readonly">
+            <ng-container
+               *ngTemplateOutlet="
+                  currentUser?.accountType === enumMapper._accountType.Advertiser
+                     ? advertiserOfferingTypes
+                     : investorOfferingTypes
+               "
+            ></ng-container>
+         </ng-container>
+         <ng-container *ngIf="readonly">
+            <ng-container *ngTemplateOutlet="advertiserOfferingTypes"></ng-container>
+            <ng-container *ngTemplateOutlet="investorOfferingTypes"></ng-container>
+         </ng-container>
+
+         <ng-template #advertiserOfferingTypes>
             <mat-option [value]="enumMapper._offeringType.Business">Business</mat-option>
             <mat-option [value]="enumMapper._offeringType.Industry">Industry</mat-option>
-         </ng-container>
+         </ng-template>
          <ng-template #investorOfferingTypes>
             <mat-option [value]="enumMapper._offeringType.Investor">Investor</mat-option>
             <mat-option [value]="enumMapper._offeringType.Lender">Lender</mat-option>
@@ -112,8 +121,13 @@
       </mat-form-field>
    </div>
 
-   <div *ngIf="showFooterButtons" class="buttons">
-      <button type="button" mat-stroked-button color="primary" (click)="onCancel()">Cancel</button>
-      <button type="submit" mat-raised-button color="primary">Submit</button>
+   <div class="buttons">
+      <ng-content select="[footer]"></ng-content>
+      <ng-container *ngIf="showFooterButtons">
+         <button type="button" mat-stroked-button color="primary" (click)="onCancel()">
+            Cancel
+         </button>
+         <button type="submit" mat-raised-button color="primary">Submit</button>
+      </ng-container>
    </div>
 </form>

@@ -8,6 +8,10 @@ const offeringReducer = createReducer(
       ...state,
       myOfferings: action.offerings,
    })),
+   on(OfferingActions.getAllOfferingsSuccess, (state, action) => ({
+      ...state,
+      allOfferings: action.offerings,
+   })),
    on(OfferingActions.getApprovedOfferingsSuccess, (state, action) => ({
       ...state,
       approvedOfferings: action.offerings,

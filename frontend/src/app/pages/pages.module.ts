@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminAuthorizeGuard } from '../guards/admin-authorization-guard.guard';
 import { AuthorizeGuard } from '../guards/authorization-guard.guard';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { AboutPageModule } from './about-page/about-page.module';
+import { ApprovalDashboardPageComponent } from './approval-dashboard-page/approval-dashboard-page.component';
+import { ApprovalDashboardPageModule } from './approval-dashboard-page/approval-dashboard-page.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import { ContactPageModule } from './contact-page/contact-page.module';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -28,6 +30,7 @@ export enum SiteRouteNames {
    Signin = 'signin',
    Signup = 'signup',
    MyInfo = 'my-info',
+   ApprovalDashboard = 'approval-dashboard',
 }
 
 const routes: Routes = [
@@ -43,6 +46,13 @@ const routes: Routes = [
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
    { path: SiteRouteNames.Signup, component: SignUpPageComponent },
    { path: SiteRouteNames.MyInfo, component: MyInfoPageComponent, canActivate: [AuthorizeGuard] },
+
+   // Hidden/Admin routes
+   {
+      path: SiteRouteNames.ApprovalDashboard,
+      component: ApprovalDashboardPageComponent,
+      canActivate: [AuthorizeGuard, AdminAuthorizeGuard],
+   },
 ];
 
 @NgModule({
@@ -55,6 +65,8 @@ const routes: Routes = [
       SignInPageModule,
       SignUpPageModule,
       MyInfoPageModule,
+      OfferingsPageModule,
+      ApprovalDashboardPageModule,
    ],
    exports: [RouterModule],
 })

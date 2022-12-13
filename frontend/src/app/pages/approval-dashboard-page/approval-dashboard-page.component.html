@@ -1,0 +1,43 @@
+<div class="approval-dashboard-page-container">
+   <div class="lhs">
+      <div class="offerings">
+         <div class="heading">
+            <h2>Offerings</h2>
+         </div>
+
+         <div *ngIf="allOfferings" class="offerings-list">
+            <div
+               *ngFor="let offering of allOfferings"
+               class="offering"
+               [class]="getOfferingApprovalStateClass(offering)"
+               [class.selected]="offering.offeringId === selectedOffering?.offeringId"
+               (click)="onSelectOffering(offering)"
+            >
+               <p>{{ offering.name }}</p>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="rhs">
+      <div *ngIf="selectedOffering" class="selected-offering">
+         <offering-form
+            [showFooterButtons]="false"
+            [readonly]="true"
+            [initOffering]="selectedOffering"
+         >
+            <div heading [class]="getOfferingApprovalStateClass(selectedOffering)">
+               <p>{{ getOfferingApprovalStateText(selectedOffering) }}</p>
+            </div>
+            <div footer>
+               <button type="button" mat-stroked-button color="primary" (click)="onDeny()">
+                  Deny
+               </button>
+               <button type="button" mat-raised-button color="primary" (click)="onApprove()">
+                  Approve
+               </button>
+            </div>
+         </offering-form>
+      </div>
+   </div>
+</div>

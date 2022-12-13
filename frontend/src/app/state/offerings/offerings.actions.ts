@@ -1,8 +1,9 @@
 import {
    BatchSaveOfferingsDto,
    CreateOfferingDto,
-   ResponseOfferingDto
+   ResponseOfferingDto,
 } from '@myideaswork/common/dtos';
+import { Offering } from '@myideaswork/common/interfaces';
 import { createAction, props } from '@ngrx/store';
 
 export const openAddOfferingDialog = createAction('[Offerings] Open add offering dialog');
@@ -26,6 +27,16 @@ export const createOfferingSuccess = createAction(
 );
 export const createOfferingFailure = createAction(
    '[Offerings] Create Offering failure',
+   props<{ error: Error }>(),
+);
+
+export const getAllOfferings = createAction('[Offerings] Get All Offerings');
+export const getAllOfferingsSuccess = createAction(
+   '[Offerings] Get All Offerings success',
+   props<{ offerings: ResponseOfferingDto[] }>(),
+);
+export const getAllOfferingsFailure = createAction(
+   '[Offerings] Get All Offerings failure',
    props<{ error: Error }>(),
 );
 
@@ -59,5 +70,31 @@ export const batchSaveOfferingSuccess = createAction(
 );
 export const batchSaveOfferingFailure = createAction(
    '[Offerings] Batch Save Offering failure',
+   props<{ error: Error }>(),
+);
+
+export const approveOffering = createAction(
+   '[Offerings] Approve Offering',
+   props<{ offering: Offering }>(),
+);
+export const approveOfferingSuccess = createAction(
+   '[Offerings] Approve Offering success',
+   props<{ offering: ResponseOfferingDto }>(),
+);
+export const approveOfferingFailure = createAction(
+   '[Offerings] Approve Offering failure',
+   props<{ error: Error }>(),
+);
+
+export const denyOffering = createAction(
+   '[Offerings] Deny Offering',
+   props<{ offering: Offering }>(),
+);
+export const denyOfferingSuccess = createAction(
+   '[Offerings] Deny Offering success',
+   props<{ offering: ResponseOfferingDto }>(),
+);
+export const denyOfferingFailure = createAction(
+   '[Offerings] Deny Offering failure',
    props<{ error: Error }>(),
 );
