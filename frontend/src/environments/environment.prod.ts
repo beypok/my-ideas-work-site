@@ -1,4 +1,5 @@
 export const environment = {
-  production: true,
-  serverUrl: 'http://localhost:3000',
+   production: true,
+   serverUrl: 'https://my-ideas-work-site-production.up.railway.app',
 };
+
