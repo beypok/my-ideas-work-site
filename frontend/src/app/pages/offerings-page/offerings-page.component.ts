@@ -44,9 +44,7 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
 
    searchForm: FormGroup<OfferingsSearchSidebarForm> | null = null;
 
-   get offeringsToShow(): Offering[] {
-      return this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
-   }
+   offeringsToShow: Offering[] = [];
 
    private destroyed$ = new Subject<void>();
 
@@ -59,6 +57,7 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
    ngOnInit(): void {
       this.approvedOfferings$.pipe(takeUntil(this.destroyed$)).subscribe((approvedOfferings) => {
          this.approvedOfferings = [...approvedOfferings];
+         this.offeringsToShow = this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
          this.cd.detectChanges();
       });
    }
@@ -69,14 +68,16 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
 
    onSelectedTabChange(selectedTab: OfferingsSearchSidebarTab) {
       this.selectedTab = selectedTab;
+      this.offeringsToShow = this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
    }
 
    handleSearch(): void {
-      console.log(this.searchForm);
+      this.offeringsToShow = this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
    }
 
    handleClearSearch(): void {
       this.initSearchForm();
+      this.offeringsToShow = this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
    }
 
    private initSearchForm() {
