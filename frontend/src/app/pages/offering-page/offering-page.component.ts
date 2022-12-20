@@ -39,7 +39,9 @@ export class OfferingPageComponent implements OnDestroy, OnInit {
       this.destroyed$.next();
    }
 
-   onContact() {}
+   onContact() {
+      console.log('trigger payment');
+   }
 
    onBack() {
       this.router.navigateByUrl('/offerings');
