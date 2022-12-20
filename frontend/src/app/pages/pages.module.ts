@@ -14,6 +14,8 @@ import { HowItWorksPageComponent } from './how-it-works-page/how-it-works-page.c
 import { HowItWorksPageModule } from './how-it-works-page/how-it-works-page.module';
 import { MyInfoPageComponent } from './my-info-page/my-info-page.component';
 import { MyInfoPageModule } from './my-info-page/my-info-page.module';
+import { OfferingPageComponent } from './offering-page/offering-page.component';
+import { OfferingPageModule } from './offering-page/offering-page.module';
 import { OfferingsPageComponent } from './offerings-page/offerings-page.component';
 import { OfferingsPageModule } from './offerings-page/offerings-page.module';
 import { SignInPageComponent } from './signin-page/signin-page.component';
@@ -27,6 +29,7 @@ export enum SiteRouteNames {
    HowItWorks = 'how-it-works',
    Contact = 'contact-us',
    Offerings = 'offerings',
+   Offering = 'offering',
    Signin = 'signin',
    Signup = 'signup',
    MyInfo = 'my-info',
@@ -43,6 +46,11 @@ const routes: Routes = [
    { path: SiteRouteNames.HowItWorks, component: HowItWorksPageComponent },
    { path: SiteRouteNames.Contact, component: ContactPageComponent },
    { path: SiteRouteNames.Offerings, component: OfferingsPageComponent },
+   {
+      path: SiteRouteNames.Offering + '/:id',
+      component: OfferingPageComponent,
+      canActivate: [AuthorizeGuard],
+   },
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
    { path: SiteRouteNames.Signup, component: SignUpPageComponent },
    { path: SiteRouteNames.MyInfo, component: MyInfoPageComponent, canActivate: [AuthorizeGuard] },
@@ -66,6 +74,7 @@ const routes: Routes = [
       SignUpPageModule,
       MyInfoPageModule,
       OfferingsPageModule,
+      OfferingPageModule,
       ApprovalDashboardPageModule,
    ],
    exports: [RouterModule],

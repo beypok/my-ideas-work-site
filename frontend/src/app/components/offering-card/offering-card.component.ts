@@ -1,8 +1,10 @@
 import {
    ChangeDetectionStrategy,
    Component,
+   EventEmitter,
    Input,
    OnDestroy,
+   Output,
    ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -17,8 +19,9 @@ import {
 } from '@myideaswork/common/enums';
 import { Offering } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EnumMapperService } from 'src/app/services/enum-mapper/enum-mapper.service';
+import { selectIsLoggedIn } from 'src/app/state/authentication';
 
 @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,9 +33,15 @@ import { EnumMapperService } from 'src/app/services/enum-mapper/enum-mapper.serv
 export class OfferingCardComponent implements OnDestroy {
    @Input('offering') offering: Offering | null = null;
 
+   @Output() viewMore = new EventEmitter<void>();
+
+   $loggedIn: Observable<boolean>;
+
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store, public enumMapper: EnumMapperService) {}
+   constructor(private store: Store, public enumMapper: EnumMapperService) {
+      this.$loggedIn = this.store.select(selectIsLoggedIn);
+   }
 
    ngOnDestroy(): void {
       this.destroyed$.next();
@@ -63,5 +72,9 @@ export class OfferingCardComponent implements OnDestroy {
       }
 
       return Continent.Antartica;
+   }
+
+   handleViewMoreClick() {
+      this.viewMore.emit();
    }
 }

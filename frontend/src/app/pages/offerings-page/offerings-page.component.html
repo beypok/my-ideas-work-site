@@ -11,7 +11,7 @@
 
    <div class="rhs">
       <div *ngFor="let offering of offeringsToShow" class="offering">
-         <offering-card [offering]="offering"></offering-card>
+         <offering-card [offering]="offering" (viewMore)="handleViewMore(offering)"></offering-card>
       </div>
    </div>
 </div>

@@ -46,7 +46,7 @@ export class OfferingsSearchSidebarComponent implements OnDestroy {
 
    currentUser: User | null = null;
 
-   private currentUser$: Observable<User>;
+   private currentUser$: Observable<User | null>;
 
    private destroyed$ = new Subject<void>();
 

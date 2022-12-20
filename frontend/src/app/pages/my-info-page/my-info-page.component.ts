@@ -25,7 +25,7 @@ import {
 export class MyInfoPageComponent implements OnDestroy, OnInit {
    allMyOfferings$: Observable<Offering[]>;
 
-   currentUser$: Observable<User>;
+   currentUser$: Observable<User | null>;
 
    currentUser: User | null = null;
 

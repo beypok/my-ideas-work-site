@@ -7,6 +7,7 @@ import {
    ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
    AccountType,
    AFRICA_LOCATIONS,
@@ -48,7 +49,12 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
 
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store, private cd: ChangeDetectorRef, private fb: FormBuilder) {
+   constructor(
+      private store: Store,
+      private cd: ChangeDetectorRef,
+      private fb: FormBuilder,
+      private router: Router,
+   ) {
       this.store.dispatch(getApprovedOfferings());
       this.approvedOfferings$ = this.store.select(selectApprovedOfferings);
       this.initSearchForm();
@@ -78,6 +84,10 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
    handleClearSearch(): void {
       this.initSearchForm();
       this.offeringsToShow = this.approvedOfferings.filter((o) => this.shouldShowOffering(o));
+   }
+
+   handleViewMore(offering: Offering) {
+      this.router.navigateByUrl(`/offering/${offering.offeringId}`);
    }
 
    private initSearchForm() {

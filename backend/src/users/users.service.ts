@@ -1,10 +1,10 @@
+import { CreateUserDto, ResponseUserDto, UpdateUserDto } from '@myideaswork/common/dtos';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EncryptionService } from 'src/encryption/encryption.service';
-import { DeleteResult, FindOperator, In, Repository } from 'typeorm';
-import { User } from './users.entity';
-import { CreateUserDto, UpdateUserDto, ResponseUserDto } from '@myideaswork/common/dtos';
 import { instanceToPlain, plainToClass } from 'class-transformer';
+import { EncryptionService } from 'src/encryption/encryption.service';
+import { DeleteResult, In, Repository } from 'typeorm';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersService {
@@ -37,7 +37,10 @@ export class UsersService {
          if (emailAddressAlreadyUsed)
             throw new BadRequestException('User with this email address already exists');
 
-         return await this.usersRepository.save({ ...user, password: hashedPassword });
+         return await this.usersRepository.save({
+            ...user,
+            password: hashedPassword,
+         });
       } catch (e: any) {
          if (e.message) {
             throw new BadRequestException(e.message);

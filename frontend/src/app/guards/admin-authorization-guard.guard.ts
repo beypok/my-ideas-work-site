@@ -11,7 +11,7 @@ import { selectCurrentUser } from '../state/authentication';
 export class AdminAuthorizeGuard implements CanActivate {
    private currentUser: User | null = null;
 
-   private $currentUser: Observable<User>;
+   private $currentUser: Observable<User | null>;
 
    constructor(private store: Store) {
       this.$currentUser = this.store.select(selectCurrentUser);

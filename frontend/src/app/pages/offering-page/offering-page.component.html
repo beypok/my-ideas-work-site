@@ -1,0 +1,28 @@
+<div class="offering-page-wrapper">
+   <offering-form
+      *ngIf="offering$ | async"
+      [showFooterButtons]="false"
+      [readonly]="true"
+      [initOffering]="offering$ | async"
+   >
+      <div footer>
+         <div *ngIf="(isRegistered$ | async) === false" class="error">
+            * You must be registered to contact
+         </div>
+         <div class="buttons">
+            <button type="button" mat-stroked-button color="primary" (click)="onBack()">
+               Back
+            </button>
+            <button
+               [disabled]="(isRegistered$ | async) === false"
+               type="button"
+               mat-raised-button
+               color="primary"
+               (click)="onContact()"
+            >
+               Contact
+            </button>
+         </div>
+      </div>
+   </offering-form>
+</div>

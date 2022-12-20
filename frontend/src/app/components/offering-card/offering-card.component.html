@@ -20,7 +20,14 @@
    </div>
 
    <div class="buttons">
-      <button mat-stroked-button color="primary">Contact</button>
-      <button mat-raised-button color="primary">View more</button>
+      <div *ngIf="($loggedIn | async) === false" class="error">* Please log in to view more</div>
+      <button
+         [disabled]="($loggedIn | async) === false"
+         (click)="handleViewMoreClick()"
+         mat-raised-button
+         color="primary"
+      >
+         View more
+      </button>
    </div>
 </div>
