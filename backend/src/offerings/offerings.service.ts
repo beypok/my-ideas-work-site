@@ -32,6 +32,19 @@ export class OfferingsService {
       }
    }
 
+   async getApprovedOffering(offeringId: number) {
+      try {
+         return await this.offeringsRepository.findOne({
+            relations: ['user'],
+            where: { approvalState: ApprovalState.Approved, offeringId },
+         });
+      } catch (e: any) {
+         if (e.message) {
+            throw new BadRequestException(e.message);
+         }
+      }
+   }
+
    async getMyOfferings(user: User) {
       try {
          return await this.offeringsRepository.find({

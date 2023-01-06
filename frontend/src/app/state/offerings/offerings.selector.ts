@@ -8,6 +8,11 @@ export const selectApprovedOfferings = createSelector(selectOfferings, (state: O
    ...state.approvedOfferings,
 ]);
 
+export const selectApprovedOffering = createSelector(
+   selectOfferings,
+   (state: OfferingState) => state.approvedOffering,
+);
+
 export const selectOffering = (id: number) =>
    createSelector(selectOfferings, (state: OfferingState) => {
       return state.allOfferings.find((o) => o.offeringId === id) ?? null;

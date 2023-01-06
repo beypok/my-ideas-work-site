@@ -20,6 +20,13 @@ export class OfferingsController {
       return this.offeringsService.mapOfferingsToResponseDto(offerings);
    }
 
+   @Get('/approved/:id')
+   @Role(AuthRole.Public)
+   async approvedOffering(@Param('id') id: number): Promise<ResponseOfferingDto> {
+      const offering = await this.offeringsService.getApprovedOffering(id);
+      return this.offeringsService.mapOfferingToResponseDto(offering);
+   }
+
    @Get('/me')
    async offerings(@Request() req): Promise<ResponseOfferingDto[]> {
       const offerings = await this.offeringsService.getMyOfferings(req.user);

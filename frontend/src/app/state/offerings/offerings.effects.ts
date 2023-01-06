@@ -114,6 +114,22 @@ export class OfferingEffects {
       ),
    );
 
+   getApprovedOffering = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OfferingActions.getApprovedOffering),
+         switchMap((action): Observable<any> => {
+            return this.offeringService.getApprovedOffering(action.id).pipe(
+               switchMap((response) => {
+                  return of(OfferingActions.getApprovedOfferingSuccess({ offering: response }));
+               }),
+               catchError((error) => {
+                  return of(OfferingActions.getApprovedOfferingFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
    approvedOffering = createEffect(() =>
       this.actions$.pipe(
          ofType(OfferingActions.approveOffering),

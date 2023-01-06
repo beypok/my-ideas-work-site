@@ -50,6 +50,19 @@ export const getMyOfferingsFailure = createAction(
    props<{ error: Error }>(),
 );
 
+export const getApprovedOffering = createAction(
+   '[Offerings] Get Approved Offering',
+   props<{ id: number }>(),
+);
+export const getApprovedOfferingSuccess = createAction(
+   '[Offerings] Get Approved Offering success',
+   props<{ offering: ResponseOfferingDto }>(),
+);
+export const getApprovedOfferingFailure = createAction(
+   '[Offerings] Get Approved Offering failure',
+   props<{ error: Error }>(),
+);
+
 export const getApprovedOfferings = createAction('[Offerings] Get Approved Offerings');
 export const getApprovedOfferingsSuccess = createAction(
    '[Offerings] Get Approved Offerings success',

@@ -16,6 +16,10 @@ const offeringReducer = createReducer(
       ...state,
       approvedOfferings: action.offerings,
    })),
+   on(OfferingActions.getApprovedOfferingSuccess, (state, action) => ({
+      ...state,
+      approvedOffering: action.offering,
+   })),
    on(OfferingActions.batchSaveOfferingSuccess, (state, action) => ({
       ...state,
       myOfferings: action.offerings,

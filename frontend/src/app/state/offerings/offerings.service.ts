@@ -19,6 +19,12 @@ export class OfferingService {
       return this.http.get<ResponseOfferingDto[]>(`${environment.serverUrl}/offerings/approved`);
    }
 
+   getApprovedOffering(id: number): Observable<ResponseOfferingDto> {
+      return this.http.get<ResponseOfferingDto>(
+         `${environment.serverUrl}/offerings/approved/${id}`,
+      );
+   }
+
    getMyOffering(): Observable<ResponseOfferingDto[]> {
       return this.http.get<ResponseOfferingDto[]>(`${environment.serverUrl}/offerings/me`);
    }

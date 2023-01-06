@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, EMPTY, map, Observable, skip } from 'rxjs';
 import { JWTTokenService } from '../services/jwt-token/jwt-token.service';
@@ -71,7 +71,9 @@ export class AuthorizeGuard implements CanActivate {
             );
          } else {
             console.log('YOU ARE NOT SIGNED IN');
-            this.router.navigateByUrl(`/signin?redirect_uri=${next.routeConfig?.path}`);
+            this.router.navigateByUrl(
+               `/signin?redirect_uri=/${next.url.map((u) => u.path).join('/')}`,
+            );
             return EMPTY;
          }
       }

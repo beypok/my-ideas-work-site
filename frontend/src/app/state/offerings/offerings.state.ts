@@ -2,6 +2,7 @@ import { Offering } from '@myideaswork/common/interfaces';
 
 export interface OfferingState {
    approvedOfferings: Offering[];
+   approvedOffering: Offering | null;
    myOfferings: Offering[];
    allOfferings: Offering[];
    offeringsToCreate: Offering[];
@@ -10,6 +11,7 @@ export interface OfferingState {
 
 export const initialState: OfferingState = {
    approvedOfferings: [],
+   approvedOffering: null,
    myOfferings: [],
    allOfferings: [],
    offeringsToCreate: [],
