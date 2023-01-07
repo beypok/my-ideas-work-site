@@ -5,13 +5,14 @@ import {
    UntypedFormGroup,
    Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateUserDto } from '@myideaswork/common/dtos';
+import { AccountType } from '@myideaswork/common/enums';
 import { Store } from '@ngrx/store';
-import { PasswordValidationService } from '../passwordvalidation.service';
-import * as AuthenticationActions from 'src/app/state/authentication/authentication.actions';
 import { Observable, Subject } from 'rxjs';
 import { selectAuthErrors, selectSigningUp } from 'src/app/state/authentication';
-import { AccountType } from '@myideaswork/common/enums';
-import { CreateUserDto } from '@myideaswork/common/dtos';
+import * as AuthenticationActions from 'src/app/state/authentication/authentication.actions';
+import { PasswordValidationService } from '../passwordvalidation.service';
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -34,6 +35,8 @@ export class SignUpFormComponent implements OnDestroy {
       private store: Store,
       private fb: UntypedFormBuilder,
       private passwordValidator: PasswordValidationService,
+      private router: Router,
+      private route: ActivatedRoute,
    ) {
       this.form = this.fb.group(
          {
@@ -76,5 +79,12 @@ export class SignUpFormComponent implements OnDestroy {
 
          this.store.dispatch(AuthenticationActions.signup(payload));
       }
+   }
+
+   handleSignIn(): void {
+      let url = '/signin';
+      const redirect_uri = this.route.snapshot.queryParams['redirect_uri'];
+      if (redirect_uri) url += `?redirect_uri=${redirect_uri}`;
+      this.router.navigateByUrl(url);
    }
 }

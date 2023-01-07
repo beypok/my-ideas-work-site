@@ -4,7 +4,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AddOfferingDialogComponent } from 'src/app/components/add-offering-dialog/add-offering-dialog.component';
-import { appLoaded } from '../app';
 import * as OfferingActions from './offerings.actions';
 import { OfferingService } from './offerings.service';
 
@@ -83,7 +82,6 @@ export class OfferingEffects {
             OfferingActions.getAllOfferings,
             OfferingActions.approveOfferingSuccess,
             OfferingActions.denyOfferingSuccess,
-            appLoaded,
          ),
          switchMap((action): Observable<any> => {
             return this.offeringService.getAllOffering().pipe(

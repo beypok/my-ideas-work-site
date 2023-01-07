@@ -39,7 +39,7 @@ export class OfferingPageComponent implements OnDestroy, OnInit {
       this.destroyed$.next();
    }
 
-   onContact() {
+   onRequestIntroduction() {
       console.log('trigger payment');
    }
 

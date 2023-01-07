@@ -63,6 +63,12 @@ export class AuthorizeGuard implements CanActivate {
          }
       } else {
          if (token) {
+            if (!this.loggingIn) {
+               console.log('YOU ARE NOT SIGNED IN');
+               this.router.navigateByUrl(
+                  `/signin?redirect_uri=/${next.url.map((u) => u.path).join('/')}`,
+               );
+            }
             return this.$reauthProcessed.pipe(
                skip(1),
                map(() => {

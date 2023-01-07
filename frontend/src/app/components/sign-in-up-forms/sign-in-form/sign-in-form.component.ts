@@ -5,11 +5,12 @@ import {
    UntypedFormGroup,
    Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { PasswordValidationService } from '../passwordvalidation.service';
-import * as AuthenticationActions from 'src/app/state/authentication/authentication.actions';
 import { Observable, Subject } from 'rxjs';
 import { selectLoggingIn, selectLoginFail } from 'src/app/state/authentication';
+import * as AuthenticationActions from 'src/app/state/authentication/authentication.actions';
+import { PasswordValidationService } from '../passwordvalidation.service';
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -30,6 +31,8 @@ export class SignInFormComponent implements OnDestroy {
       private store: Store,
       private fb: UntypedFormBuilder,
       private passwordValidator: PasswordValidationService,
+      private router: Router,
+      private route: ActivatedRoute,
    ) {
       this.form = this.fb.group(
          {
@@ -65,5 +68,13 @@ export class SignInFormComponent implements OnDestroy {
             }),
          );
       }
+   }
+
+   handleSignUp(): void {
+      let url = '/signup';
+      const redirect_uri = this.route.snapshot.queryParams['redirect_uri'];
+      console.log(this.route);
+      if (redirect_uri) url += `?redirect_uri=${redirect_uri}`;
+      this.router.navigateByUrl(url);
    }
 }
