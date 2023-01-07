@@ -73,7 +73,6 @@ export class SignInFormComponent implements OnDestroy {
    handleSignUp(): void {
       let url = '/signup';
       const redirect_uri = this.route.snapshot.queryParams['redirect_uri'];
-      console.log(this.route);
       if (redirect_uri) url += `?redirect_uri=${redirect_uri}`;
       this.router.navigateByUrl(url);
    }

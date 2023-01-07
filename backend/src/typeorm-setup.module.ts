@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { IntroductionModule } from './introductions/introductions.module';
 import { OfferingModule } from './offerings/offerings.module';
 import { UserModule } from './users/users.module';
 
@@ -22,6 +23,7 @@ import { UserModule } from './users/users.module';
       }),
       UserModule,
       OfferingModule,
+      IntroductionModule,
    ],
 })
 export class TypeOrmSetupModule {}

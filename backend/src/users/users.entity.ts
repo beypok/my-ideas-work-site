@@ -1,5 +1,6 @@
 import { AccountType } from '@myideaswork/common/enums';
 import { User as IUser } from '@myideaswork/common/interfaces';
+import { Introductions } from 'src/introductions/introductions.entity';
 import { Offerings } from 'src/offerings/offerings.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -25,5 +26,8 @@ export class User implements IUser {
    isAdmin: boolean;
 
    @OneToMany(() => Offerings, (offering) => offering.user, { onDelete: 'CASCADE' })
-   offerings: Offerings[];
+   offerings?: Offerings[];
+
+   @OneToMany(() => Introductions, (introduction) => introduction.user, { onDelete: 'CASCADE' })
+   introductions?: Introductions[];
 }

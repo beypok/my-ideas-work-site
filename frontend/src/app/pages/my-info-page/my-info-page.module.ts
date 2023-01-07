@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AddOfferingDialogModule } from 'src/app/components/add-offering-dialog/add-offering-dialog.module';
 import { OfferingFormModule } from 'src/app/components/offering-form/offering-form.module';
+import { IntroductionsModule } from 'src/app/state/introductions/introductions.module';
 import { MyInfoPageComponent } from './my-info-page.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { MyInfoPageComponent } from './my-info-page.component';
       MatButtonModule,
       AddOfferingDialogModule,
       OfferingFormModule,
+      IntroductionsModule,
    ],
    exports: [MyInfoPageComponent],
 })
