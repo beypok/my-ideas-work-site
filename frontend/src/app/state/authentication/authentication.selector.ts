@@ -13,11 +13,6 @@ export const selectLoggingIn = createSelector(
    (state: AuthenticationState) => state.loggingIn,
 );
 
-export const selectIsRegistered = createSelector(
-   selectAuthentication,
-   (state: AuthenticationState) => state.currentUser?.isRegistered ?? false,
-);
-
 export const selectCurrentUser = createSelector(
    selectAuthentication,
    (state: AuthenticationState) => state.currentUser,

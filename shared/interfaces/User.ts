@@ -6,7 +6,6 @@ export interface User {
    password?: string;
    accountType: AccountType;
    isAdmin?: boolean;
-   isRegistered?: boolean;
 }
 
 export interface AuthenticatedUser {

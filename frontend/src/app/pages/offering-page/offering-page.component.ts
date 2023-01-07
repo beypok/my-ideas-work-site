@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Offering } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { selectIsRegistered } from 'src/app/state/authentication';
 import { getApprovedOffering } from 'src/app/state/offerings/offerings.actions';
 import { selectApprovedOffering } from 'src/app/state/offerings/offerings.selector';
 
@@ -23,14 +22,11 @@ import { selectApprovedOffering } from 'src/app/state/offerings/offerings.select
 export class OfferingPageComponent implements OnDestroy, OnInit {
    offering$: Observable<Offering | null>;
 
-   isRegistered$: Observable<boolean>;
-
    private destroyed$ = new Subject<void>();
 
    constructor(private store: Store, private route: ActivatedRoute, private router: Router) {
       this.store.dispatch(getApprovedOffering({ id: +this.route.snapshot.params['id'] }));
       this.offering$ = this.store.select(selectApprovedOffering);
-      this.isRegistered$ = this.store.select(selectIsRegistered);
    }
 
    ngOnInit(): void {}

@@ -24,9 +24,6 @@ export class User implements IUser {
    @Column({ default: false })
    isAdmin: boolean;
 
-   @Column({ default: false })
-   isRegistered: boolean;
-
    @OneToMany(() => Offerings, (offering) => offering.user, { onDelete: 'CASCADE' })
    offerings: Offerings[];
 }

@@ -15,9 +15,6 @@ export class ResponseUserDto extends BaseUserDto {
 
    @Expose()
    isAdmin!: boolean;
-
-   @Expose()
-   isRegistered!: boolean;
 }
 
 export class ResponseAuthenticatedUserDto implements AuthenticatedUser {

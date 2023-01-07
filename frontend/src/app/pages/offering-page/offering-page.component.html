@@ -6,15 +6,11 @@
       [initOffering]="offering$ | async"
    >
       <div footer>
-         <div *ngIf="(isRegistered$ | async) === false" class="error">
-            * You must be registered to contact
-         </div>
          <div class="buttons">
             <button type="button" mat-stroked-button color="primary" (click)="onBack()">
                Back
             </button>
             <button
-               [disabled]="(isRegistered$ | async) === false"
                type="button"
                mat-raised-button
                color="primary"
