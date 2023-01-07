@@ -12,8 +12,10 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HomePageModule } from './home-page/home-page.module';
 import { HowItWorksPageComponent } from './how-it-works-page/how-it-works-page.component';
 import { HowItWorksPageModule } from './how-it-works-page/how-it-works-page.module';
-import { MyInfoPageComponent } from './my-info-page/my-info-page.component';
-import { MyInfoPageModule } from './my-info-page/my-info-page.module';
+import { MyIntroductionsPageComponent } from './my-introductions-page/my-introductions-page.component';
+import { MyIntroductionsPageModule } from './my-introductions-page/my-introductions-page.module';
+import { MyOfferingsPageComponent } from './my-offerings-page/my-offerings-page.component';
+import { MyOfferingsPageModule } from './my-offerings-page/my-offerings-page.module';
 import { OfferingPageComponent } from './offering-page/offering-page.component';
 import { OfferingPageModule } from './offering-page/offering-page.module';
 import { OfferingsPageComponent } from './offerings-page/offerings-page.component';
@@ -32,7 +34,8 @@ export enum SiteRouteNames {
    Offering = 'offering',
    Signin = 'signin',
    Signup = 'signup',
-   MyInfo = 'my-info',
+   MyIntroductions = 'my-introductions',
+   MyOfferings = 'my-offerings',
    ApprovalDashboard = 'approval-dashboard',
 }
 
@@ -53,7 +56,16 @@ const routes: Routes = [
    },
    { path: SiteRouteNames.Signin, component: SignInPageComponent },
    { path: SiteRouteNames.Signup, component: SignUpPageComponent },
-   { path: SiteRouteNames.MyInfo, component: MyInfoPageComponent, canActivate: [AuthorizeGuard] },
+   {
+      path: SiteRouteNames.MyOfferings,
+      component: MyOfferingsPageComponent,
+      canActivate: [AuthorizeGuard],
+   },
+   {
+      path: SiteRouteNames.MyIntroductions,
+      component: MyIntroductionsPageComponent,
+      canActivate: [AuthorizeGuard],
+   },
 
    // Hidden/Admin routes
    {
@@ -72,10 +84,11 @@ const routes: Routes = [
       ContactPageModule,
       SignInPageModule,
       SignUpPageModule,
-      MyInfoPageModule,
+      MyOfferingsPageModule,
       OfferingsPageModule,
       OfferingPageModule,
       ApprovalDashboardPageModule,
+      MyIntroductionsPageModule,
    ],
    exports: [RouterModule],
 })

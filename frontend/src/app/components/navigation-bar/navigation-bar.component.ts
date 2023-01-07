@@ -1,8 +1,9 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { SiteRouteNames } from 'src/app/pages/pages.module';
-import { selectIsLoggedIn } from 'src/app/state/authentication';
+import { selectCurrentUserIsAdmin, selectIsLoggedIn, signout } from 'src/app/state/authentication';
 
 export interface SiteRoute {
    route: string;
@@ -24,33 +25,50 @@ export class NavigationBarComponent implements OnDestroy {
       { route: SiteRouteNames.Offerings, label: 'Offerings' },
       { route: SiteRouteNames.Signin, label: 'Sign In' },
       { route: SiteRouteNames.Signup, label: 'Sign Up' },
-      { route: SiteRouteNames.MyInfo, label: 'My Info' },
    ];
 
    routes = [...this.defaultRoutes];
 
-   private isLoggedIn$: Observable<boolean>;
+   isUserAdmin$: Observable<boolean>;
 
-   private isLoggedIn: boolean = false;
+   isLoggedIn: boolean = false;
+
+   private isLoggedIn$: Observable<boolean>;
 
    private destroyed$ = new Subject<void>();
 
-   constructor(private store: Store) {
+   constructor(private store: Store, private router: Router) {
       this.isLoggedIn$ = this.store.select(selectIsLoggedIn);
+      this.isUserAdmin$ = this.store.select(selectCurrentUserIsAdmin);
 
       this.isLoggedIn$.pipe(takeUntil(this.destroyed$)).subscribe((isLoggedIn) => {
          this.isLoggedIn = isLoggedIn;
          this.routes = [...this.defaultRoutes].filter((r) => {
             if (this.isLoggedIn) {
                return !(r.route === SiteRouteNames.Signin || r.route === SiteRouteNames.Signup);
-            } else {
-               return r.route !== SiteRouteNames.MyInfo;
             }
+            return r;
          });
       });
    }
 
    ngOnDestroy(): void {
       this.destroyed$.next();
+   }
+
+   onLogoutClick(): void {
+      this.store.dispatch(signout());
+   }
+
+   onOfferingsClick(): void {
+      this.router.navigateByUrl('/my-offerings');
+   }
+
+   onIntroductionsClick(): void {
+      this.router.navigateByUrl('/my-introductions');
+   }
+
+   onDashboardClick(): void {
+      this.router.navigateByUrl('/approval-dashboard');
    }
 }

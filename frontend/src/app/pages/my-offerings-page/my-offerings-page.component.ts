@@ -19,11 +19,11 @@ import {
 } from 'src/app/state/offerings/offerings.selector';
 
 @Component({
-   selector: 'my-info-page',
-   templateUrl: './my-info-page.component.html',
-   styleUrls: ['./my-info-page.component.scss'],
+   selector: 'my-offerings-page',
+   templateUrl: './my-offerings-page.component.html',
+   styleUrls: ['./my-offerings-page.component.scss'],
 })
-export class MyInfoPageComponent implements OnDestroy, OnInit {
+export class MyOfferingsPageComponent implements OnDestroy, OnInit {
    allMyOfferings$: Observable<Offering[]>;
 
    currentUser$: Observable<User | null>;

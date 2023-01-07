@@ -8,5 +8,26 @@
       <a *ngFor="let route of routes" [routerLink]="route.route" [routerLinkActive]="['active']">{{
          route.label
       }}</a>
+
+      <a *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">My Info</a>
    </div>
+
+   <mat-menu #menu>
+      <button (click)="onLogoutClick()" mat-menu-item>
+         <mat-icon>logout</mat-icon>
+         <span>Sign out</span>
+      </button>
+      <button (click)="onOfferingsClick()" mat-menu-item>
+         <mat-icon>sticky_note_2</mat-icon>
+         <span>Offerings</span>
+      </button>
+      <button (click)="onIntroductionsClick()" mat-menu-item>
+         <mat-icon>groups</mat-icon>
+         <span>Introductions</span>
+      </button>
+      <button *ngIf="isUserAdmin$ | async" (click)="onDashboardClick()" mat-menu-item>
+         <mat-icon>dashboard</mat-icon>
+         <span>Dashboard</span>
+      </button>
+   </mat-menu>
 </div>

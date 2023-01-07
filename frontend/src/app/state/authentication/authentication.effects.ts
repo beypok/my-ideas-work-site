@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ResponseAuthenticatedUserDto } from '@myideaswork/common/dtos';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { SiteRouteNames } from 'src/app/pages/pages.module';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import * as AuthenticationActions from './authentication.actions';
 import { AuthenticationService } from './authentication.service';
 
@@ -49,7 +48,7 @@ export class AuthenticationEffects {
                this.router.navigateByUrl(parsedRoute.queryParams['redirect_uri']);
                return EMPTY;
             }
-            this.router.navigateByUrl('/' + SiteRouteNames.MyInfo);
+            this.router.navigateByUrl('/' + SiteRouteNames.MyOfferings);
 
             return EMPTY;
          }),
@@ -110,7 +109,7 @@ export class AuthenticationEffects {
          ofType(AuthenticationActions.signupSuccess),
          switchMap((action): Observable<any> => {
             this.authService.setAccessToken(action.access_token);
-            this.router.navigateByUrl('/' + SiteRouteNames.MyInfo);
+            this.router.navigateByUrl('/' + SiteRouteNames.MyOfferings);
             return EMPTY;
          }),
       ),

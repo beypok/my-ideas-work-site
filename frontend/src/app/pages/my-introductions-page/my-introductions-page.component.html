@@ -1,0 +1,76 @@
+<div class="my-introductions-page-container">
+   <div class="lhs">
+      <div class="introductions">
+         <div class="heading">
+            <h2>Introductions</h2>
+            <mat-icon (click)="addIntroductionClick($event)">add</mat-icon>
+         </div>
+
+         <div *ngIf="allMyIntroductions" class="introductions-list">
+            <div
+               *ngFor="let introduction of allMyIntroductions"
+               class="introduction"
+               [class]="getIntroductionApprovalStateClass(introduction)"
+               [class.selected]="
+                  introduction.introductionId === selectedIntroduction?.introductionId
+               "
+               (click)="onSelectIntroduction(introduction)"
+            >
+               <p [class.deleting]="isIntroductionMarkedForDelete(introduction)">
+                  {{ introduction.user?.email ?? introduction.contactEmail }}
+               </p>
+               <mat-icon (click)="onDeleteIntroduction($event, introduction)">delete</mat-icon>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="rhs">
+      <div *ngIf="selectedIntroduction" class="selected-introduction">
+         <div
+            *ngIf="
+               selectedIntroduction.introductionId &&
+                  introductionsToDelete.has(selectedIntroduction.introductionId);
+               else selectedIntroductionForm
+            "
+            class="deleting-selected-introduction"
+         >
+            <h2>This introduction is marked for deletion</h2>
+            <p>Would you like to undo this?</p>
+            <div class="buttons">
+               <button
+                  mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="handleUndeleteSelectedForm()"
+               >
+                  Yes
+               </button>
+            </div>
+         </div>
+
+         <ng-template #selectedIntroductionForm>
+            <p>{{ selectedIntroduction.message }}</p>
+            <!-- <introduction-form
+               [showFooterButtons]="false"
+               [initIntroduction]="selectedIntroduction"
+               (formChange)="handleSelectedIntroductionFormChange($event)"
+            >
+               <div heading [class]="getIntroductionApprovalStateClass(selectedIntroduction)">
+                  <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
+               </div>
+            </introduction-form> -->
+         </ng-template>
+      </div>
+
+      <div *ngIf="hasChanges" class="form-footer">
+         <p>You have unsaved changes *</p>
+         <button type="button" (click)="handleCancelChanges()" mat-stroked-button color="primary">
+            Cancel
+         </button>
+         <button type="button" (click)="handleSubmitChanges()" mat-raised-button color="primary">
+            Save
+         </button>
+      </div>
+   </div>
+</div>

@@ -34,11 +34,11 @@ export const selectIntroductionsToCreate = createSelector(
    (state: IntroductionState) => [...state.introductionsToCreate],
 );
 
-export const selectAllMyOfferings = createSelector(
+export const selectAllMyIntroductions = createSelector(
    selectMyIntroductions,
    selectIntroductionsToCreate,
-   (myOfferings: Introduction[], introductionsToCreate: Introduction[]) => [
-      ...myOfferings,
+   (myIntroductions: Introduction[], introductionsToCreate: Introduction[]) => [
+      ...myIntroductions,
       ...introductionsToCreate,
    ],
 );

@@ -18,6 +18,11 @@ export const selectCurrentUser = createSelector(
    (state: AuthenticationState) => state.currentUser,
 );
 
+export const selectCurrentUserIsAdmin = createSelector(
+   selectAuthentication,
+   (state: AuthenticationState) => state.currentUser?.isAdmin ?? false,
+);
+
 export const selectSigningUp = createSelector(
    selectAuthentication,
    (state: AuthenticationState) => state.signingUp,

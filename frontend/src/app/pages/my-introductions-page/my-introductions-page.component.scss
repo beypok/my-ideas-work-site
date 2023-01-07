@@ -1,0 +1,187 @@
+@import 'variables';
+
+.my-introductions-page-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: $darkBlue;
+   height: 100%;
+   position: relative;
+
+   .lhs {
+      height: inherit;
+      min-width: 20em;
+      background-color: $offWhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .account-info {
+         width: 100%;
+         padding: 1em;
+         border-bottom: 1px solid $gray;
+         background: linear-gradient(to bottom, white, $offWhite);
+         p {
+            margin-top: 1em;
+         }
+      }
+
+      .introductions {
+         height: 100%;
+         width: 100%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+         flex-grow: 1;
+         overflow-y: hidden;
+         background: linear-gradient(to bottom, white, $offWhite);
+         .heading {
+            width: 100%;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            h2 {
+               flex-grow: 1;
+            }
+            mat-icon {
+               font-size: xx-large;
+               height: 100%;
+               width: max-content;
+               cursor: pointer;
+               transition: 0.3s;
+               &:hover {
+                  color: $middleBlue;
+               }
+            }
+         }
+
+         .introductions-list {
+            width: 100%;
+            flex-grow: 1;
+            overflow-y: auto;
+            .introduction {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               width: 100%;
+               padding: 0.5em;
+               color: $darkBlue;
+               font-weight: 600;
+               cursor: pointer;
+               transition: 0.3s;
+
+               border-right: 6px solid;
+               &.approved {
+                  border-right-color: $approvedGreen;
+               }
+               &.pending {
+                  border-right-color: $pendingYellow;
+               }
+               &.denied {
+                  border-right-color: $deniedRed;
+               }
+               border-top: 1px solid $offWhite;
+
+               &:nth-child(even) {
+                  background-color: $offWhite;
+               }
+               &:hover {
+                  background-color: $hoverBlue;
+               }
+
+               &.selected {
+                  background-color: lighten($hoverBlue, 5%);
+                  cursor: default;
+                  &:hover {
+                     background-color: lighten($hoverBlue, 5%);
+                  }
+               }
+
+               p.deleting {
+                  text-decoration: line-through;
+               }
+
+               mat-icon {
+                  color: $gray;
+                  &:hover {
+                     cursor: pointer;
+                     transition: 0.3s;
+                     color: darken($gray, 20%);
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   .rhs {
+      height: 100%;
+      flex-grow: 1;
+      position: relative;
+
+      .selected-introductions {
+         background-color: white;
+         padding: 1em;
+         margin: 1em;
+         border-radius: 0.5em;
+
+         .deleting-selected-introduction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            p {
+               margin: 0.5em 0;
+            }
+            .buttons {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               button {
+                  margin: 0 0.5em;
+               }
+            }
+         }
+
+         div[heading] {
+            font-weight: bold;
+            text-align: right;
+            width: 100%;
+            margin-bottom: 1em;
+            &.approved {
+               color: $approvedGreen;
+            }
+            &.pending {
+               color: $pendingYellow;
+            }
+            &.denied {
+               color: $deniedRed;
+            }
+         }
+      }
+
+      .form-footer {
+         position: absolute;
+         bottom: 0;
+         left: 50%;
+         transform: translateX(-50%);
+         width: max-content;
+         background-color: white;
+         border-radius: 0.5em;
+         display: flex;
+         justify-content: flex-end;
+         align-items: center;
+         padding: 1em 2em;
+         color: $darkBlue;
+         font-weight: bold;
+         p {
+            margin-right: 1em;
+         }
+         button {
+            margin-left: 1em;
+         }
+      }
+   }
+}
