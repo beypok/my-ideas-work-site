@@ -5,7 +5,6 @@ export interface IntroductionState {
    approvedIntroduction: Introduction | null;
    myIntroductions: Introduction[];
    allIntroductions: Introduction[];
-   introductionsToCreate: Introduction[];
    error: Error | null;
 }
 
@@ -14,6 +13,5 @@ export const initialState: IntroductionState = {
    approvedIntroduction: null,
    myIntroductions: [],
    allIntroductions: [],
-   introductionsToCreate: [],
    error: null,
 };

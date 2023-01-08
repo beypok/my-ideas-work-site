@@ -6,8 +6,9 @@ import {
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
+import { Introductions } from 'src/introductions/introductions.entity';
 import { User } from 'src/users/users.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Offerings {
@@ -56,4 +57,7 @@ export class Offerings {
    @ManyToOne(() => User, (user) => user.id)
    @JoinColumn({ name: 'userId' })
    user: User;
+
+   @OneToMany(() => Introductions, (introduction) => introduction.offering)
+   introductions: Introductions[];
 }

@@ -1,0 +1,19 @@
+.introduction-form-wrapper {
+   width: 100%;
+   .form-content-wrapper {
+      width: 100%;
+      margin-bottom: 2em;
+      & > h2 {
+         margin-bottom: 0.5em;
+      }
+
+      &.buttons {
+         width: max-content;
+         margin-left: auto;
+         margin-bottom: 0;
+         button {
+            margin-left: 0.5em;
+         }
+      }
+   }
+}

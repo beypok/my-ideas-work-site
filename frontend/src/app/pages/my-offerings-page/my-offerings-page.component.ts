@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { selectCurrentUser } from 'src/app/state/authentication';
-import { getMyIntroductions } from 'src/app/state/introductions/introductions.actions';
 import {
    batchSaveOffering,
    clearOfferingToCreate,
@@ -56,7 +55,6 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
 
    constructor(private store: Store) {
       this.store.dispatch(getMyOfferings());
-      this.store.dispatch(getMyIntroductions());
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((currentUser) => {
          this.currentUser = currentUser;

@@ -10,15 +10,6 @@ export const closeAddIntroductionDialog = createAction(
    '[Introductions] Close add introduction dialog',
 );
 
-export const addIntroductionToCreate = createAction(
-   '[Introductions] Add Introductions to Create',
-   props<{ introduction: CreateIntroductionDto }>(),
-);
-
-export const clearIntroductionToCreate = createAction(
-   '[Introductions] Clear Introductions to Create',
-);
-
 export const createIntroduction = createAction(
    '[Introductions] Create Introduction',
    props<{ introduction: CreateIntroductionDto }>(),

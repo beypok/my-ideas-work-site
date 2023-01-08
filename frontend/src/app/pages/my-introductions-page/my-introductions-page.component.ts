@@ -1,19 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ApprovalState } from '@myideaswork/common/enums';
+import { AccountType, ApprovalState } from '@myideaswork/common/enums';
 import { Introduction, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { selectCurrentUser } from 'src/app/state/authentication';
 import {
-   clearIntroductionToCreate,
+   approveIntroduction,
+   denyIntroduction,
    getMyIntroductions,
-   openAddIntroductionDialog,
 } from 'src/app/state/introductions/introductions.actions';
-import {
-   selectAllMyIntroductions,
-   selectIntroductionsToCreate,
-} from 'src/app/state/introductions/introductions.selector';
+import { selectMyIntroductions } from 'src/app/state/introductions/introductions.selector';
 
 @Component({
    selector: 'my-introductions-page',
@@ -21,62 +18,64 @@ import {
    styleUrls: ['./my-introductions-page.component.scss'],
 })
 export class MyIntroductionsPageComponent implements OnDestroy, OnInit {
-   allMyIntroductions$: Observable<Introduction[]>;
-
-   currentUser$: Observable<User | null>;
-
    currentUser: User | null = null;
-
-   preservedIntroductions: Introduction[] = [];
 
    allMyIntroductions: Introduction[] = [];
 
-   introductionsToCreate$: Observable<Introduction[]>;
+   receivedIntroductions: Introduction[] = [];
+
+   sentIntroductions: Introduction[] = [];
 
    selectedIntroduction: Introduction | null = null;
 
-   introductionsToDelete = new Set<number>();
-
-   introductionsToCreate: Introduction[] = [];
-
-   introductionsToUpdate: Introduction[] = [];
-
-   get hasChanges(): boolean {
+   get isSelectedIntroductionReceived(): boolean {
       return (
-         this.introductionsToCreate.length > 0 ||
-         this.introductionsToDelete.size > 0 ||
-         this.introductionsToUpdate.length > 0
+         this.selectedIntroduction?.receiveUser?.id === this.currentUser?.id &&
+         this.selectedIntroduction?.createUser?.id !== this.currentUser?.id
       );
    }
+
+   get isSelectedIntroductionPending(): boolean {
+      return this.selectedIntroduction?.approvalState === ApprovalState.Pending;
+   }
+
+   private allMyIntroductions$: Observable<Introduction[]>;
+
+   private currentUser$: Observable<User | null>;
 
    private destroyed$ = new Subject<void>();
 
    constructor(private store: Store) {
       this.store.dispatch(getMyIntroductions());
-      this.store.dispatch(getMyIntroductions());
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((currentUser) => {
          this.currentUser = currentUser;
       });
-      this.allMyIntroductions$ = this.store.select(selectAllMyIntroductions);
+      this.allMyIntroductions$ = this.store.select(selectMyIntroductions);
       this.allMyIntroductions$.pipe(takeUntil(this.destroyed$)).subscribe((allMyIntroductions) => {
-         this.preservedIntroductions = [...allMyIntroductions];
          this.allMyIntroductions = [...allMyIntroductions];
+
+         this.receivedIntroductions = this.allMyIntroductions.filter(
+            (i) => i.receiveUser?.id === this.currentUser?.id,
+         );
+         this.sentIntroductions = this.allMyIntroductions.filter(
+            (i) => i.createUser?.id === this.currentUser?.id,
+         );
+
+         const firstReceivedThenSent =
+            this.receivedIntroductions.length > 0
+               ? this.receivedIntroductions[0]
+               : this.sentIntroductions[0];
+
          if (!this.selectedIntroduction) {
-            this.selectedIntroduction = this.allMyIntroductions[0];
+            this.selectedIntroduction = firstReceivedThenSent;
          } else {
             this.selectedIntroduction =
                this.allMyIntroductions.find(
                   (o) => o.introductionId === this.selectedIntroduction?.introductionId,
-               ) ?? this.allMyIntroductions[0];
+               ) ?? firstReceivedThenSent;
          }
       });
-      this.introductionsToCreate$ = this.store.select(selectIntroductionsToCreate);
-      this.introductionsToCreate$
-         .pipe(takeUntil(this.destroyed$))
-         .subscribe((introductionsToCreate) => {
-            this.introductionsToCreate = introductionsToCreate;
-         });
    }
 
    ngOnInit(): void {
@@ -85,11 +84,6 @@ export class MyIntroductionsPageComponent implements OnDestroy, OnInit {
 
    ngOnDestroy(): void {
       this.destroyed$.next();
-   }
-
-   addIntroductionClick(e: MouseEvent): void {
-      e.stopPropagation();
-      this.store.dispatch(openAddIntroductionDialog());
    }
 
    getIntroductionApprovalStateClass(introduction: Introduction): string {
@@ -114,79 +108,20 @@ export class MyIntroductionsPageComponent implements OnDestroy, OnInit {
       this.selectedIntroduction = introduction;
    }
 
-   onDeleteIntroduction(e: MouseEvent, introduction: Introduction): void {
-      e.stopPropagation();
-      if (introduction.introductionId) this.introductionsToDelete.add(introduction.introductionId);
+   onApprove() {
+      const shouldApprove =
+         this.selectedIntroduction &&
+         (this.currentUser?.accountType === AccountType.Investor ||
+            window.confirm(
+               'Do logic for telling user this costs $10 and accepting payment... Confirming represents payment successfully went through and approval should be finished on our end',
+            ));
+
+      if (shouldApprove)
+         this.store.dispatch(approveIntroduction({ introduction: this.selectedIntroduction! }));
    }
 
-   isIntroductionMarkedForDelete(introduction: Introduction): boolean {
-      return (
-         !!introduction.introductionId &&
-         this.introductionsToDelete.has(introduction.introductionId)
-      );
-   }
-
-   handleCancelChanges(): void {
-      this.introductionsToDelete.clear();
-      this.introductionsToUpdate = [];
-      this.allMyIntroductions = [...this.preservedIntroductions];
-
-      this.selectedIntroduction =
-         this.allMyIntroductions.find(
-            (o) => o.introductionId === this.selectedIntroduction?.introductionId,
-         ) ?? this.allMyIntroductions[0];
-
-      this.store.dispatch(clearIntroductionToCreate());
-   }
-
-   handleSubmitChanges(): void {
-      this.introductionsToDelete.clear();
-      this.introductionsToUpdate = [];
-   }
-
-   handleSelectedIntroductionFormChange(introduction: Introduction) {
-      const introductionIsNotYetCreated = this.introductionsToCreate.some(
-         (o) => o.introductionId === this.selectedIntroduction?.introductionId,
-      );
-
-      if (introductionIsNotYetCreated) {
-         this.introductionsToCreate = this.updateIntroductionArrayOnChange(
-            this.introductionsToCreate,
-            introduction,
-         );
-      } else {
-         this.allMyIntroductions = this.updateIntroductionArrayOnChange(
-            this.allMyIntroductions,
-            introduction,
-         );
-
-         const alreadyUpdatedIntroduction = this.introductionsToUpdate.some(
-            (o) => o.introductionId === this.selectedIntroduction?.introductionId,
-         );
-         if (alreadyUpdatedIntroduction) {
-            this.introductionsToUpdate = this.updateIntroductionArrayOnChange(
-               this.introductionsToUpdate,
-               introduction,
-            );
-         } else {
-            this.introductionsToUpdate.push({ ...this.selectedIntroduction, ...introduction });
-         }
-      }
-
-      this.selectedIntroduction = { ...this.selectedIntroduction, ...introduction };
-   }
-
-   handleUndeleteSelectedForm() {
-      if (this.selectedIntroduction?.introductionId)
-         this.introductionsToDelete.delete(this.selectedIntroduction.introductionId);
-   }
-
-   private updateIntroductionArrayOnChange(array: Introduction[], introduction: Introduction) {
-      return array.map((o) => {
-         if (o.introductionId === this.selectedIntroduction?.introductionId) {
-            return { ...o, ...introduction };
-         }
-         return o;
-      });
+   onDeny() {
+      if (this.selectedIntroduction)
+         this.store.dispatch(denyIntroduction({ introduction: this.selectedIntroduction }));
    }
 }

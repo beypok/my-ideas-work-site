@@ -120,6 +120,7 @@
       height: 100%;
       flex-grow: 1;
       position: relative;
+      overflow-y: auto;
 
       .selected-offering {
          background-color: white;

@@ -1,0 +1,37 @@
+<form *ngIf="form" [formGroup]="form" [class.readonly]="readonly" (submit)="onSubmit($event)">
+   <ng-content select="[heading]"></ng-content>
+
+   <div class="introduction-contact-wrapper form-content-wrapper">
+      <h2>Contact Email:</h2>
+      <p>
+         {{
+            initIntroduction?.createUser?.email ??
+               initIntroduction?.contactEmail ??
+               'No contact email provided'
+         }}
+      </p>
+   </div>
+
+   <div class="introduction-message-wrapper form-content-wrapper">
+      <h2>Message:</h2>
+      <p>{{ initIntroduction?.message ?? 'No message attached to introduction' }}</p>
+   </div>
+
+   <div class="offering-form-wrapper form-content-wrapper">
+      <h2>Offering Information:</h2>
+      <offering-form
+         *ngIf="initIntroduction?.offering"
+         [initOffering]="initIntroduction!.offering!"
+         [showFooterButtons]="false"
+         [readonly]="true"
+      ></offering-form>
+   </div>
+
+   <div class="buttons form-content-wrapper">
+      <ng-content select="[footer]"></ng-content>
+      <ng-container *ngIf="showFooterButtons">
+         <button type="button" mat-stroked-button color="primary" (click)="onDeny()">Deny</button>
+         <button type="submit" mat-raised-button color="primary">Approve</button>
+      </ng-container>
+   </div>
+</form>

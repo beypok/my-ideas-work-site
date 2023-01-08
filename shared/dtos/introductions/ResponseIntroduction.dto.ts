@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { BaseOfferingDto } from '../offerings/BaseOffering.dto';
 import { BaseUserDto } from '../users/BaseUser.dto';
 import { BaseIntroductionDto } from './BaseIntroduction.dto';
 
@@ -7,7 +8,13 @@ export class ResponseIntroductionDto extends BaseIntroductionDto {
    introductionId!: number;
 
    @Expose()
-   user!: BaseUserDto;
+   createUser!: BaseUserDto;
+
+   @Expose()
+   receiveUser!: BaseUserDto;
+
+   @Expose()
+   offering!: BaseOfferingDto;
 
    @Expose()
    override message!: string;

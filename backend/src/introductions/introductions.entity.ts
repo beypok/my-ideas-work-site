@@ -1,4 +1,5 @@
 import { ApprovalState } from '@myideaswork/common/enums';
+import { Offerings } from 'src/offerings/offerings.entity';
 import { User } from 'src/users/users.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -7,10 +8,16 @@ export class Introductions {
    @PrimaryGeneratedColumn({ unsigned: true })
    introductionId!: number;
 
-   @Column({ unsigned: true })
-   userId: number;
+   @Column({ unsigned: true, nullable: true })
+   createUserId?: number;
 
-   @Column()
+   @Column({ unsigned: true })
+   receiveUserId!: number;
+
+   @Column({ unsigned: true })
+   offeringId!: number;
+
+   @Column({ nullable: true })
    contactEmail: string;
 
    @Column()
@@ -20,6 +27,14 @@ export class Introductions {
    approvalState: ApprovalState;
 
    @ManyToOne(() => User, (user) => user.id)
-   @JoinColumn({ name: 'userId' })
-   user: User;
+   @JoinColumn({ name: 'createUserId' })
+   createUser: User;
+
+   @ManyToOne(() => User, (user) => user.id)
+   @JoinColumn({ name: 'receiveUserId' })
+   receiveUser: User;
+
+   @ManyToOne(() => Offerings, (offering) => offering.offeringId)
+   @JoinColumn({ name: 'offeringId' })
+   offering: Offerings;
 }

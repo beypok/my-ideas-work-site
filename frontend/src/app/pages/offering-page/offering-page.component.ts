@@ -36,7 +36,9 @@ export class OfferingPageComponent implements OnDestroy, OnInit {
    }
 
    onRequestIntroduction() {
-      console.log('trigger payment');
+      alert(
+         'Open dialog with Stax iframe embedded for entering payment details if offering is made from an investor... i.e. a advertiser is requesting to be introduced',
+      );
    }
 
    onBack() {

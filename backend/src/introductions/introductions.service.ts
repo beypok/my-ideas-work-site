@@ -18,8 +18,8 @@ export class IntroductionsService {
    async getMyIntroductions(user: User) {
       try {
          return await this.introductionsRepository.find({
-            relations: ['user'],
-            where: { userId: user.id },
+            relations: ['createUser', 'receiveUser', 'offering'],
+            where: [{ createUserId: user.id }, { receiveUserId: user.id }],
          });
       } catch (e: any) {
          if (e.message) {
@@ -31,7 +31,7 @@ export class IntroductionsService {
    async getIntroductionsById(introductionId: number) {
       try {
          return await this.introductionsRepository.findOne({
-            relations: ['user'],
+            relations: ['createUser', 'receiveUser', 'offering'],
             where: { introductionId: introductionId },
          });
       } catch (e: any) {
@@ -44,7 +44,7 @@ export class IntroductionsService {
    async getAllIntroductions() {
       try {
          return await this.introductionsRepository.find({
-            relations: ['user'],
+            relations: ['createUser', 'receiveUser', 'offering'],
          });
       } catch (e: any) {
          if (e.message) {
@@ -85,7 +85,7 @@ export class IntroductionsService {
       try {
          return await this.introductionsRepository.save({
             ...introduction,
-            userId: user.id,
+            createUserId: user.id,
             approvalState: ApprovalState.Pending,
          });
       } catch (e: any) {

@@ -3,23 +3,52 @@
       <div class="introductions">
          <div class="heading">
             <h2>Introductions</h2>
-            <mat-icon (click)="addIntroductionClick($event)">add</mat-icon>
          </div>
 
          <div *ngIf="allMyIntroductions" class="introductions-list">
-            <div
-               *ngFor="let introduction of allMyIntroductions"
-               class="introduction"
-               [class]="getIntroductionApprovalStateClass(introduction)"
-               [class.selected]="
-                  introduction.introductionId === selectedIntroduction?.introductionId
-               "
-               (click)="onSelectIntroduction(introduction)"
-            >
-               <p [class.deleting]="isIntroductionMarkedForDelete(introduction)">
-                  {{ introduction.user?.email ?? introduction.contactEmail }}
-               </p>
-               <mat-icon (click)="onDeleteIntroduction($event, introduction)">delete</mat-icon>
+            <div class="received">
+               <h3>Received</h3>
+               <ng-container *ngIf="receivedIntroductions.length > 0; else noReceived">
+                  <div
+                     *ngFor="let introduction of receivedIntroductions"
+                     class="introduction"
+                     [class]="getIntroductionApprovalStateClass(introduction)"
+                     [class.selected]="
+                        introduction.introductionId === selectedIntroduction?.introductionId
+                     "
+                     (click)="onSelectIntroduction(introduction)"
+                  >
+                     <p>
+                        {{ introduction.offering?.name ?? introduction.createUser?.email }}
+                     </p>
+                  </div>
+               </ng-container>
+               <ng-template #noReceived>
+                  <p class="introduction">No received introductions</p>
+               </ng-template>
+            </div>
+            <div class="sent">
+               <h3>Sent</h3>
+
+               <ng-container *ngIf="sentIntroductions.length > 0; else noSent">
+                  <div
+                     *ngFor="let introduction of sentIntroductions"
+                     class="introduction"
+                     [class]="getIntroductionApprovalStateClass(introduction)"
+                     [class.selected]="
+                        introduction.introductionId === selectedIntroduction?.introductionId
+                     "
+                     (click)="onSelectIntroduction(introduction)"
+                  >
+                     <p>
+                        {{ introduction.offering?.name ?? introduction.receiveUser?.email }}
+                     </p>
+                  </div>
+               </ng-container>
+
+               <ng-template #noSent>
+                  <p class="introduction">No received introductions</p>
+               </ng-template>
             </div>
          </div>
       </div>
@@ -27,50 +56,25 @@
 
    <div class="rhs">
       <div *ngIf="selectedIntroduction" class="selected-introduction">
-         <div
-            *ngIf="
-               selectedIntroduction.introductionId &&
-                  introductionsToDelete.has(selectedIntroduction.introductionId);
-               else selectedIntroductionForm
-            "
-            class="deleting-selected-introduction"
+         <introduction-form
+            [initIntroduction]="selectedIntroduction"
+            [showFooterButtons]="isSelectedIntroductionReceived && isSelectedIntroductionPending"
+            (approve)="onApprove()"
+            (deny)="onDeny()"
          >
-            <h2>This introduction is marked for deletion</h2>
-            <p>Would you like to undo this?</p>
-            <div class="buttons">
-               <button
-                  mat-raised-button
-                  color="primary"
-                  type="button"
-                  (click)="handleUndeleteSelectedForm()"
-               >
-                  Yes
-               </button>
+            <div heading [class]="getIntroductionApprovalStateClass(selectedIntroduction)">
+               <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
             </div>
-         </div>
-
-         <ng-template #selectedIntroductionForm>
-            <p>{{ selectedIntroduction.message }}</p>
-            <!-- <introduction-form
-               [showFooterButtons]="false"
-               [initIntroduction]="selectedIntroduction"
-               (formChange)="handleSelectedIntroductionFormChange($event)"
-            >
-               <div heading [class]="getIntroductionApprovalStateClass(selectedIntroduction)">
-                  <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
-               </div>
-            </introduction-form> -->
-         </ng-template>
-      </div>
-
-      <div *ngIf="hasChanges" class="form-footer">
-         <p>You have unsaved changes *</p>
-         <button type="button" (click)="handleCancelChanges()" mat-stroked-button color="primary">
-            Cancel
-         </button>
-         <button type="button" (click)="handleSubmitChanges()" mat-raised-button color="primary">
-            Save
-         </button>
+         </introduction-form>
+         <!-- <introduction-form
+                  [showFooterButtons]="false"
+                  [initIntroduction]="selectedIntroduction"
+                  (formChange)="handleSelectedIntroductionFormChange($event)"
+               >
+                  <div heading [class]="getIntroductionApprovalStateClass(selectedIntroduction)">
+                     <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
+                  </div>
+               </introduction-form> -->
       </div>
    </div>
 </div>

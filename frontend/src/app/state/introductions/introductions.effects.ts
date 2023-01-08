@@ -53,6 +53,8 @@ export class IntroductionEffects {
          ofType(
             IntroductionActions.getMyIntroductions,
             IntroductionActions.createIntroductionSuccess,
+            IntroductionActions.approveIntroductionSuccess,
+            IntroductionActions.denyIntroductionSuccess,
          ),
          switchMap((action): Observable<any> => {
             return this.IntroductionService.getMyIntroduction().pipe(
@@ -71,11 +73,7 @@ export class IntroductionEffects {
 
    getAllIntroductions = createEffect(() =>
       this.actions$.pipe(
-         ofType(
-            IntroductionActions.getAllIntroductions,
-            IntroductionActions.approveIntroductionSuccess,
-            IntroductionActions.denyIntroductionSuccess,
-         ),
+         ofType(IntroductionActions.getAllIntroductions),
          switchMap((action): Observable<any> => {
             return this.IntroductionService.getAllIntroduction().pipe(
                switchMap((response) => {

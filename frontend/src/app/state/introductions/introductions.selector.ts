@@ -1,15 +1,14 @@
-import { Introduction } from '@myideaswork/common/interfaces';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IntroductionState } from './introductions.state';
 
-export const selectIntroductions = createFeatureSelector<IntroductionState>('offerings');
+export const selectIntroductions = createFeatureSelector<IntroductionState>('introductions');
 
-export const selectApprovedOfferings = createSelector(
+export const selectApprovedIntroductions = createSelector(
    selectIntroductions,
    (state: IntroductionState) => [...state.approvedIntroductions],
 );
 
-export const selectApprovedOffering = createSelector(
+export const selectApprovedIntroduction = createSelector(
    selectIntroductions,
    (state: IntroductionState) => state.approvedIntroduction,
 );
@@ -24,21 +23,7 @@ export const selectMyIntroductions = createSelector(
    (state: IntroductionState) => [...state.myIntroductions],
 );
 
-export const selectAllOfferings = createSelector(
+export const selectAllIntroductions = createSelector(
    selectIntroductions,
    (state: IntroductionState) => [...state.allIntroductions],
-);
-
-export const selectIntroductionsToCreate = createSelector(
-   selectIntroductions,
-   (state: IntroductionState) => [...state.introductionsToCreate],
-);
-
-export const selectAllMyIntroductions = createSelector(
-   selectMyIntroductions,
-   selectIntroductionsToCreate,
-   (myIntroductions: Introduction[], introductionsToCreate: Introduction[]) => [
-      ...myIntroductions,
-      ...introductionsToCreate,
-   ],
 );

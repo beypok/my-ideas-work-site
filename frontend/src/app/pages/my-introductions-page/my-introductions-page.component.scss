@@ -45,50 +45,58 @@
             h2 {
                flex-grow: 1;
             }
-            mat-icon {
-               font-size: xx-large;
-               height: 100%;
-               width: max-content;
-               cursor: pointer;
-               transition: 0.3s;
-               &:hover {
-                  color: $middleBlue;
-               }
-            }
          }
 
          .introductions-list {
             width: 100%;
             flex-grow: 1;
             overflow-y: auto;
+            .received,
+            .sent {
+               margin-bottom: 0.5em;
+               h3 {
+                  padding: 0.5em;
+                  padding-left: 1em;
+                  border-bottom: 1px solid $gray;
+               }
+            }
             .introduction {
                display: flex;
                justify-content: space-between;
                align-items: center;
                width: 100%;
                padding: 0.5em;
+               padding-left: 1em;
                color: $darkBlue;
                font-weight: 600;
-               cursor: pointer;
                transition: 0.3s;
 
-               border-right: 6px solid;
+               border-right: 6px solid transparent;
                &.approved {
                   border-right-color: $approvedGreen;
+                  &:hover {
+                     cursor: pointer;
+                     background-color: $hoverBlue;
+                  }
                }
                &.pending {
                   border-right-color: $pendingYellow;
+                  &:hover {
+                     cursor: pointer;
+                     background-color: $hoverBlue;
+                  }
                }
                &.denied {
                   border-right-color: $deniedRed;
+                  &:hover {
+                     cursor: pointer;
+                     background-color: $hoverBlue;
+                  }
                }
                border-top: 1px solid $offWhite;
 
                &:nth-child(even) {
                   background-color: $offWhite;
-               }
-               &:hover {
-                  background-color: $hoverBlue;
                }
 
                &.selected {
@@ -96,19 +104,6 @@
                   cursor: default;
                   &:hover {
                      background-color: lighten($hoverBlue, 5%);
-                  }
-               }
-
-               p.deleting {
-                  text-decoration: line-through;
-               }
-
-               mat-icon {
-                  color: $gray;
-                  &:hover {
-                     cursor: pointer;
-                     transition: 0.3s;
-                     color: darken($gray, 20%);
                   }
                }
             }
@@ -120,30 +115,13 @@
       height: 100%;
       flex-grow: 1;
       position: relative;
+      overflow-y: auto;
 
-      .selected-introductions {
+      .selected-introduction {
          background-color: white;
          padding: 1em;
          margin: 1em;
          border-radius: 0.5em;
-
-         .deleting-selected-introduction {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            p {
-               margin: 0.5em 0;
-            }
-            .buttons {
-               display: flex;
-               align-items: center;
-               justify-content: center;
-               button {
-                  margin: 0 0.5em;
-               }
-            }
-         }
 
          div[heading] {
             font-weight: bold;
@@ -159,28 +137,6 @@
             &.denied {
                color: $deniedRed;
             }
-         }
-      }
-
-      .form-footer {
-         position: absolute;
-         bottom: 0;
-         left: 50%;
-         transform: translateX(-50%);
-         width: max-content;
-         background-color: white;
-         border-radius: 0.5em;
-         display: flex;
-         justify-content: flex-end;
-         align-items: center;
-         padding: 1em 2em;
-         color: $darkBlue;
-         font-weight: bold;
-         p {
-            margin-right: 1em;
-         }
-         button {
-            margin-left: 1em;
          }
       }
    }

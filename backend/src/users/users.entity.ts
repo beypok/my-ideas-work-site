@@ -28,6 +28,13 @@ export class User implements IUser {
    @OneToMany(() => Offerings, (offering) => offering.user, { onDelete: 'CASCADE' })
    offerings?: Offerings[];
 
-   @OneToMany(() => Introductions, (introduction) => introduction.user, { onDelete: 'CASCADE' })
-   introductions?: Introductions[];
+   @OneToMany(() => Introductions, (introduction) => introduction.createUser, {
+      onDelete: 'CASCADE',
+   })
+   createdIntroductions?: Introductions[];
+
+   @OneToMany(() => Introductions, (introduction) => introduction.receiveUser, {
+      onDelete: 'CASCADE',
+   })
+   receivedIntroductions?: Introductions[];
 }
