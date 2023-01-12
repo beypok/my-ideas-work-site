@@ -126,6 +126,7 @@
          background-color: white;
          padding: 1em;
          margin: 1em;
+         margin-bottom: 4em;
          border-radius: 0.5em;
 
          .deleting-selected-offering {
@@ -164,7 +165,7 @@
       }
 
       .form-footer {
-         position: absolute;
+         position: sticky;
          bottom: 0;
          left: 50%;
          transform: translateX(-50%);
@@ -177,6 +178,7 @@
          padding: 1em 2em;
          color: $darkBlue;
          font-weight: bold;
+         box-shadow: 1px 1px 9px 9px rgb(0 0 0 / 21%);
          p {
             margin-right: 1em;
          }

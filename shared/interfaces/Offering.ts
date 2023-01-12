@@ -7,6 +7,7 @@ import {
    ProjectPhase,
    Terms,
 } from '../enums';
+import { OfferingFile } from './OfferingFile';
 import { User } from './User';
 
 export interface Offering {
@@ -25,4 +26,5 @@ export interface Offering {
    amountRangeStart?: number | null;
    amountRangeEnd?: number | null;
    user?: User;
+   offeringFiles?: OfferingFile[];
 }

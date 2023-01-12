@@ -28,7 +28,7 @@ export class Introductions {
 
    @ManyToOne(() => User, (user) => user.id)
    @JoinColumn({ name: 'createUserId' })
-   createUser: User;
+   createUser?: User | null;
 
    @ManyToOne(() => User, (user) => user.id)
    @JoinColumn({ name: 'receiveUserId' })

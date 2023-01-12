@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
-import { BaseUserDto } from './../users/BaseUser.dto';
+import { ResponseOfferingFileDto } from '../offering-files';
+import { ResponseUserDto } from '../users';
 import { BaseOfferingDto } from './BaseOffering.dto';
 
 export class ResponseOfferingDto extends BaseOfferingDto {
@@ -7,5 +8,8 @@ export class ResponseOfferingDto extends BaseOfferingDto {
    offeringId!: number;
 
    @Expose()
-   user!: BaseUserDto;
+   user!: ResponseUserDto;
+
+   @Expose()
+   offeringFiles!: ResponseOfferingFileDto[];
 }

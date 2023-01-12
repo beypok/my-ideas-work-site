@@ -8,6 +8,7 @@ import {
    Terms,
 } from '@myideaswork/common/enums';
 import { Introductions } from 'src/introductions/introductions.entity';
+import { OfferingFiles } from 'src/offering-files/offering-files.entity';
 import { User } from 'src/users/users.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -25,8 +26,8 @@ export class Offerings {
    @Column()
    description: string;
 
-   @Column({ enum: InvestorOfferingType })
-   investorOfferingType: InvestorOfferingType;
+   @Column({ enum: InvestorOfferingType, nullable: true })
+   investorOfferingType?: InvestorOfferingType;
 
    @Column({ enum: Industries, nullable: true })
    industry?: Industries;
@@ -64,4 +65,7 @@ export class Offerings {
 
    @OneToMany(() => Introductions, (introduction) => introduction.offering)
    introductions: Introductions[];
+
+   @OneToMany(() => OfferingFiles, (offeringFile) => offeringFile.offering)
+   offeringFiles: OfferingFiles[];
 }

@@ -19,7 +19,7 @@ import {
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
-import { Offering, User } from '@myideaswork/common/interfaces';
+import { Offering, OfferingFile, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -53,6 +53,22 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
    isLoggedInUserAdvertiser = false;
 
    currentUser: User | null = null;
+
+   get uploadedFiles(): OfferingFile[] {
+      return (
+         this.form
+            ?.get('offeringFiles')
+            ?.value.filter((f: OfferingFile) => f.offeringFileId !== 0) ?? []
+      );
+   }
+
+   get filesToUpload(): OfferingFile[] {
+      return (
+         this.form
+            ?.get('offeringFiles')
+            ?.value.filter((f: OfferingFile) => f.offeringFileId === 0) ?? []
+      );
+   }
 
    private currentUser$: Observable<User | null>;
 
@@ -138,10 +154,27 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
             this.initOffering?.amountRequested ?? 10000,
             Validators.required,
          ),
+         offeringFiles: new FormControl(this.initOffering?.offeringFiles ?? []),
+         files: new FormControl([]),
       });
 
       this.form.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((v) => {
          this.formChange.emit(v);
+      });
+   }
+
+   selectFile(event: any) {
+      const files = event.target.files;
+      this.form?.patchValue({
+         offeringFiles: Array.from(files).map((f: any) => {
+            return {
+               name: f.name,
+               url: '',
+               offeringFileId: 0,
+               offeringId: this.initOffering?.offeringId,
+            };
+         }),
+         files,
       });
    }
 }

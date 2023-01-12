@@ -22,7 +22,7 @@ export class OfferingsService {
    async getApprovedOfferings() {
       try {
          return await this.offeringsRepository.find({
-            relations: ['user'],
+            relations: ['user', 'offeringFiles'],
             where: { approvalState: ApprovalState.Approved },
          });
       } catch (e: any) {
@@ -35,7 +35,7 @@ export class OfferingsService {
    async getApprovedOffering(offeringId: number) {
       try {
          return await this.offeringsRepository.findOne({
-            relations: ['user'],
+            relations: ['user', 'offeringFiles'],
             where: { approvalState: ApprovalState.Approved, offeringId },
          });
       } catch (e: any) {
@@ -48,7 +48,7 @@ export class OfferingsService {
    async getMyOfferings(user: User) {
       try {
          return await this.offeringsRepository.find({
-            relations: ['user'],
+            relations: ['user', 'offeringFiles'],
             where: { userId: user.id },
          });
       } catch (e: any) {
@@ -61,7 +61,7 @@ export class OfferingsService {
    async getOfferingById(offeringId: number) {
       try {
          return await this.offeringsRepository.findOne({
-            relations: ['user'],
+            relations: ['user', 'offeringFiles'],
             where: { offeringId: offeringId },
          });
       } catch (e: any) {
@@ -74,7 +74,7 @@ export class OfferingsService {
    async getAllOfferings() {
       try {
          return await this.offeringsRepository.find({
-            relations: ['user'],
+            relations: ['user', 'offeringFiles'],
          });
       } catch (e: any) {
          if (e.message) {

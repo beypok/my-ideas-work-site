@@ -40,6 +40,16 @@
          }
       }
 
+      .files {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         button {
+            // display: flex;
+         }
+      }
+
       .buttons {
          display: flex;
          justify-content: flex-end;

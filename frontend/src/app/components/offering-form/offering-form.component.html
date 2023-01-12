@@ -109,6 +109,24 @@
       </mat-form-field>
    </div>
 
+   <div class="files">
+      <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
+         <h6>Uploaded files</h6>
+         <p *ngFor="let file of uploadedFiles">{{ file.name }}</p>
+      </div>
+
+      <div class="files-to-upload" *ngIf="filesToUpload.length > 0">
+         <h6>Files to upload</h6>
+         <p *ngFor="let file of filesToUpload">{{ file.name }}</p>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+         <span>Upload Files</span>
+         <mat-icon>attach_file</mat-icon>
+         <input hidden multiple (change)="selectFile($event)" #fileInput type="file" id="file" />
+      </button>
+   </div>
+
    <div class="buttons">
       <ng-content select="[footer]"></ng-content>
       <ng-container *ngIf="showFooterButtons">
