@@ -39,6 +39,26 @@
          </mat-select>
       </mat-form-field>
 
+      <mat-form-field *ngIf="selectedTab === 'Advertisers'">
+         <mat-label>Industry</mat-label>
+         <mat-select multiple formControlName="industries">
+            <mat-option
+               *ngFor="let industry of enumMapper._industriesKeys"
+               [value]="enumMapper.mapEnumKeyToValue(industry, enumMapper._industries)"
+            >
+               {{ enumMapper.mapEnumKeyToValue(industry, enumMapper._industries) }}
+            </mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedTab === 'Investors'">
+         <mat-label>Investor/Lender</mat-label>
+         <mat-select multiple formControlName="investorOfferingTypes">
+            <mat-option [value]="enumMapper._investorOfferingType.Investor">Investor</mat-option>
+            <mat-option [value]="enumMapper._investorOfferingType.Lender">Lender</mat-option>
+         </mat-select>
+      </mat-form-field>
+
       <mat-form-field>
          <mat-label>{{
             selectedTab === 'Advertisers' ? 'Funding Type' : 'Project Phase'

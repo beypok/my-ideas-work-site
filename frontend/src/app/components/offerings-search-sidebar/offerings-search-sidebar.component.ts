@@ -7,7 +7,14 @@ import {
    ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Collateral, Continent, ProjectPhase, Terms } from '@myideaswork/common/enums';
+import {
+   Collateral,
+   Continent,
+   Industries,
+   InvestorOfferingType,
+   ProjectPhase,
+   Terms,
+} from '@myideaswork/common/enums';
 import { User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -19,6 +26,8 @@ export type OfferingsSearchSidebarTab = 'Advertisers' | 'Investors';
 
 export interface OfferingsSearchSidebarForm {
    searchText: FormControl<string | null>;
+   industries: FormControl<Industries[] | null>;
+   investorOfferingTypes: FormControl<InvestorOfferingType[] | null>;
    continent: FormControl<Continent[] | null>;
    projectPhase: FormControl<ProjectPhase[] | null>;
    collateral: FormControl<Collateral[] | null>;

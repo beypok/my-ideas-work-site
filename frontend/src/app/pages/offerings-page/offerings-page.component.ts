@@ -94,6 +94,8 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
       this.searchForm = this.fb.group<OfferingsSearchSidebarForm>({
          searchText: new FormControl(null),
          continent: new FormControl(null),
+         industries: new FormControl(null),
+         investorOfferingTypes: new FormControl(null),
          projectPhase: new FormControl(null),
          collateral: new FormControl(null),
          amountRangeStart: new FormControl(null),
@@ -116,6 +118,8 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
          amountRangeStart,
          amountRangeEnd,
          terms,
+         industries,
+         investorOfferingTypes,
       } = this.searchForm?.getRawValue() ?? {};
 
       if (searchText && !o.name?.includes(searchText)) return false;
@@ -140,9 +144,17 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
             return false;
          if (amountRangeEnd && o.amountRequested && o.amountRequested > amountRangeEnd)
             return false;
+         if (industries && industries.length > 0 && !industries.some((t) => t === o.industry))
+            return false;
       } else {
          if (amountRangeStart && o.amountRangeStart !== amountRangeStart) return false;
          if (amountRangeEnd && o.amountRangeEnd !== amountRangeEnd) return false;
+         if (
+            investorOfferingTypes &&
+            investorOfferingTypes.length > 0 &&
+            !investorOfferingTypes.some((t) => t === o.investorOfferingType)
+         )
+            return false;
       }
 
       return true;
