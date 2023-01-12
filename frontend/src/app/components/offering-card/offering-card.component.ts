@@ -8,10 +8,12 @@ import {
    ViewEncapsulation,
 } from '@angular/core';
 import {
+   AccountType,
    AFRICA_LOCATIONS,
    ASIA_LOCATIONS,
    Continent,
    EUROPE_LOCATIONS,
+   InvestorOfferingType,
    Location,
    NORTH_AMERICA_LOCATIONS,
    OCEANIA_LOCATIONS,
@@ -72,6 +74,15 @@ export class OfferingCardComponent implements OnDestroy {
       }
 
       return Continent.Antartica;
+   }
+
+   getOfferingIndustryOrInvestorType(offering: Offering): string {
+      if (offering.user?.accountType === AccountType.Investor) {
+         if (offering.investorOfferingType === InvestorOfferingType.Investor) return 'Investor';
+         return 'Lender';
+      } else {
+         return offering.industry?.toString() ?? '';
+      }
    }
 
    handleViewMoreClick() {

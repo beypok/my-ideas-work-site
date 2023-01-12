@@ -6,35 +6,23 @@
       <input matInput type="text" formControlName="name" />
    </mat-form-field>
 
-   <mat-form-field>
-      <mat-label>{{
-         currentUser?.accountType === enumMapper._accountType.Advertiser
-            ? 'Business/Industry'
-            : 'Investor/Lender'
-      }}</mat-label>
-      <mat-select formControlName="offeringType">
-         <ng-container *ngIf="!readonly">
-            <ng-container
-               *ngTemplateOutlet="
-                  currentUser?.accountType === enumMapper._accountType.Advertiser
-                     ? advertiserOfferingTypes
-                     : investorOfferingTypes
-               "
-            ></ng-container>
-         </ng-container>
-         <ng-container *ngIf="readonly">
-            <ng-container *ngTemplateOutlet="advertiserOfferingTypes"></ng-container>
-            <ng-container *ngTemplateOutlet="investorOfferingTypes"></ng-container>
-         </ng-container>
+   <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Investor">
+      <mat-label>Investor/Lender</mat-label>
+      <mat-select formControlName="investorOfferingType">
+         <mat-option [value]="enumMapper._investorOfferingType.Investor">Investor</mat-option>
+         <mat-option [value]="enumMapper._investorOfferingType.Lender">Lender</mat-option>
+      </mat-select>
+   </mat-form-field>
 
-         <ng-template #advertiserOfferingTypes>
-            <mat-option [value]="enumMapper._offeringType.Business">Business</mat-option>
-            <mat-option [value]="enumMapper._offeringType.Industry">Industry</mat-option>
-         </ng-template>
-         <ng-template #investorOfferingTypes>
-            <mat-option [value]="enumMapper._offeringType.Investor">Investor</mat-option>
-            <mat-option [value]="enumMapper._offeringType.Lender">Lender</mat-option>
-         </ng-template>
+   <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Advertiser">
+      <mat-label>Business/Industry</mat-label>
+      <mat-select formControlName="industry">
+         <mat-option
+            *ngFor="let industry of enumMapper._industriesKeys"
+            [value]="enumMapper.mapEnumKeyToValue(industry, enumMapper._industries)"
+         >
+            {{ enumMapper.mapEnumKeyToValue(industry, enumMapper._industries) }}
+         </mat-option>
       </mat-select>
    </mat-form-field>
 

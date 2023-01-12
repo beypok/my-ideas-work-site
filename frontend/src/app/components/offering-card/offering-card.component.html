@@ -3,7 +3,7 @@
    <p class="offering-card_description">{{ offering.description }}</p>
 
    <div class="offering-card_info">
-      <p>Industry</p>
+      <p>{{ getOfferingIndustryOrInvestorType(offering) }}</p>
       <p>${{ offering.amountRequested?.toLocaleString() }}</p>
       <p *ngIf="offering.location">
          {{ getLocationContinent(offering.location) }}

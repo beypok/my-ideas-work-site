@@ -1,19 +1,19 @@
+import { Type } from 'class-transformer';
 import {
    ArrayNotEmpty,
    IsArray,
    IsEmail,
    IsEnum,
    IsInt,
-   IsNotEmpty,
    IsOptional,
    ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import {
    ApprovalState,
    Collateral,
+   Industries,
+   InvestorOfferingType,
    Location,
-   OfferingType,
    ProjectPhase,
    Terms,
 } from '../../enums';
@@ -38,7 +38,10 @@ export class UpdateOfferingDto extends BaseOfferingDto {
    override description!: string;
 
    @IsOptional()
-   override offeringType!: OfferingType;
+   override investorOfferingType!: InvestorOfferingType;
+
+   @IsOptional()
+   override industry!: Industries;
 
    @IsEnum(Location)
    @IsOptional()

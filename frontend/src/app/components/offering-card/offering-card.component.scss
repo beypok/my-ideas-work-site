@@ -18,8 +18,8 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       font-weight: bold;
-      font-size: medium;
-      grid-gap: 0.5em;
+      font-size: large;
+      grid-gap: 1em;
       p {
          text-overflow: ellipsis;
          white-space: nowrap;

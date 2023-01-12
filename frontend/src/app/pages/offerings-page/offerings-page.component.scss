@@ -3,7 +3,7 @@
 .offerings-page-wrapper {
    display: flex;
    justify-content: center;
-   align-items: center;
+   align-items: flex-start;
    color: white;
    height: 100%;
 
@@ -13,7 +13,7 @@
    }
    .rhs {
       padding: 1em;
-      height: inherit;
+      height: auto;
       flex-grow: 1;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(25em, 1fr));

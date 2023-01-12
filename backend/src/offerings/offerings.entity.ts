@@ -1,8 +1,9 @@
 import {
    ApprovalState,
    Collateral,
+   Industries,
+   InvestorOfferingType,
    Location,
-   OfferingType,
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
@@ -24,8 +25,11 @@ export class Offerings {
    @Column()
    description: string;
 
-   @Column({ enum: OfferingType })
-   offeringType: OfferingType;
+   @Column({ enum: InvestorOfferingType })
+   investorOfferingType: InvestorOfferingType;
+
+   @Column({ enum: Industries, nullable: true })
+   industry?: Industries;
 
    @Column({ enum: Location })
    location: Location;

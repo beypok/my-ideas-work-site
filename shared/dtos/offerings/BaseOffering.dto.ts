@@ -1,19 +1,24 @@
+import { Expose } from 'class-transformer';
+import { IsEmail, IsEnum, IsString } from 'class-validator';
 import {
    ApprovalState,
    Collateral,
+   Industries,
+   InvestorOfferingType,
    Location,
-   OfferingType,
    ProjectPhase,
    Terms,
 } from '../../enums';
 import { Offering as IOffering } from '../../interfaces';
-import { IsEmail, IsEnum, IsString } from 'class-validator';
-import { Expose } from 'class-transformer';
 
 export class BaseOfferingDto implements IOffering {
-   @IsEnum(OfferingType)
+   @IsEnum(InvestorOfferingType)
    @Expose()
-   offeringType!: OfferingType;
+   investorOfferingType!: InvestorOfferingType;
+
+   @IsEnum(Industries)
+   @Expose()
+   industry!: Industries;
 
    @IsString()
    @Expose()

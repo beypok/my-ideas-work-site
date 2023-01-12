@@ -1,11 +1,20 @@
-import { ApprovalState, Collateral, Location, OfferingType, ProjectPhase, Terms } from '../enums';
+import {
+   ApprovalState,
+   Collateral,
+   Industries,
+   InvestorOfferingType,
+   Location,
+   ProjectPhase,
+   Terms,
+} from '../enums';
 import { User } from './User';
 
 export interface Offering {
    offeringId?: number;
    name?: string;
    description?: string;
-   offeringType?: OfferingType;
+   investorOfferingType?: InvestorOfferingType;
+   industry?: Industries;
    location?: Location;
    collateral?: Collateral;
    terms?: Terms;

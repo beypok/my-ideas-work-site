@@ -13,8 +13,9 @@ import { CreateOfferingDto, UpdateOfferingDto } from '@myideaswork/common/dtos';
 import {
    AccountType,
    Collateral,
+   Industries,
+   InvestorOfferingType,
    Location,
-   OfferingType,
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
@@ -68,9 +69,11 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
          this.currentUser = user;
          if (this.currentUser?.accountType === AccountType.Advertiser) {
-            if (!this.initOffering) this.form?.get('offeringType')?.setValue(OfferingType.Business);
+            if (!this.initOffering)
+               this.form?.get('industry')?.setValue(Industries['Advertising (AdTech)']);
          } else {
-            if (!this.initOffering) this.form?.get('offeringType')?.setValue(OfferingType.Investor);
+            if (!this.initOffering)
+               this.form?.get('investorOfferingType')?.setValue(InvestorOfferingType.Investor);
          }
       });
    }
@@ -100,10 +103,8 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
    private buildForm() {
       this.form = this.fb.group({
          name: new FormControl(this.initOffering?.name ?? '', Validators.required),
-         offeringType: new FormControl(
-            this.initOffering?.offeringType ?? OfferingType.Business,
-            Validators.required,
-         ),
+         investorOfferingType: new FormControl(this.initOffering?.investorOfferingType ?? null),
+         industry: new FormControl(this.initOffering?.industry ?? null),
          description: new FormControl(this.initOffering?.description ?? null, Validators.required),
          location: new FormControl(
             this.initOffering?.location ?? Location['United States'],

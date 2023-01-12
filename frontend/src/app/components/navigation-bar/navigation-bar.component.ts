@@ -18,10 +18,10 @@ export interface SiteRoute {
 })
 export class NavigationBarComponent implements OnDestroy {
    defaultRoutes: SiteRoute[] = [
-      { route: SiteRouteNames.Home, label: 'Home' },
-      { route: SiteRouteNames.About, label: 'About' },
-      { route: SiteRouteNames.HowItWorks, label: 'How It Works' },
-      { route: SiteRouteNames.Contact, label: 'Contact Us' },
+      // { route: SiteRouteNames.Home, label: 'Home' },
+      // { route: SiteRouteNames.About, label: 'About' },
+      // { route: SiteRouteNames.HowItWorks, label: 'How It Works' },
+      // { route: SiteRouteNames.Contact, label: 'Contact Us' },
       { route: SiteRouteNames.Offerings, label: 'Offerings' },
       { route: SiteRouteNames.Signin, label: 'Sign In' },
       { route: SiteRouteNames.Signup, label: 'Sign Up' },

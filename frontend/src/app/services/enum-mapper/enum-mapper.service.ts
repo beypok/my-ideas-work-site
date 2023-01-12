@@ -3,8 +3,9 @@ import {
    AccountType,
    Collateral,
    Continent,
+   Industries,
+   InvestorOfferingType,
    Location,
-   OfferingType,
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
@@ -14,7 +15,9 @@ import {
 })
 export class EnumMapperService {
    _accountType = AccountType;
-   _offeringType = OfferingType;
+   _investorOfferingType = InvestorOfferingType;
+   _industries = Industries;
+   _industriesKeys = Object.keys(Industries);
    _continents = Continent;
    _continentKeys = Object.keys(Continent);
    _locations = Location;
