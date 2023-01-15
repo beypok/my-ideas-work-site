@@ -18,7 +18,13 @@ export class IntroductionsService {
    async getMyIntroductions(user: User) {
       try {
          return await this.introductionsRepository.find({
-            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
+            relations: [
+               'createUser',
+               'receiveUser',
+               'offering',
+               'offering.offeringFiles',
+               'offering.user',
+            ],
             where: [{ createUserId: user.id }, { receiveUserId: user.id }],
          });
       } catch (e: any) {
@@ -40,7 +46,13 @@ export class IntroductionsService {
    async getIntroductionsById(introductionId: number) {
       try {
          return await this.introductionsRepository.findOne({
-            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
+            relations: [
+               'createUser',
+               'receiveUser',
+               'offering',
+               'offering.offeringFiles',
+               'offering.user',
+            ],
             where: { introductionId: introductionId },
          });
       } catch (e: any) {
@@ -53,7 +65,13 @@ export class IntroductionsService {
    async getAllIntroductions() {
       try {
          return await this.introductionsRepository.find({
-            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
+            relations: [
+               'createUser',
+               'receiveUser',
+               'offering',
+               'offering.offeringFiles',
+               'offering.user',
+            ],
          });
       } catch (e: any) {
          if (e.message) {
