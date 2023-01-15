@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateOfferingDto, UpdateOfferingDto } from '@myideaswork/common/dtos';
-import { ApprovalState } from '@myideaswork/common/enums';
-import { Offering, User } from '@myideaswork/common/interfaces';
+import {
+   CreateOfferingDto,
+   CreateOfferingFileDto,
+   UpdateOfferingDto,
+} from '@myideaswork/common/dtos';
+import { ApprovalState, CallState } from '@myideaswork/common/enums';
+import { Offering, OfferingFile, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +18,7 @@ import {
 } from 'src/app/state/offerings/offerings.actions';
 import {
    selectAllMyOfferings,
+   selectOfferingsCallState,
    selectOfferingsToCreate,
 } from 'src/app/state/offerings/offerings.selector';
 
@@ -35,6 +40,10 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
 
    offeringsToCreate$: Observable<Offering[]>;
 
+   offeringsCallState$: Observable<CallState>;
+
+   _callState = CallState;
+
    selectedOffering: Offering | null = null;
 
    offeringsToDelete = new Set<number>();
@@ -42,6 +51,8 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
    offeringsToCreate: Offering[] = [];
 
    offeringsToUpdate: Offering[] = [];
+
+   offeringsFilesToUpload: OfferingFile[] = [];
 
    get hasChanges(): boolean {
       return (
@@ -59,6 +70,7 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((currentUser) => {
          this.currentUser = currentUser;
       });
+      this.offeringsCallState$ = this.store.select(selectOfferingsCallState);
       this.allMyOfferings$ = this.store.select(selectAllMyOfferings);
       this.allMyOfferings$.pipe(takeUntil(this.destroyed$)).subscribe((allMyOfferings) => {
          this.preservedOfferings = [...allMyOfferings];
@@ -135,25 +147,42 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
    }
 
    handleSubmitChanges(): void {
+      const itemsToCreateWithNewFiles = this.offeringsToCreate.map(
+         (i) => i.offeringFiles?.filter((f) => f.offeringFileId === 0) ?? [],
+      );
+      const itemsToUpdateWithNewFiles = this.offeringsToUpdate.map(
+         (i) => i.offeringFiles?.filter((f) => f.offeringFileId === 0) ?? [],
+      );
+      const files = [
+         ...itemsToCreateWithNewFiles,
+         ...itemsToUpdateWithNewFiles,
+      ].flat() as CreateOfferingFileDto[];
+
       this.store.dispatch(
          batchSaveOffering({
             batchSaveOfferings: {
-               itemsToCreate: this.offeringsToCreate.map((o) => {
-                  return {
-                     ...o,
-                     offeringId: 0,
-                  };
-               }) as CreateOfferingDto[],
-               itemsToUpdate: this.offeringsToUpdate as UpdateOfferingDto[],
-               itemsToDeleteIds: Array.from(this.offeringsToDelete).filter((id) => id > 0),
+               data: {
+                  itemsToCreate: this.offeringsToCreate.map((o) => {
+                     return {
+                        ...o,
+                        offeringId: 0,
+                     };
+                  }) as CreateOfferingDto[],
+                  itemsToUpdate: this.offeringsToUpdate as UpdateOfferingDto[],
+                  itemsToDeleteIds: Array.from(this.offeringsToDelete).filter((id) => id > 0),
+               },
+               files,
             },
          }),
       );
       this.offeringsToDelete.clear();
       this.offeringsToUpdate = [];
+      this.offeringsToCreate = [];
    }
 
-   handleSelectedOfferingFormChange(offering: Offering) {
+   handleSelectedOfferingFormChange(offering: Offering | null) {
+      if (!offering) return;
+
       const offeringIsNotYetCreated = this.offeringsToCreate.some(
          (o) => o.offeringId === this.selectedOffering?.offeringId,
       );

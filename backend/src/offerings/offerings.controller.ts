@@ -1,10 +1,11 @@
 import {
-   BatchSaveOfferingsDto,
+   BatchSaveOfferingsDataDto,
    CreateOfferingDto,
+   CreateOfferingFileDto,
    ResponseOfferingDto,
 } from '@myideaswork/common/dtos';
 import { AuthRole } from '@myideaswork/common/enums';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
 import { Param, Put, Request } from '@nestjs/common/decorators';
 import { Role } from 'src/authentication/roles/roles.decorator';
 import { OfferingsService } from './offerings.service';
@@ -17,14 +18,28 @@ export class OfferingsController {
    @Role(AuthRole.Public)
    async allApprovedOfferings(): Promise<ResponseOfferingDto[]> {
       const offerings = await this.offeringsService.getApprovedOfferings();
-      return this.offeringsService.mapOfferingsToResponseDto(offerings);
+      const response = this.offeringsService.mapOfferingsToResponseDto(offerings);
+      return response.map((o) => {
+         return {
+            ...o,
+            offeringFiles: [],
+         };
+      });
    }
 
    @Get('/approved/:id')
    @Role(AuthRole.Public)
-   async approvedOffering(@Param('id') id: number): Promise<ResponseOfferingDto> {
+   async approvedOffering(@Param('id') id: number, @Request() req): Promise<ResponseOfferingDto> {
       const offering = await this.offeringsService.getApprovedOffering(id);
-      return this.offeringsService.mapOfferingToResponseDto(offering);
+      if (!offering)
+         throw new BadRequestException(
+            `Could not find an approved offering with provided id: ${id}`,
+         );
+      const response = this.offeringsService.mapOfferingToResponseDto(offering);
+      return this.offeringsService.filterOfferingFilesFromApprovedUserIntroduction(
+         response,
+         req.user,
+      );
    }
 
    @Get('/me')
@@ -65,10 +80,17 @@ export class OfferingsController {
 
    @Post('/batchSave')
    async batchSaveOfferings(
-      @Body() body: BatchSaveOfferingsDto,
+      @Body('files') files: CreateOfferingFileDto[],
+      @Body('data') data: BatchSaveOfferingsDataDto,
       @Request() req,
    ): Promise<ResponseOfferingDto[]> {
-      const offering = await this.offeringsService.batchSaveOffering(body, req.user);
+      const offering = await this.offeringsService.batchSaveOffering(
+         {
+            data,
+            files,
+         },
+         req.user,
+      );
       return this.offeringsService.mapOfferingsToResponseDto(offering);
    }
 }

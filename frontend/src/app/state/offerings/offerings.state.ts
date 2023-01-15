@@ -1,3 +1,4 @@
+import { CallState } from '@myideaswork/common/enums';
 import { Offering } from '@myideaswork/common/interfaces';
 
 export interface OfferingState {
@@ -6,6 +7,7 @@ export interface OfferingState {
    myOfferings: Offering[];
    allOfferings: Offering[];
    offeringsToCreate: Offering[];
+   callState: CallState;
    error: Error | null;
 }
 
@@ -15,5 +17,6 @@ export const initialState: OfferingState = {
    myOfferings: [],
    allOfferings: [],
    offeringsToCreate: [],
+   callState: CallState.Loaded,
    error: null,
 };

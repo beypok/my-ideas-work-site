@@ -6,4 +6,5 @@ export interface OfferingFile {
    name?: string;
    url?: string;
    offering?: Offering;
+   file?: any;
 }

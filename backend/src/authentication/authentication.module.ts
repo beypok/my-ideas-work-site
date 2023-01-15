@@ -1,24 +1,24 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { EncryptionModule } from 'src/encryption/encryption.module';
-import { AuthenticationService } from './authentication.service';
-import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { EncryptionModule } from 'src/encryption/encryption.module';
+import { UserModule } from './../users/users.module';
 import { AuthenticationController } from './authentication.controller';
-import { UserModule } from './../users/users.module'
+import { AuthenticationService } from './authentication.service';
+import { JwtStrategy } from './jwt/jwt.strategy';
+import { LocalStrategy } from './local/local.strategy';
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.register({
-      secret: `${process.env.JWT_SECRET}`,
-      signOptions: { expiresIn: '1h' },
-    }),
-    forwardRef(() => EncryptionModule),
-    forwardRef(() => UserModule),
-  ],
-  controllers: [AuthenticationController],
-  providers: [AuthenticationService, LocalStrategy, JwtStrategy],
-  exports: [AuthenticationService],
+   imports: [
+      PassportModule,
+      JwtModule.register({
+         secret: `${process.env.JWT_SECRET}`,
+         signOptions: { expiresIn: '1h' },
+      }),
+      forwardRef(() => EncryptionModule),
+      forwardRef(() => UserModule),
+   ],
+   controllers: [AuthenticationController],
+   providers: [AuthenticationService, LocalStrategy, JwtStrategy],
+   exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

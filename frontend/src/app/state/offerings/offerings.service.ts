@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import {
    BatchSaveOfferingsDto,
    CreateOfferingDto,
+   CreateOfferingFileDto,
    ResponseOfferingDto,
 } from '@myideaswork/common/dtos';
 import { Offering } from '@myideaswork/common/interfaces';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -53,11 +54,35 @@ export class OfferingService {
       });
    }
 
-   batchSaveOfferings(
+   async batchSaveOfferings(
       batchSaveOfferings: BatchSaveOfferingsDto,
-   ): Observable<ResponseOfferingDto[]> {
-      return this.http.post<ResponseOfferingDto[]>(`${environment.serverUrl}/offerings/batchSave`, {
-         ...batchSaveOfferings,
-      });
+   ): Promise<ResponseOfferingDto[]> {
+      let clonedBatchSaveOfferings: BatchSaveOfferingsDto = {
+         data: { ...batchSaveOfferings.data },
+         files: [...batchSaveOfferings.files],
+      };
+      for (let i = 0; i < clonedBatchSaveOfferings.files.length; i++) {
+         const file = clonedBatchSaveOfferings.files[i];
+         const { url } = await this.uploadFile(file);
+         if (url) clonedBatchSaveOfferings.files[i] = { ...file, url };
+      }
+
+      return lastValueFrom(
+         this.http.post<ResponseOfferingDto[]>(`${environment.serverUrl}/offerings/batchSave`, {
+            ...clonedBatchSaveOfferings,
+         }),
+      );
+   }
+
+   private uploadFile(file: CreateOfferingFileDto): Promise<{ url: string }> {
+      const formData = new FormData();
+      formData.append('file', file.file);
+      formData.append('offeringId', JSON.stringify(file.offeringId));
+      return lastValueFrom(
+         this.http.post<{ url: string }>(
+            `${environment.serverUrl}/offering-files/upload`,
+            formData,
+         ),
+      );
    }
 }

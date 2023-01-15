@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddOfferingDialogModule } from 'src/app/components/add-offering-dialog/add-offering-dialog.module';
 import { OfferingFormModule } from 'src/app/components/offering-form/offering-form.module';
 import { IntroductionsModule } from 'src/app/state/introductions/introductions.module';
@@ -18,6 +19,7 @@ import { MyOfferingsPageComponent } from './my-offerings-page.component';
       AddOfferingDialogModule,
       OfferingFormModule,
       IntroductionsModule,
+      MatProgressSpinnerModule,
    ],
    exports: [MyOfferingsPageComponent],
 })

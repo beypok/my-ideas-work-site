@@ -1,5 +1,5 @@
-import { Type } from 'class-transformer';
-import { ArrayNotEmpty, IsArray, ValidateNested } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
+import { ArrayNotEmpty, IsArray, IsNumber, IsObject, ValidateNested } from 'class-validator';
 import { BaseOfferingFileDto } from './BaseOfferingFile.dto';
 
 export class CreateOfferingFilesDto {
@@ -10,4 +10,11 @@ export class CreateOfferingFilesDto {
    items!: CreateOfferingFileDto[];
 }
 
-export class CreateOfferingFileDto extends BaseOfferingFileDto {}
+export class CreateOfferingFileDto extends BaseOfferingFileDto {
+   @IsObject()
+   file!: any;
+
+   @IsNumber()
+   @Expose()
+   offeringId!: number;
+}

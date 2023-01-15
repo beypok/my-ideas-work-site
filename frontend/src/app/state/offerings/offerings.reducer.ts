@@ -1,3 +1,4 @@
+import { CallState } from '@myideaswork/common/enums';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as OfferingActions from './offerings.actions';
 import { initialState, OfferingState } from './offerings.state';
@@ -20,10 +21,20 @@ const offeringReducer = createReducer(
       ...state,
       approvedOffering: action.offering,
    })),
+   on(OfferingActions.batchSaveOffering, (state, action) => ({
+      ...state,
+      callState: CallState.Loading,
+   })),
    on(OfferingActions.batchSaveOfferingSuccess, (state, action) => ({
       ...state,
       myOfferings: action.offerings,
       offeringsToCreate: [],
+      callState: CallState.Loaded,
+   })),
+   on(OfferingActions.batchSaveOfferingFailure, (state, action) => ({
+      ...state,
+      error: action.error,
+      callState: CallState.Error,
    })),
    on(OfferingActions.addOfferingToCreate, (state, action) => {
       let firstNegativeValue = -1;

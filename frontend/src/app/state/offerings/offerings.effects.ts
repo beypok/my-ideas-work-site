@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { EMPTY, from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { AddOfferingDialogComponent } from 'src/app/components/add-offering-dialog/add-offering-dialog.component';
 import * as OfferingActions from './offerings.actions';
 import { OfferingService } from './offerings.service';
@@ -48,9 +48,9 @@ export class OfferingEffects {
       this.actions$.pipe(
          ofType(OfferingActions.batchSaveOffering),
          switchMap((action): Observable<any> => {
-            return this.offeringService.batchSaveOfferings(action.batchSaveOfferings).pipe(
-               switchMap((response) => {
-                  return of(OfferingActions.batchSaveOfferingSuccess({ offerings: response }));
+            return from(this.offeringService.batchSaveOfferings(action.batchSaveOfferings)).pipe(
+               map((response) => {
+                  return OfferingActions.batchSaveOfferingSuccess({ offerings: response ?? [] });
                }),
                catchError((error) => {
                   return of(OfferingActions.batchSaveOfferingFailure({ error }));

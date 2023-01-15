@@ -12,7 +12,11 @@ export class IntroductionsController {
    @Get('/me')
    async introductions(@Request() req): Promise<ResponseIntroductionDto[]> {
       const introductions = await this.introductionsService.getMyIntroductions(req.user);
-      return this.introductionsService.mapIntroductionsToResponseDto(introductions);
+      const response = this.introductionsService.mapIntroductionsToResponseDto(introductions);
+      return this.introductionsService.filterOfferingsFilesFromApprovedUserIntroduction(
+         response,
+         req.user,
+      );
    }
 
    @Get('/all')
@@ -29,7 +33,11 @@ export class IntroductionsController {
       @Param('id') introductionId,
    ): Promise<ResponseIntroductionDto> {
       const introduction = await this.introductionsService.approveIntroduction(introductionId);
-      return this.introductionsService.mapIntroductionToResponseDto(introduction);
+      const response = this.introductionsService.mapIntroductionToResponseDto(introduction);
+      return this.introductionsService.filterOfferingFilesFromApprovedUserIntroduction(
+         response,
+         req.user,
+      );
    }
 
    @Put('/:id/deny')
@@ -39,7 +47,11 @@ export class IntroductionsController {
       @Param('id') introductionId,
    ): Promise<ResponseIntroductionDto> {
       const introduction = await this.introductionsService.denyIntroduction(introductionId);
-      return this.introductionsService.mapIntroductionToResponseDto(introduction);
+      const response = this.introductionsService.mapIntroductionToResponseDto(introduction);
+      return this.introductionsService.filterOfferingFilesFromApprovedUserIntroduction(
+         response,
+         req.user,
+      );
    }
 
    @Post()

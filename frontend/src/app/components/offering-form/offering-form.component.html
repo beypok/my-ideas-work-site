@@ -6,7 +6,7 @@
       <input matInput type="text" formControlName="name" />
    </mat-form-field>
 
-   <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Investor">
+   <mat-form-field *ngIf="initOffering?.user?.accountType === enumMapper._accountType.Investor">
       <mat-label>Investor/Lender</mat-label>
       <mat-select formControlName="investorOfferingType">
          <mat-option [value]="enumMapper._investorOfferingType.Investor">Investor</mat-option>
@@ -14,7 +14,7 @@
       </mat-select>
    </mat-form-field>
 
-   <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Advertiser">
+   <mat-form-field *ngIf="initOffering?.user?.accountType === enumMapper._accountType.Advertiser">
       <mat-label>Business/Industry</mat-label>
       <mat-select formControlName="industry">
          <mat-option
@@ -44,12 +44,14 @@
          </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Advertiser">
+      <mat-form-field
+         *ngIf="initOffering?.user?.accountType === enumMapper._accountType.Advertiser"
+      >
          <mat-label>Amount Requested</mat-label>
          <input matInput type="text" formControlName="amountRequested" />
       </mat-form-field>
       <span
-         *ngIf="!(currentUser?.accountType === enumMapper._accountType.Advertiser)"
+         *ngIf="!(initOffering?.user?.accountType === enumMapper._accountType.Advertiser)"
          class="amount-range"
       >
          <mat-form-field>
@@ -65,7 +67,7 @@
 
       <mat-form-field>
          <mat-label>{{
-            currentUser?.accountType === enumMapper._accountType.Advertiser
+            initOffering?.user?.accountType === enumMapper._accountType.Advertiser
                ? 'Funding Type'
                : 'Project Phase'
          }}</mat-label>
@@ -112,15 +114,31 @@
    <div class="files">
       <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
          <h6>Uploaded files</h6>
-         <p *ngFor="let file of uploadedFiles">{{ file.name }}</p>
+         <div class="file-wrappers">
+            <a
+               target="_blank"
+               [download]="file.name"
+               [href]="file.url"
+               *ngFor="let file of uploadedFiles"
+               >{{ file.name }}</a
+            >
+         </div>
       </div>
 
-      <div class="files-to-upload" *ngIf="filesToUpload.length > 0">
+      <div class="files-to-upload" *ngIf="filesToUpload.length > 0 && !readonly">
          <h6>Files to upload</h6>
-         <p *ngFor="let file of filesToUpload">{{ file.name }}</p>
+         <div class="file-wrappers">
+            <a
+               target="_blank"
+               [download]="file.name"
+               [href]="file.url"
+               *ngFor="let file of filesToUpload"
+               >{{ file.name }}</a
+            >
+         </div>
       </div>
 
-      <button mat-raised-button color="primary" (click)="fileInput.click()">
+      <button *ngIf="!readonly" mat-raised-button color="primary" (click)="fileInput.click()">
          <span>Upload Files</span>
          <mat-icon>attach_file</mat-icon>
          <input hidden multiple (change)="selectFile($event)" #fileInput type="file" id="file" />

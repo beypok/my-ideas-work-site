@@ -10,6 +10,9 @@ export class ResponseOfferingFileDto extends BaseOfferingFileDto {
    offering!: ResponseOfferingDto;
 
    @Expose()
+   offeringId!: number;
+
+   @Expose()
    override name!: string;
 
    @Expose()

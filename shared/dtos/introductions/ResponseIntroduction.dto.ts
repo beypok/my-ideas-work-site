@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
-import { BaseOfferingDto } from '../offerings/BaseOffering.dto';
-import { BaseUserDto } from '../users/BaseUser.dto';
+import { ResponseOfferingDto } from '../offerings';
+import { ResponseUserDto } from '../users';
 import { BaseIntroductionDto } from './BaseIntroduction.dto';
 
 export class ResponseIntroductionDto extends BaseIntroductionDto {
@@ -8,13 +8,13 @@ export class ResponseIntroductionDto extends BaseIntroductionDto {
    introductionId!: number;
 
    @Expose()
-   createUser!: BaseUserDto;
+   createUser!: ResponseUserDto;
 
    @Expose()
-   receiveUser!: BaseUserDto;
+   receiveUser!: ResponseUserDto;
 
    @Expose()
-   offering!: BaseOfferingDto;
+   offering!: ResponseOfferingDto;
 
    @Expose()
    override message!: string;

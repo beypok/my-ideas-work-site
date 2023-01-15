@@ -11,5 +11,5 @@ export class ResponseOfferingDto extends BaseOfferingDto {
    user!: ResponseUserDto;
 
    @Expose()
-   offeringFiles!: ResponseOfferingFileDto[];
+   override offeringFiles!: ResponseOfferingFileDto[];
 }

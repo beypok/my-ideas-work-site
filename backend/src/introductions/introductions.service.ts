@@ -18,20 +18,29 @@ export class IntroductionsService {
    async getMyIntroductions(user: User) {
       try {
          return await this.introductionsRepository.find({
-            relations: ['createUser', 'receiveUser', 'offering'],
+            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
             where: [{ createUserId: user.id }, { receiveUserId: user.id }],
          });
       } catch (e: any) {
+         console.log(e, user);
          if (e.message) {
             throw new BadRequestException(e.message);
          }
       }
    }
 
+   async getMyApprovedIntroductionIds(user: User | undefined): Promise<number[]> {
+      const myIntroductions = user ? await this.getMyIntroductions(user) : [];
+      const approvedIntroductions = myIntroductions.filter(
+         (i) => i.approvalState === ApprovalState.Approved,
+      );
+      return approvedIntroductions.map((ai) => ai.offering.offeringId);
+   }
+
    async getIntroductionsById(introductionId: number) {
       try {
          return await this.introductionsRepository.findOne({
-            relations: ['createUser', 'receiveUser', 'offering'],
+            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
             where: { introductionId: introductionId },
          });
       } catch (e: any) {
@@ -44,7 +53,7 @@ export class IntroductionsService {
    async getAllIntroductions() {
       try {
          return await this.introductionsRepository.find({
-            relations: ['createUser', 'receiveUser', 'offering'],
+            relations: ['createUser', 'receiveUser', 'offering', 'offering.offeringFiles'],
          });
       } catch (e: any) {
          if (e.message) {
@@ -93,6 +102,43 @@ export class IntroductionsService {
             throw new BadRequestException(e.message);
          }
       }
+   }
+
+   async filterOfferingsFilesFromApprovedUserIntroduction(
+      introductions: ResponseIntroductionDto[],
+      user: User,
+   ) {
+      const approvedIntroductionsOfferingIds = await this.getMyApprovedIntroductionIds(user);
+      return introductions.map((i) => {
+         return {
+            ...i,
+            offering: {
+               ...i.offering,
+               offeringFiles: i.offering.offeringFiles.filter(
+                  (f) =>
+                     approvedIntroductionsOfferingIds.some((id) => id === f.offeringId) ||
+                     i.receiveUser.id === user.id,
+               ),
+            },
+         };
+      });
+   }
+   async filterOfferingFilesFromApprovedUserIntroduction(
+      introduction: ResponseIntroductionDto,
+      user: User,
+   ) {
+      const approvedIntroductionsOfferingIds = await this.getMyApprovedIntroductionIds(user);
+      return {
+         ...introduction,
+         offering: {
+            ...introduction.offering,
+            offeringFiles: introduction.offering.offeringFiles.filter(
+               (f) =>
+                  approvedIntroductionsOfferingIds.some((id) => id === f.offering?.offeringId) ||
+                  introduction.receiveUser.id === user.id,
+            ),
+         },
+      };
    }
 
    mapIntroductionsToResponseDto(introductions: Introduction[]): ResponseIntroductionDto[] {

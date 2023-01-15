@@ -10,6 +10,7 @@ import {
    Terms,
 } from '../../enums';
 import { Offering as IOffering } from '../../interfaces';
+import { ResponseOfferingFileDto } from '../offering-files';
 
 export class BaseOfferingDto implements IOffering {
    @IsEnum(InvestorOfferingType)
@@ -60,4 +61,7 @@ export class BaseOfferingDto implements IOffering {
 
    @Expose()
    amountRangeEnd!: number | null;
+
+   @Expose()
+   offeringFiles!: ResponseOfferingFileDto[];
 }

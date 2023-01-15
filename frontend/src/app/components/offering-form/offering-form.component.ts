@@ -42,7 +42,9 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    @Input('showFooterButtons') showFooterButtons: boolean = true;
 
-   @Output() formChange = new EventEmitter<Offering>();
+   @Output() formChange = new EventEmitter<Offering | null>();
+
+   @Output() offeringFilesUpload = new EventEmitter<OfferingFile[]>();
 
    @Output() submit = new EventEmitter<CreateOfferingDto | UpdateOfferingDto>();
 
@@ -54,20 +56,12 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    currentUser: User | null = null;
 
-   get uploadedFiles(): OfferingFile[] {
-      return (
-         this.form
-            ?.get('offeringFiles')
-            ?.value.filter((f: OfferingFile) => f.offeringFileId !== 0) ?? []
-      );
+   get filesToUpload(): OfferingFile[] {
+      return (this.initOffering?.offeringFiles ?? []).filter((f) => f.offeringFileId === 0);
    }
 
-   get filesToUpload(): OfferingFile[] {
-      return (
-         this.form
-            ?.get('offeringFiles')
-            ?.value.filter((f: OfferingFile) => f.offeringFileId === 0) ?? []
-      );
+   get uploadedFiles(): OfferingFile[] {
+      return (this.initOffering?.offeringFiles ?? []).filter((f) => f.offeringFileId !== 0);
    }
 
    private currentUser$: Observable<User | null>;
@@ -84,13 +78,6 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
          this.currentUser = user;
-         if (this.currentUser?.accountType === AccountType.Advertiser) {
-            if (!this.initOffering)
-               this.form?.get('industry')?.setValue(Industries['Advertising (AdTech)']);
-         } else {
-            if (!this.initOffering)
-               this.form?.get('investorOfferingType')?.setValue(InvestorOfferingType.Investor);
-         }
       });
    }
 
@@ -108,7 +95,7 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
       e.preventDefault();
       e.stopPropagation();
       if (this.form?.valid) {
-         this.submit.emit(this.form?.getRawValue());
+         this.submit.emit({ ...this.form?.getRawValue(), filesToUpload: this.filesToUpload });
       }
    }
 
@@ -154,9 +141,18 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
             this.initOffering?.amountRequested ?? 10000,
             Validators.required,
          ),
-         offeringFiles: new FormControl(this.initOffering?.offeringFiles ?? []),
-         files: new FormControl([]),
+         offeringFiles: new FormControl(
+            (this.initOffering?.offeringFiles ?? []).filter((f) => f.offeringFileId !== 0),
+         ),
       });
+
+      if (this.initOffering?.user?.accountType === AccountType.Advertiser) {
+         if (!this.initOffering?.industry)
+            this.form?.get('industry')?.setValue(Industries['Advertising (AdTech)']);
+      } else if (this.initOffering?.user?.accountType === AccountType.Investor) {
+         if (!this.initOffering?.investorOfferingType)
+            this.form?.get('investorOfferingType')?.setValue(InvestorOfferingType.Investor);
+      }
 
       this.form.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((v) => {
          this.formChange.emit(v);
@@ -165,16 +161,19 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    selectFile(event: any) {
       const files = event.target.files;
-      this.form?.patchValue({
-         offeringFiles: Array.from(files).map((f: any) => {
-            return {
-               name: f.name,
-               url: '',
-               offeringFileId: 0,
-               offeringId: this.initOffering?.offeringId,
-            };
-         }),
-         files,
+      const filesToUpload = Array.from(files).map((f: any) => {
+         return {
+            name: f.name,
+            url: '',
+            offeringFileId: 0,
+            offeringId: this.initOffering?.offeringId,
+            file: f,
+         };
+      });
+      const formValues = this.form?.getRawValue() ?? {};
+      this.formChange.emit({
+         ...formValues,
+         offeringFiles: [...formValues.offeringFiles, ...filesToUpload],
       });
    }
 }

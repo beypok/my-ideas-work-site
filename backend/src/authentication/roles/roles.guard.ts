@@ -1,6 +1,6 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
 import { AuthRole } from '@myideaswork/common/enums';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLE_KEY } from './roles.decorator';
 
@@ -13,25 +13,15 @@ export class RolesGuard implements CanActivate {
          context.getHandler(),
          context.getClass(),
       ]);
+
       const user = context.switchToHttp().getRequest().user;
 
+      // Always allow if role is public
+      if (role === AuthRole.Public) return true;
       // Always allow if user is a founder
       if (user.isAdmin) return true;
       else {
-         // Make sure that they are in a group
-         // if (!(user.groupId && user.groupRole)) throw new UnauthorizedException();
-
-         // // Allow if valid group role
-         // if (role == AuthRole.GroupAdmin) {
-         //   if (user.groupRole == GroupUserRole.Admin || user.groupRole == GroupUserRole.Owner)
-         //     return true;
-         // } else if (role == AuthRole.GroupOwner) {
-         //   if (user.groupRole == GroupUserRole.Owner) return true;
-         // }
          return false;
       }
-
-      // Default deny
-      throw new UnauthorizedException();
    }
 }

@@ -1,3 +1,7 @@
+<div *ngIf="(offeringsCallState$ | async) === _callState.Loading" class="spinner-overlay">
+   <mat-spinner></mat-spinner>
+</div>
+
 <div class="my-offering-page-container">
    <div class="lhs">
       <div class="offerings">

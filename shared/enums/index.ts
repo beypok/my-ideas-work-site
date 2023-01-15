@@ -1,6 +1,7 @@
 export * from './account-type.enum';
 export * from './approval-state.enum';
 export * from './auth-role.enum';
+export * from './call-state.enum';
 export * from './collateral.enum';
 export * from './industries.enum';
 export * from './investor-offering-type.enum';
