@@ -40,6 +40,7 @@
             <mat-form-field>
                <mat-label>Confirm Password</mat-label>
                <input
+                  (keydown.enter)="handleFormButtonClick()"
                   matInput
                   name="confirmPassword"
                   formControlName="confirmPassword"

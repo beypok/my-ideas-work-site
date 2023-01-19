@@ -21,6 +21,7 @@
             <mat-form-field>
                <mat-label>Password</mat-label>
                <input
+                  (keydown.enter)="handleFormButtonClick()"
                   matInput
                   name="password"
                   formControlName="password"
