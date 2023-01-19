@@ -42,3 +42,8 @@ export const selectReAuthProcessed = createSelector(
    selectAuthentication,
    (state: AuthenticationState) => state.reauthProcessed,
 );
+
+export const selectPaymentMethods = createSelector(
+   selectAuthentication,
+   (state: AuthenticationState) => state.paymentMethods,
+);

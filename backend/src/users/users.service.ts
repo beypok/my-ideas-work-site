@@ -62,6 +62,33 @@ export class UsersService {
       return this.findById(mutatedUser.id);
    }
 
+   async updateUserCustomerId(user: User, customerId: string | null): Promise<User> {
+      await this.usersRepository.save({ ...user, customerId });
+      return this.findById(user.id);
+   }
+
+   async updateUserPurchasedIntroductions(
+      user: User,
+      purchasedIntroductions: number,
+   ): Promise<User> {
+      const foundUser = await this.findById(user.id);
+      await this.usersRepository.save({
+         ...user,
+         purchasedIntroductions: foundUser.purchasedIntroductions + purchasedIntroductions,
+      });
+      return {
+         ...foundUser,
+         purchasedIntroductions: foundUser.purchasedIntroductions + purchasedIntroductions,
+      };
+   }
+
+   async decrementPurchasedIntroductions(user: User): Promise<User> {
+      const userInDB = await this.findById(user.id);
+      const purchasedIntroductions = Math.max(userInDB.purchasedIntroductions - 1, 0);
+      await this.usersRepository.save({ id: userInDB.id, purchasedIntroductions });
+      return { ...userInDB, purchasedIntroductions };
+   }
+
    deleteByIds(ids: number[]): Promise<DeleteResult> {
       return this.usersRepository.delete({ id: In(ids) });
    }

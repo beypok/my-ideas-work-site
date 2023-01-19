@@ -1,0 +1,17 @@
+@import 'variables';
+.purchase-introductions-dialog-wrapper {
+   .heading {
+      margin: 0.5em;
+      p {
+         margin: 0.5em 0;
+      }
+   }
+
+   .buttons {
+      margin-left: auto;
+      width: max-content;
+      button {
+         margin-left: 0.5em;
+      }
+   }
+}

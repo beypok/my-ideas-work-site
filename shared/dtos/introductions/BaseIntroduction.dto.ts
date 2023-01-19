@@ -6,7 +6,7 @@ import { Introduction as IIntroduction } from '../../interfaces';
 export class BaseIntroductionDto implements IIntroduction {
    @IsInt()
    @Expose()
-   userId!: number;
+   offeringId!: number;
 
    @IsEmail()
    @Expose()

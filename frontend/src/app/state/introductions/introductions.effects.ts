@@ -1,40 +1,77 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { AddIntroductionDialogComponent } from 'src/app/components/add-introduction-dialog/add-introduction-dialog.component';
+import { PurchaseIntroductionsDialogComponent } from 'src/app/components/purchase-introductions-dialog/purchase-introductions-dialog.component';
 import * as IntroductionActions from './introductions.actions';
 import { IntroductionService } from './introductions.service';
 
 @Injectable()
 export class IntroductionEffects {
-   // openAddIntroductionDialog$ = createEffect(() =>
-   //    this.actions$.pipe(
-   //       ofType(IntroductionActions.openAddIntroductionDialog),
-   //       switchMap((action): Observable<any> => {
-   //          this.dialogService.open(AddIntroductionDialogComponent, { disableClose: true });
-   //          return EMPTY;
-   //       }),
-   //    ),
-   // );
-   // closeAddIntroductionDialog$ = createEffect(() =>
-   //    this.actions$.pipe(
-   //       ofType(
-   //          IntroductionActions.closeAddIntroductionDialog,
-   //          IntroductionActions.addIntroductionToCreate,
-   //       ),
-   //       switchMap((action): Observable<any> => {
-   //          this.dialogService.closeAll();
-   //          return EMPTY;
-   //       }),
-   //    ),
-   // );
+   openAddIntroductionDialog$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(IntroductionActions.openAddIntroductionDialog),
+         switchMap((action): Observable<any> => {
+            this.addIntroductionDialogRef = this.dialogService.open(
+               AddIntroductionDialogComponent,
+               {
+                  disableClose: true,
+                  data: { offering: action.offering },
+               },
+            );
+            return EMPTY;
+         }),
+      ),
+   );
+
+   closeAddIntroductionDialog$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(
+            IntroductionActions.closeAddIntroductionDialog,
+            IntroductionActions.createIntroductionSuccess,
+         ),
+         switchMap((action): Observable<any> => {
+            this.addIntroductionDialogRef?.close();
+            return EMPTY;
+         }),
+      ),
+   );
+
+   openPurchaseIntroductionDialog$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(IntroductionActions.openPurchaseIntroductionsDialog),
+         switchMap((action): Observable<any> => {
+            this.purchaseIntroductionsRef = this.dialogService.open(
+               PurchaseIntroductionsDialogComponent,
+               {
+                  disableClose: true,
+               },
+            );
+            return EMPTY;
+         }),
+      ),
+   );
+
+   closePurchaseIntroductionDialog$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(
+            IntroductionActions.closePurchaseIntroductionsDialog,
+            IntroductionActions.purchaseIntroductionsSuccess,
+         ),
+         switchMap((action): Observable<any> => {
+            this.purchaseIntroductionsRef?.close();
+            return EMPTY;
+         }),
+      ),
+   );
 
    createIntroduction$ = createEffect(() =>
       this.actions$.pipe(
          ofType(IntroductionActions.createIntroduction),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.createIntroduction(action.introduction).pipe(
+            return this.introductionService.createIntroduction(action.introduction).pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.createIntroductionSuccess({ introduction: response }),
@@ -42,6 +79,22 @@ export class IntroductionEffects {
                }),
                catchError((error) => {
                   return of(IntroductionActions.createIntroductionFailure({ error }));
+               }),
+            );
+         }),
+      ),
+   );
+
+   purchaseIntroduction$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(IntroductionActions.purchaseIntroductions),
+         switchMap((action): Observable<any> => {
+            return this.introductionService.purchaseIntroductions(action.paymentCredentials).pipe(
+               switchMap((response) => {
+                  return of(IntroductionActions.purchaseIntroductionsSuccess({ user: response }));
+               }),
+               catchError((error) => {
+                  return of(IntroductionActions.purchaseIntroductionsFailure({ error }));
                }),
             );
          }),
@@ -57,7 +110,7 @@ export class IntroductionEffects {
             IntroductionActions.denyIntroductionSuccess,
          ),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.getMyIntroduction().pipe(
+            return this.introductionService.getMyIntroduction().pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.getMyIntroductionsSuccess({ introductions: response }),
@@ -75,7 +128,7 @@ export class IntroductionEffects {
       this.actions$.pipe(
          ofType(IntroductionActions.getAllIntroductions),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.getAllIntroduction().pipe(
+            return this.introductionService.getAllIntroduction().pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.getAllIntroductionsSuccess({ introductions: response }),
@@ -93,7 +146,7 @@ export class IntroductionEffects {
       this.actions$.pipe(
          ofType(IntroductionActions.getApprovedIntroductions),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.getApprovedIntroductions().pipe(
+            return this.introductionService.getApprovedIntroductions().pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.getApprovedIntroductionsSuccess({
@@ -113,7 +166,7 @@ export class IntroductionEffects {
       this.actions$.pipe(
          ofType(IntroductionActions.getApprovedIntroduction),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.getApprovedIntroduction(action.id).pipe(
+            return this.introductionService.getApprovedIntroduction(action.id).pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.getApprovedIntroductionSuccess({
@@ -133,7 +186,7 @@ export class IntroductionEffects {
       this.actions$.pipe(
          ofType(IntroductionActions.approveIntroduction),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.approveIntroduction(action.introduction).pipe(
+            return this.introductionService.approveIntroduction(action.introduction).pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.approveIntroductionSuccess({ introduction: response }),
@@ -151,7 +204,7 @@ export class IntroductionEffects {
       this.actions$.pipe(
          ofType(IntroductionActions.denyIntroduction),
          switchMap((action): Observable<any> => {
-            return this.IntroductionService.denyIntroduction(action.introduction).pipe(
+            return this.introductionService.denyIntroduction(action.introduction).pipe(
                switchMap((response) => {
                   return of(
                      IntroductionActions.denyIntroductionSuccess({ introduction: response }),
@@ -165,9 +218,17 @@ export class IntroductionEffects {
       ),
    );
 
+   private purchaseIntroductionsRef: MatDialogRef<
+      PurchaseIntroductionsDialogComponent,
+      any
+   > | null = null;
+
+   private addIntroductionDialogRef: MatDialogRef<AddIntroductionDialogComponent, any> | null =
+      null;
+
    constructor(
       private actions$: Actions<any>,
-      private IntroductionService: IntroductionService,
+      private introductionService: IntroductionService,
       private dialogService: MatDialog,
    ) {}
 }

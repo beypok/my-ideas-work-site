@@ -9,6 +9,7 @@ import {
    approveIntroduction,
    denyIntroduction,
    getMyIntroductions,
+   openPurchaseIntroductionsDialog,
 } from 'src/app/state/introductions/introductions.actions';
 import { selectMyIntroductions } from 'src/app/state/introductions/introductions.selector';
 
@@ -112,12 +113,13 @@ export class MyIntroductionsPageComponent implements OnDestroy, OnInit {
       const shouldApprove =
          this.selectedIntroduction &&
          (this.currentUser?.accountType === AccountType.Investor ||
-            window.confirm(
-               'Do logic for telling user this costs $10 and accepting payment... Confirming represents payment successfully went through and approval should be finished on our end',
-            ));
+            (this.currentUser?.purchasedIntroductions ?? 0) > 0);
 
-      if (shouldApprove)
+      if (shouldApprove) {
          this.store.dispatch(approveIntroduction({ introduction: this.selectedIntroduction! }));
+      } else {
+         this.store.dispatch(openPurchaseIntroductionsDialog());
+      }
    }
 
    onDeny() {

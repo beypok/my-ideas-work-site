@@ -8,7 +8,7 @@ import {
    SimpleChanges,
    ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Introduction, User } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -32,11 +32,19 @@ export class IntroductionFormComponent implements OnDestroy, OnChanges {
 
    @Input('showFooterButtons') showFooterButtons: boolean = true;
 
+   @Input('primaryFooterButton') primaryFooterButton: string | null = null;
+
+   @Input('cancelFooterButton') cancelFooterButton: string | null = null;
+
    @Output() formChange = new EventEmitter<Introduction>();
 
    @Output() approve = new EventEmitter<void>();
 
+   @Output() submit = new EventEmitter<Introduction>();
+
    @Output() deny = new EventEmitter<void>();
+
+   @Output() cancel = new EventEmitter<void>();
 
    form: FormGroup | null = null;
 
@@ -75,57 +83,29 @@ export class IntroductionFormComponent implements OnDestroy, OnChanges {
       e.preventDefault();
       e.stopPropagation();
       if (this.form?.valid) {
-         this.approve.emit(this.form?.getRawValue());
+         if (this.readonly) {
+            this.approve.emit();
+         } else {
+            this.submit.emit(this.form?.getRawValue());
+         }
       }
    }
 
-   onDeny() {
-      this.deny.emit();
+   onSecondary() {
+      if (this.readonly) {
+         this.deny.emit();
+      } else {
+         this.cancel.emit();
+      }
    }
 
    private buildForm() {
       this.form = this.fb.group({
-         // name: new FormControl(this.initIntroduction?.name ?? '', Validators.required),
-         // offeringType: new FormControl(
-         //    this.initIntroduction?.offeringType ?? IntroductionType.Business,
-         //    Validators.required,
-         // ),
-         // description: new FormControl(
-         //    this.initIntroduction?.description ?? null,
-         //    Validators.required,
-         // ),
-         // location: new FormControl(
-         //    this.initIntroduction?.location ?? Location['United States'],
-         //    Validators.required,
-         // ),
-         // projectPhase: new FormControl(
-         //    this.initIntroduction?.projectPhase ?? ProjectPhase.Acquisition,
-         //    Validators.required,
-         // ),
-         // collateral: new FormControl(
-         //    this.initIntroduction?.collateral ?? Collateral.Bond,
-         //    Validators.required,
-         // ),
-         // terms: new FormControl(
-         //    this.initIntroduction?.terms ?? Terms.LineOfCredit,
-         //    Validators.required,
-         // ),
-         // contactEmail: new FormControl(this.initIntroduction?.contactEmail ?? '', [
-         //    Validators.required,
-         //    Validators.email,
-         // ]),
-         // amountRangeStart: new FormControl(
-         //    this.initIntroduction?.amountRangeStart ?? 0,
-         //    Validators.required,
-         // ),
-         // amountRangeEnd: new FormControl(
-         //    this.initIntroduction?.amountRangeEnd ?? 10000,
-         //    Validators.required,
-         // ),
-         // amountRequested: new FormControl(
-         //    this.initIntroduction?.amountRequested ?? 10000,
-         //    Validators.required,
-         // ),
+         contactEmail: new FormControl(
+            this.initIntroduction?.contactEmail ?? '',
+            Validators.required,
+         ),
+         message: new FormControl(this.initIntroduction?.message ?? '', Validators.required),
       });
       this.form.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((v) => {
          this.formChange.emit(v);

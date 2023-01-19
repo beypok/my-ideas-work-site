@@ -4,8 +4,10 @@ export interface User {
    id?: number;
    email?: string;
    password?: string;
-   accountType: AccountType;
+   accountType?: AccountType;
    isAdmin?: boolean;
+   purchasedIntroductions?: number;
+   customerId?: string | null;
 }
 
 export interface AuthenticatedUser {

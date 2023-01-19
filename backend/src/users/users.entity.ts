@@ -18,6 +18,12 @@ export class User implements IUser {
    @Column({ enum: AccountType })
    accountType: AccountType;
 
+   @Column({ unsigned: true })
+   purchasedIntroductions: number;
+
+   @Column({ nullable: true, default: null })
+   customerId?: string;
+
    /*
     isAdmin property should only be set through manually interacting with the database
     a new user should not be able to be created with this field as true through the users controller

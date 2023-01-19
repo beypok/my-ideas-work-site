@@ -57,6 +57,7 @@
    <div class="rhs">
       <div *ngIf="selectedIntroduction" class="selected-introduction">
          <introduction-form
+            [readonly]="true"
             [initIntroduction]="selectedIntroduction"
             [showFooterButtons]="isSelectedIntroductionReceived && isSelectedIntroductionPending"
             (approve)="onApprove()"
@@ -66,15 +67,6 @@
                <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
             </div>
          </introduction-form>
-         <!-- <introduction-form
-                  [showFooterButtons]="false"
-                  [initIntroduction]="selectedIntroduction"
-                  (formChange)="handleSelectedIntroductionFormChange($event)"
-               >
-                  <div heading [class]="getIntroductionApprovalStateClass(selectedIntroduction)">
-                     <p>{{ getIntroductionApprovalStateText(selectedIntroduction) }}</p>
-                  </div>
-               </introduction-form> -->
       </div>
    </div>
 </div>

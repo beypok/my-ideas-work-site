@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { mergeMap, Observable, of, Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { Injectable } from '@angular/core';
 import {
    CreateUserDto,
    ResponseAuthenticatedUserDto,
    ResponseUserDto,
 } from '@myideaswork/common/dtos';
+import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 export const ACCESS_TOKEN_LS_KEY = 'access_token';
 
@@ -34,6 +34,10 @@ export class AuthenticationService {
    signup(createUserInfo: CreateUserDto): Observable<ResponseAuthenticatedUserDto> {
       let body: CreateUserDto = { ...createUserInfo };
       return this.http.post<ResponseAuthenticatedUserDto>(`${environment.serverUrl}/users`, body);
+   }
+
+   getCustomerPaymentMethods(): Observable<any[]> {
+      return this.http.get<any[]>(`${environment.serverUrl}/stax/paymentMethods/me`);
    }
 
    setAccessToken(access_token: string): void {

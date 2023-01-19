@@ -1,5 +1,5 @@
-import { CreateUserDto, ResponseUserDto } from '@myideaswork/common/dtos';
-import { User } from '@myideaswork/common/interfaces';
+import { CreateUserDto } from '@myideaswork/common/dtos';
+import { PaymentMethod, User } from '@myideaswork/common/interfaces';
 import { createAction, props } from '@ngrx/store';
 
 export const reAuthenticate = createAction('[Authentication] reAuthenticate');
@@ -37,5 +37,17 @@ export const signupSuccess = createAction(
 );
 export const signupFailure = createAction(
    '[Authentication] signup failure',
+   props<{ error: Error }>(),
+);
+
+export const loadCustomerPaymentMethods = createAction(
+   '[Authentication] load customer payment methods',
+);
+export const loadCustomerPaymentMethodsSuccess = createAction(
+   '[Authentication] load customer payment methods success',
+   props<{ paymentMethods: PaymentMethod[] }>(),
+);
+export const loadCustomerPaymentMethodsFailure = createAction(
+   '[Authentication] load customer payment methods failure',
    props<{ error: Error }>(),
 );

@@ -1,13 +1,26 @@
-import { CreateIntroductionDto, ResponseIntroductionDto } from '@myideaswork/common/dtos';
-import { Introduction } from '@myideaswork/common/interfaces';
+import {
+   CreateIntroductionDto,
+   ResponseIntroductionDto,
+   ResponseUserDto,
+} from '@myideaswork/common/dtos';
+import { Introduction, Offering, PaymentCredentials } from '@myideaswork/common/interfaces';
 import { createAction, props } from '@ngrx/store';
 
 export const openAddIntroductionDialog = createAction(
    '[Introductions] Open add introduction dialog',
+   props<{ offering: Offering }>(),
 );
 
 export const closeAddIntroductionDialog = createAction(
    '[Introductions] Close add introduction dialog',
+);
+
+export const openPurchaseIntroductionsDialog = createAction(
+   '[Introductions] Open purchase introduction dialog',
+);
+
+export const closePurchaseIntroductionsDialog = createAction(
+   '[Introductions] Close purchase introduction dialog',
 );
 
 export const createIntroduction = createAction(
@@ -20,6 +33,19 @@ export const createIntroductionSuccess = createAction(
 );
 export const createIntroductionFailure = createAction(
    '[Introductions] Create Introduction failure',
+   props<{ error: Error }>(),
+);
+
+export const purchaseIntroductions = createAction(
+   '[Introductions] Purchase Introductions',
+   props<{ paymentCredentials: PaymentCredentials }>(),
+);
+export const purchaseIntroductionsSuccess = createAction(
+   '[Introductions] Purchase Introductions success',
+   props<{ user: ResponseUserDto }>(),
+);
+export const purchaseIntroductionsFailure = createAction(
+   '[Introductions] Purchase Introductions failure',
    props<{ error: Error }>(),
 );
 

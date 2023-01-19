@@ -28,10 +28,6 @@ export class UpdateIntroductionDto extends BaseIntroductionDto {
    @IsOptional()
    override contactEmail!: string;
 
-   @IsInt()
-   @IsOptional()
-   override userId!: number;
-
    @IsString()
    @IsOptional()
    override message!: string;

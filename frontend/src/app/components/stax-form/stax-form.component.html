@@ -1,0 +1,79 @@
+<form [formGroup]="form">
+   <div class="payment-methods">
+      <mat-radio-group aria-label="Select an option" formControlName="paymentMethodId">
+         <mat-radio-button [value]="null">New Payment Method </mat-radio-button>
+         <mat-radio-button
+            *ngFor="let paymentMethod of paymentMethods"
+            [value]="paymentMethod.id"
+            class="payment-method"
+         >
+            {{ paymentMethod.nickname }}
+         </mat-radio-button>
+      </mat-radio-group>
+   </div>
+
+   <div class="new-payment-method" *ngIf="form.get('paymentMethodId')?.value === null">
+      <h4>Add new payment method</h4>
+      <div class="flex-inputs">
+         <mat-form-field>
+            <mat-label>First name</mat-label>
+            <input type="text" matInput formControlName="firstName" />
+            <mat-error *ngIf="form.get('firstName')?.hasError('required')"
+               >Please enter a first name</mat-error
+            >
+         </mat-form-field>
+         <mat-form-field>
+            <mat-label>Last name</mat-label>
+            <input type="text" matInput formControlName="lastName" />
+            <mat-error *ngIf="form.get('lastName')?.hasError('required')"
+               >Please enter a last name</mat-error
+            >
+         </mat-form-field>
+         <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input type="text" matInput formControlName="phone" />
+            <mat-error
+               *ngIf="
+                  form.get('phone')?.hasError('required') || form.get('phone')?.hasError('pattern')
+               "
+               >Please enter valid phone #</mat-error
+            >
+         </mat-form-field>
+      </div>
+      <div class="flex-inputs">
+         <mat-form-field>
+            <mat-label>Card</mat-label>
+            <input type="text" matInput formControlName="card" />
+            <mat-error
+               *ngIf="
+                  form.get('card')?.hasError('required') || form.get('card')?.hasError('pattern')
+               "
+               >Please enter a valid credit card #</mat-error
+            >
+         </mat-form-field>
+         <mat-form-field>
+            <mat-label>CVV</mat-label>
+            <input type="text" matInput formControlName="cvv" />
+            <mat-error
+               *ngIf="form.get('cvv')?.hasError('required') || form.get('cvv')?.hasError('pattern')"
+               >Please enter a valid cvv #</mat-error
+            >
+         </mat-form-field>
+         <mat-form-field class="expiration">
+            <mat-label>Expiration Month</mat-label>
+            <input type="number" matInput formControlName="expirationMonth" />
+
+            <mat-error *ngIf="form.get('expirationMonth')?.hasError('required')"
+               >Please enter a expiration month</mat-error
+            >
+         </mat-form-field>
+         <mat-form-field class="expiration">
+            <mat-label>Expiration Year</mat-label>
+            <input type="number" matInput formControlName="expirationYear" />
+            <mat-error *ngIf="form.get('expirationYear')?.hasError('required')"
+               >Please enter a expiration year</mat-error
+            >
+         </mat-form-field>
+      </div>
+   </div>
+</form>

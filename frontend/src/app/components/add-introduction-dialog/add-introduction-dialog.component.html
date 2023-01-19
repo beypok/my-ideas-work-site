@@ -1,0 +1,14 @@
+<introduction-form
+   (cancel)="onCancel()"
+   (submit)="onSubmit($event)"
+   [primaryFooterButton]="'Request'"
+   [cancelFooterButton]="'Cancel'"
+>
+   <h2 heading>Request an introduction</h2>
+   <div *ngIf="!canRequestIntroduction" class="no-purchased-introductions" footer>
+      <p>* You have to purchase more introductions before requesting</p>
+      <button mat-raised-button color="warn" (click)="purchaseIntroductions()">
+         Purchase Introductions
+      </button>
+   </div>
+</introduction-form>

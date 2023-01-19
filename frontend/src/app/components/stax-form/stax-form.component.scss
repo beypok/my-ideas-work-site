@@ -1,0 +1,42 @@
+@import 'variables';
+
+.stax-form {
+   form {
+      .payment-methods,
+      .new-payment-method {
+         margin: 1em 0.5em;
+         width: 100%;
+
+         & > h4 {
+            margin-bottom: 0.25em;
+         }
+
+         .mat-radio-button {
+            margin-right: 0.5em;
+            &:last-child {
+               margin-right: 0;
+            }
+         }
+
+         .flex-inputs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            mat-form-field {
+               margin: 0 0.5em;
+               &:first-child {
+                  margin-left: 0;
+               }
+               &:last-child {
+                  margin-right: 0;
+               }
+            }
+         }
+
+         mat-form-field {
+            width: 100%;
+            margin: 0.5em;
+         }
+      }
+   }
+}

@@ -1,10 +1,24 @@
 .introduction-form-wrapper {
    width: 100%;
+
+   h2[heading] {
+      margin-bottom: 1em;
+   }
+
+   .readonly {
+      .form-content-wrapper {
+         margin-bottom: 2em;
+      }
+   }
    .form-content-wrapper {
       width: 100%;
-      margin-bottom: 2em;
+
+      & > mat-form-field {
+         width: 100%;
+      }
+
       & > h2 {
-         margin-bottom: 0.5em;
+         margin-bottom: 0.25em;
       }
 
       &.buttons {

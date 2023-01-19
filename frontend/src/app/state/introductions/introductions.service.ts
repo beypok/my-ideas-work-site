@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateIntroductionDto, ResponseIntroductionDto } from '@myideaswork/common/dtos';
-import { Introduction } from '@myideaswork/common/interfaces';
+import {
+   CreateIntroductionDto,
+   ResponseIntroductionDto,
+   ResponseUserDto,
+} from '@myideaswork/common/dtos';
+import { Introduction, PaymentCredentials } from '@myideaswork/common/interfaces';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -50,6 +54,12 @@ export class IntroductionService {
    ): Observable<ResponseIntroductionDto> {
       return this.http.post<ResponseIntroductionDto>(`${environment.serverUrl}/introductions`, {
          ...createIntroductionDto,
+      });
+   }
+
+   purchaseIntroductions(paymentCredentials: PaymentCredentials): Observable<ResponseUserDto> {
+      return this.http.post<ResponseUserDto>(`${environment.serverUrl}/introductions/purchase`, {
+         ...paymentCredentials,
       });
    }
 }

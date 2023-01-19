@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResponseAuthenticatedUserDto } from '@myideaswork/common/dtos';
+import { PaymentMethod } from '@myideaswork/common/interfaces';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -98,6 +99,25 @@ export class AuthenticationEffects {
                   }),
                   catchError((error: any) => {
                      return of(AuthenticationActions.signupFailure({ error }));
+                  }),
+               ),
+         ),
+      ),
+   );
+
+   loadPaymentMethods$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(AuthenticationActions.loadCustomerPaymentMethods),
+         switchMap(
+            (action): Observable<any> =>
+               this.authService.getCustomerPaymentMethods().pipe(
+                  map((response: PaymentMethod[]) => {
+                     return AuthenticationActions.loadCustomerPaymentMethodsSuccess({
+                        paymentMethods: response,
+                     });
+                  }),
+                  catchError((error: any) => {
+                     return of(AuthenticationActions.loadCustomerPaymentMethodsFailure({ error }));
                   }),
                ),
          ),

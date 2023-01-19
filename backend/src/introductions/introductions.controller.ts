@@ -1,13 +1,20 @@
 import { CreateIntroductionDto, ResponseIntroductionDto } from '@myideaswork/common/dtos';
 import { AuthRole } from '@myideaswork/common/enums';
+import { PaymentCredentials } from '@myideaswork/common/interfaces';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Param, Put, Request } from '@nestjs/common/decorators';
 import { Role } from 'src/authentication/roles/roles.decorator';
+import { StaxService } from 'src/stax/stax.service';
+import { UsersService } from 'src/users/users.service';
 import { IntroductionsService } from './introductions.service';
 
 @Controller('/introductions')
 export class IntroductionsController {
-   constructor(private readonly introductionsService: IntroductionsService) {}
+   constructor(
+      private readonly introductionsService: IntroductionsService,
+      private readonly userService: UsersService,
+      private readonly staxService: StaxService,
+   ) {}
 
    @Get('/me')
    async introductions(@Request() req): Promise<ResponseIntroductionDto[]> {
@@ -61,6 +68,11 @@ export class IntroductionsController {
    ): Promise<ResponseIntroductionDto> {
       const introduction = await this.introductionsService.createIntroduction(body, req.user);
       return this.introductionsService.mapIntroductionToResponseDto(introduction);
+   }
+
+   @Post('/purchase')
+   async purchaseIntroductions(@Body() body: PaymentCredentials, @Request() req): Promise<any> {
+      return this.staxService.purchaseIntroductions(body, req.user);
    }
 }
 

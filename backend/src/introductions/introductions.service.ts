@@ -1,10 +1,11 @@
 import { CreateIntroductionDto, ResponseIntroductionDto } from '@myideaswork/common/dtos';
-import { ApprovalState } from '@myideaswork/common/enums';
+import { AccountType, ApprovalState } from '@myideaswork/common/enums';
 import { Introduction } from '@myideaswork/common/interfaces';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { instanceToPlain, plainToClass } from 'class-transformer';
 import { User } from 'src/users/users.entity';
+import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { Introductions } from './introductions.entity';
 
@@ -13,6 +14,8 @@ export class IntroductionsService {
    constructor(
       @InjectRepository(Introductions)
       private introductionsRepository: Repository<Introductions>,
+      @Inject(UsersService)
+      private userService: UsersService,
    ) {}
 
    async getMyIntroductions(user: User) {
@@ -28,7 +31,6 @@ export class IntroductionsService {
             where: [{ createUserId: user.id }, { receiveUserId: user.id }],
          });
       } catch (e: any) {
-         console.log(e, user);
          if (e.message) {
             throw new BadRequestException(e.message);
          }
@@ -82,11 +84,24 @@ export class IntroductionsService {
 
    async approveIntroduction(introductionId: number) {
       try {
+         const introduction = await this.getIntroductionsById(introductionId);
+
+         if (introduction.receiveUser.accountType === AccountType.Advertiser) {
+            if (introduction.receiveUser.purchasedIntroductions <= 0) {
+               throw new BadRequestException(
+                  'User receiving introduction does not have sufficient introductions purchased',
+               );
+            } else {
+               await this.userService.decrementPurchasedIntroductions(introduction.receiveUser);
+            }
+         }
+
          await this.introductionsRepository.update(
             { introductionId: introductionId },
             { approvalState: ApprovalState.Approved },
          );
-         return await this.getIntroductionsById(introductionId);
+
+         return this.getIntroductionsById(introductionId);
       } catch (e: any) {
          if (e.message) {
             throw new BadRequestException(e.message);
@@ -110,11 +125,21 @@ export class IntroductionsService {
 
    async createIntroduction(introduction: CreateIntroductionDto, user: User) {
       try {
-         return await this.introductionsRepository.save({
+         const userInDB = await this.userService.findById(user.id);
+
+         if (userInDB.purchasedIntroductions <= 0 && userInDB.accountType !== AccountType.Investor)
+            throw new BadRequestException(
+               'User making introduction does not have sufficient introductions purchased',
+            );
+
+         const introductionResponse = await this.introductionsRepository.save({
             ...introduction,
-            createUserId: user.id,
+            createUserId: userInDB.id,
             approvalState: ApprovalState.Pending,
          });
+
+         await this.userService.decrementPurchasedIntroductions(userInDB);
+         return introductionResponse;
       } catch (e: any) {
          if (e.message) {
             throw new BadRequestException(e.message);

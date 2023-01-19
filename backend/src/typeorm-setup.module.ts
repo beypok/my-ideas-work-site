@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { IntroductionModule } from './introductions/introductions.module';
 import { OfferingFilesModule } from './offering-files/offering-files.module';
 import { OfferingModule } from './offerings/offerings.module';
+import { StaxModule } from './stax/stax.module';
 import { UserModule } from './users/users.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { UserModule } from './users/users.module';
       OfferingModule,
       OfferingFilesModule,
       IntroductionModule,
+      StaxModule,
    ],
 })
 export class TypeOrmSetupModule {}

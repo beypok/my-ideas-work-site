@@ -1,5 +1,5 @@
-import { Exclude, Type } from 'class-transformer';
-import { ArrayNotEmpty, IsArray, ValidateNested } from 'class-validator';
+import { Exclude, Expose, Type } from 'class-transformer';
+import { ArrayNotEmpty, IsArray, IsInt, ValidateNested } from 'class-validator';
 import { ApprovalState } from '../../enums';
 import { BaseIntroductionDto } from './BaseIntroduction.dto';
 
@@ -14,4 +14,12 @@ export class CreateIntroductionsDto {
 export class CreateIntroductionDto extends BaseIntroductionDto {
    @Exclude()
    override approvalState?: ApprovalState;
+
+   @IsInt()
+   @Expose()
+   receiveUserId!: number;
+
+   @IsInt()
+   @Expose()
+   createUserId!: number;
 }

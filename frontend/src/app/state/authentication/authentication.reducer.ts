@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { AuthenticationState, initialState } from './authentication.state';
+import { purchaseIntroductionsSuccess } from '../introductions/introductions.actions';
 import * as AuthenticationActions from './authentication.actions';
+import { AuthenticationState, initialState } from './authentication.state';
 
 const authenticationReducer = createReducer(
    initialState,
@@ -35,13 +36,17 @@ const authenticationReducer = createReducer(
       ...state,
       reauthProcessed: false,
    })),
-   on(AuthenticationActions.reAuthenticateSuccess, (state, action) => ({
-      ...state,
-      isLoggedIn: true,
-      loggingIn: false,
-      currentUser: action.user,
-      reauthProcessed: true,
-   })),
+   on(
+      AuthenticationActions.reAuthenticateSuccess,
+      purchaseIntroductionsSuccess,
+      (state, action) => ({
+         ...state,
+         isLoggedIn: true,
+         loggingIn: false,
+         currentUser: action.user,
+         reauthProcessed: true,
+      }),
+   ),
    on(AuthenticationActions.reAuthenticateFailure, (state, action) => ({
       ...state,
       reauthProcessed: true,
@@ -60,6 +65,17 @@ const authenticationReducer = createReducer(
       ...state,
       isLoggedIn: false,
       signingUp: false,
+      error: action.error,
+   })),
+   on(AuthenticationActions.loadCustomerPaymentMethods, (state) => ({
+      ...state,
+   })),
+   on(AuthenticationActions.loadCustomerPaymentMethodsSuccess, (state, action) => ({
+      ...state,
+      paymentMethods: action.paymentMethods,
+   })),
+   on(AuthenticationActions.loadCustomerPaymentMethodsFailure, (state, action) => ({
+      ...state,
       error: action.error,
    })),
 );

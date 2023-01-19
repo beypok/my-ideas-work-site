@@ -8,7 +8,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Offering } from '@myideaswork/common/interfaces';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { openAddIntroductionDialog } from 'src/app/state/introductions/introductions.actions';
 import { getApprovedOffering } from 'src/app/state/offerings/offerings.actions';
 import { selectApprovedOffering } from 'src/app/state/offerings/offerings.selector';
 
@@ -22,11 +23,16 @@ import { selectApprovedOffering } from 'src/app/state/offerings/offerings.select
 export class OfferingPageComponent implements OnDestroy, OnInit {
    offering$: Observable<Offering | null>;
 
+   private offering: Offering | null = null;
+
    private destroyed$ = new Subject<void>();
 
    constructor(private store: Store, private route: ActivatedRoute, private router: Router) {
       this.store.dispatch(getApprovedOffering({ id: +this.route.snapshot.params['id'] }));
       this.offering$ = this.store.select(selectApprovedOffering);
+      this.offering$.pipe(takeUntil(this.destroyed$)).subscribe((offering) => {
+         this.offering = offering;
+      });
    }
 
    ngOnInit(): void {}
@@ -36,9 +42,9 @@ export class OfferingPageComponent implements OnDestroy, OnInit {
    }
 
    onRequestIntroduction() {
-      alert(
-         'Open dialog with Stax iframe embedded for entering payment details if offering is made from an investor... i.e. a advertiser is requesting to be introduced',
-      );
+      if (this.offering) {
+         this.store.dispatch(openAddIntroductionDialog({ offering: this.offering }));
+      }
    }
 
    onBack() {

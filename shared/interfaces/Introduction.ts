@@ -12,4 +12,5 @@ export interface Introduction {
    createUser?: User;
    receiveUser?: User;
    offering?: Offering;
+   offeringId?: number;
 }

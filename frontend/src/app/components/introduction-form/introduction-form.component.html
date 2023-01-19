@@ -2,22 +2,42 @@
    <ng-content select="[heading]"></ng-content>
 
    <div class="introduction-contact-wrapper form-content-wrapper">
-      <h2>Contact Email:</h2>
-      <p>
-         {{
-            initIntroduction?.createUser?.email ??
-               initIntroduction?.contactEmail ??
-               'No contact email provided'
-         }}
-      </p>
+      <ng-container *ngIf="readonly">
+         <h2>Contact Email:</h2>
+         <p>
+            {{
+               initIntroduction?.createUser?.email ??
+                  initIntroduction?.contactEmail ??
+                  'No contact email provided'
+            }}
+         </p>
+      </ng-container>
+      <mat-form-field *ngIf="!readonly">
+         <mat-label>Contact Email</mat-label>
+         <input type="text" matInput formControlName="contactEmail" />
+         <mat-error *ngIf="form.get('contactEmail')?.hasError('required')"
+            >Contact email is required</mat-error
+         >
+      </mat-form-field>
    </div>
 
    <div class="introduction-message-wrapper form-content-wrapper">
-      <h2>Message:</h2>
-      <p>{{ initIntroduction?.message ?? 'No message attached to introduction' }}</p>
+      <ng-container *ngIf="readonly">
+         <h2>Message:</h2>
+         <p>
+            {{ initIntroduction?.message ?? 'No message attached to introduction' }}
+         </p>
+      </ng-container>
+      <mat-form-field *ngIf="!readonly">
+         <mat-label>Message</mat-label>
+         <textarea matInput formControlName="message"></textarea>
+         <mat-error *ngIf="form.get('message')?.hasError('required')"
+            >Message is required</mat-error
+         >
+      </mat-form-field>
    </div>
 
-   <div class="offering-form-wrapper form-content-wrapper">
+   <div *ngIf="readonly" class="offering-form-wrapper form-content-wrapper">
       <h2>Offering Information:</h2>
       <offering-form
          *ngIf="initIntroduction?.offering"
@@ -27,11 +47,15 @@
       ></offering-form>
    </div>
 
+   <ng-content select="[footer]"></ng-content>
    <div class="buttons form-content-wrapper">
-      <ng-content select="[footer]"></ng-content>
       <ng-container *ngIf="showFooterButtons">
-         <button type="button" mat-stroked-button color="primary" (click)="onDeny()">Deny</button>
-         <button type="submit" mat-raised-button color="primary">Approve</button>
+         <button type="button" mat-stroked-button color="primary" (click)="onSecondary()">
+            {{ cancelFooterButton ?? 'Deny' }}
+         </button>
+         <button type="submit" mat-raised-button color="primary">
+            {{ primaryFooterButton ?? 'Approve' }}
+         </button>
       </ng-container>
    </div>
 </form>
