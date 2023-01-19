@@ -28,7 +28,8 @@ export class StaxService {
       );
 
       const introductionsQuantity = 10;
-      const introductionsCost = 49.95;
+      // const introductionsCost = 49.95;
+      const introductionsCost = 1;
 
       /* Charge payment method */
       const charge = await this.chargePaymentMethod(introductionsCost, paymentMethod.id);
