@@ -1,5 +1,5 @@
 import { ArrayNotEmpty, IsArray, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import { BaseUserDto } from "./BaseUser.dto";
 
 export class CreateUsersDto {
@@ -10,4 +10,7 @@ export class CreateUsersDto {
     items!: CreateUserDto[];
 }
 
-export class CreateUserDto extends BaseUserDto {}
+export class CreateUserDto extends BaseUserDto {
+    @Exclude()
+    purchasedIntroductions?: number
+}

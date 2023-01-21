@@ -40,6 +40,7 @@ export class UsersService {
          return await this.usersRepository.save({
             ...user,
             password: hashedPassword,
+            purchasedIntroductions: 0
          });
       } catch (e: any) {
          if (e.message) {
