@@ -6,18 +6,18 @@
     "workspaces": [
         "frontend",
         "backend",
-        "shared"
+        "common"
     ],
     "devDependencies": {
         "@types/passport-jwt": "^3.0.6",
         "@types/passport-local": "^1.0.34",
-        "nx": "14.1.9",
+        "nx": "^14.8.8",
         "tslib": "^2.4.0"
     },
     "scripts": {
         "frontend": "yarn workspace @myideaswork/frontend run start",
         "backend": "yarn workspace @myideaswork/backend",
-        "shared": "yarn workspace @myideaswork/common",
+        "common": "yarn workspace @myideaswork/common",
         "start:backend": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run start:prod"
     },
     "dependencies": {

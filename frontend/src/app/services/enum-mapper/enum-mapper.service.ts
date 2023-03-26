@@ -4,6 +4,7 @@ import {
    Collateral,
    Continent,
    Industries,
+   IndustriesFocus,
    InvestorOfferingType,
    Location,
    ProjectPhase,
@@ -28,6 +29,8 @@ export class EnumMapperService {
    _termsKeys = Object.keys(Terms);
    _collateral = Collateral;
    _collateralKeys = Object.keys(Collateral);
+   _industriesFocus = IndustriesFocus;
+   _industriesFocusKeys = Object.keys(IndustriesFocus);
 
    constructor() {}
 

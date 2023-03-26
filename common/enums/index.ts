@@ -4,6 +4,7 @@ export * from './auth-role.enum';
 export * from './call-state.enum';
 export * from './collateral.enum';
 export * from './industries.enum';
+export * from './industries-focus.enum';
 export * from './investor-offering-type.enum';
 export * from './locations.enum';
 export * from './project-phase.enum';
