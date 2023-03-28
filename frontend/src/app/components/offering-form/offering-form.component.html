@@ -26,9 +26,21 @@
       </mat-select>
    </mat-form-field>
 
-   <mat-form-field>
+   <mat-form-field *ngIf="currentUser?.accountType === enumMapper._accountType.Advertiser">
       <mat-label>Description</mat-label>
       <textarea matInput type="text" formControlName="description"></textarea>
+   </mat-form-field>
+
+   <mat-form-field>
+      <mat-label>Industry Focus</mat-label>
+      <mat-select formControlName="industryFocus" multiple>
+         <mat-option
+            *ngFor="let industry of enumMapper._industriesKeys"
+            [value]="enumMapper.mapEnumKeyToValue(industry, enumMapper._industries)"
+         >
+            {{ enumMapper.mapEnumKeyToValue(industry, enumMapper._industries) }}
+         </mat-option>
+      </mat-select>
    </mat-form-field>
 
    <div class="grid">

@@ -15,7 +15,8 @@
         "tslib": "^2.4.0"
     },
     "scripts": {
-        "frontend": "yarn workspace @myideaswork/frontend run start",
+        "frontend:build": "npm run build --workspace @myideaswork/common ; npm run build --workspace @myideaswork/frontend",
+        "frontend": "yarn workspace @myideaswork/frontend start",
         "backend": "yarn workspace @myideaswork/backend",
         "shared": "yarn workspace @myideaswork/common",
         "start:backend": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run start:prod"
