@@ -9,7 +9,7 @@ import { DeleteResult } from 'typeorm';
 @Controller('users')
 export class UsersController {
    constructor(
-      private readonly userService: UsersService, 
+      private readonly userService: UsersService,
       private readonly authenticationService: AuthenticationService
    ) {}
 

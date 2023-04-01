@@ -32,6 +32,12 @@
 $ npm install
 ```
 
+## Database migration
+```bash
+yarn run migration:generate ./src/migrations/creation
+yarn run migration:run
+```
+
 ## Running the app
 
 ```bash

@@ -15,15 +15,20 @@
         "tslib": "^2.4.0"
     },
     "scripts": {
+        "build": "yarn workspace @myideaswork/common run build; yarn workspace @myideaswork/backend run build; yarn workspace @myideaswork/frontend run build",
         "frontend:build": "npm run build --workspace @myideaswork/common ; npm run build --workspace @myideaswork/frontend",
-        "frontend": "yarn workspace @myideaswork/frontend start",
-        "backend": "yarn workspace @myideaswork/backend",
+        "frontend": "npm run build --workspace @myideaswork/common ; yarn workspace @myideaswork/frontend start",
         "shared": "yarn workspace @myideaswork/common",
-        "start:backend": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run start:prod"
+        "cache:clean": "npx jest --showConfig | grep cache; rm -rf /tmp/jest_rs; rm -R backend/dist/; rm -R frontend/dist/; rm -R shared/dist/; yarn cache clean; rm -R node_modules/; rm -R frontend/node_modules/; rm -R backend/node_modules/;rm -R shared/node_modules/; rm yarn.lock; rm package-lock.json; rm backend/yarn.lock; rm backend/package-lock.json; rm frontend/yarn.lock; rm frontend/package-lock.json; rm shared/yarn.lock; rm shared/package-lock.json",
+        "backend": "yarn workspace @myideaswork/common run build; yarn workspace @myideaswork/backend run build; yarn workspace @myideaswork/backend run start:dev",
+        "migration:run": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run migration:run",
+        "migration:generate": "yarn workspace @myideaswork/common run build & yarn workspace @myideaswork/backend run migration:generate"
     },
     "dependencies": {
+        "@nestjs/common": "8.0.0",
         "@nestjs/jwt": "^8.0.1",
         "@nestjs/passport": "^8.2.2",
+        "@nestjs/platform-express": "8.0.0",
         "angular": "^1.8.3",
         "passport": "^0.6.0",
         "passport-jwt": "^4.0.0",
