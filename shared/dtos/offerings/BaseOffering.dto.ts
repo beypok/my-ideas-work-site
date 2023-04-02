@@ -1,67 +1,62 @@
-import { Expose } from 'class-transformer';
-import { IsEmail, IsEnum, IsString } from 'class-validator';
-import {
-   ApprovalState,
-   Collateral,
-   Industries,
-   InvestorOfferingType,
-   Location,
-   ProjectPhase,
-   Terms,
-} from '../../enums';
-import { Offering as IOffering } from '../../interfaces';
-import { ResponseOfferingFileDto } from '../offering-files';
+import {Expose} from 'class-transformer';
+import {IsEmail, IsEnum, IsString} from 'class-validator';
+import {ApprovalState, Collateral, InvestorOfferingType, Location, ProjectPhase, Terms,Industries} from '../../enums';
+import {Industry, Offering as IOffering} from '../../interfaces';
+import {ResponseOfferingFileDto} from '../offering-files';
 
 export class BaseOfferingDto implements IOffering {
-   @IsEnum(InvestorOfferingType)
-   @Expose()
-   investorOfferingType!: InvestorOfferingType;
+    @IsEnum(InvestorOfferingType)
+    @Expose()
+    investorOfferingType!: InvestorOfferingType;
 
-   @IsEnum(Industries)
-   @Expose()
-   industry!: Industries;
+    @IsEnum(Industries)
+    @Expose()
+    industry!: Industries;
 
-   @IsString()
-   @Expose()
-   name!: string;
+    @Expose()
+    industryFocus!: Industry [];
 
-   @IsString()
-   @Expose()
-   description!: string;
+    @IsString()
+    @Expose()
+    name!: string;
 
-   @IsEnum(Location)
-   @Expose()
-   location!: Location;
+    @IsString()
+    @Expose()
+    description!: string;
 
-   @IsEnum(Collateral)
-   @Expose()
-   collateral!: Collateral;
+    @IsEnum(Location)
+    @Expose()
+    location!: Location;
 
-   @IsEnum(Terms)
-   @Expose()
-   terms!: Terms;
+    @IsEnum(Collateral)
+    @Expose()
+    collateral!: Collateral;
 
-   @IsEmail()
-   @Expose()
-   contactEmail!: string;
+    @IsEnum(Terms)
+    @Expose()
+    terms!: Terms;
 
-   @IsEnum(ApprovalState)
-   @Expose()
-   approvalState?: ApprovalState;
+    @IsEmail()
+    @Expose()
+    contactEmail!: string;
 
-   @IsEnum(ProjectPhase)
-   @Expose()
-   projectPhase!: ProjectPhase;
+    @IsEnum(ApprovalState)
+    @Expose()
+    approvalState?: ApprovalState;
 
-   @Expose()
-   amountRequested!: number | null;
+    @IsEnum(ProjectPhase)
+    @Expose()
+    projectPhase!: ProjectPhase;
 
-   @Expose()
-   amountRangeStart!: number | null;
+    @Expose()
+    amountRequested!: number | null;
 
-   @Expose()
-   amountRangeEnd!: number | null;
+    @Expose()
+    amountRangeStart!: number | null;
 
-   @Expose()
-   offeringFiles!: ResponseOfferingFileDto[];
+    @Expose()
+    amountRangeEnd!: number | null;
+
+    @Expose()
+    offeringFiles!: ResponseOfferingFileDto[];
 }

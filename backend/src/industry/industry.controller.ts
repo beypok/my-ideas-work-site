@@ -1,46 +1,17 @@
-import {  Controller, Delete, Get, NotFoundException, Param, Post, Query, Request, Put } from '@nestjs/common'
-import { DeleteResult } from 'typeorm';
+import {Controller, Get} from '@nestjs/common'
 import {IndustryService} from "./industry.service";
-import {Role} from "../authentication/roles/roles.decorator";
-import { ResponseIndustryDto } from '@myideaswork/common/dtos';
-import {AuthRole} from "@myideaswork/common/enums";
+import {ResponseIndustryDto} from '@myideaswork/common/dtos';
 
 @Controller('industry')
 export class IndustryController {
-   constructor(
-      private readonly industryService: IndustryService,
-   ) {}
-
-   @Get()
-  async findByIds(@Query('ids') idsString: string): Promise<ResponseIndustryDto[]> {
-    const ids = idsString.split(',').map((id) => parseInt(id));
-    const industries = await this.industryService.findByIds(ids);
-
-    if (industries.length < ids.length) {
-      const notFoundIds = [];
-      ids.forEach((id) => {
-        if (!industries.some((industry) => industry.id === id)) {
-          notFoundIds.push(id);
-        }
-      });
-      throw new NotFoundException(`Could not find industries with the ids: ${notFoundIds}`);
+    constructor(
+        private readonly industryService: IndustryService,
+    ) {
     }
 
-    return this.industryService.mapIndustriesToResponseDto(industries);
-  }
-
-  @Role(AuthRole.Public)
-  @Get(':id')
-  async findById(@Param('id') id: number): Promise<ResponseIndustryDto> {
-    const industry = await this.industryService.findById(id);
-    if (industry) return this.industryService.mapIndustryToResponseDto(industry);
-
-    throw new NotFoundException();
-  }
-
-  @Delete('me')
-  async deleteById(@Request() req): Promise<DeleteResult> {
-    const id = req.industry.id;
-    return await this.industryService.deleteById(id);
-  }
+    @Get('/all')
+    async findAll(): Promise<ResponseIndustryDto[]> {
+        const industries = await this.industryService.findAll();
+        return this.industryService.mapIndustriesToResponseDto(industries);
+    }
 }

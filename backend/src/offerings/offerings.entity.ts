@@ -15,7 +15,7 @@ import {Industry} from "src/industry/industry.entity";
 
 @Entity()
 export class Offerings {
-    @PrimaryGeneratedColumn({unsigned: true})
+   @PrimaryGeneratedColumn({ unsigned: true })
     offeringId: number;
 
     @Column({unsigned: true})
@@ -68,7 +68,11 @@ export class Offerings {
     introductions: Introductions[];
 
     @ManyToMany(() => Industry)
-    @JoinTable()
+    @JoinTable({
+        name: "offerings_industry_focus_industry",
+        joinColumn: { name: "offeringId", referencedColumnName: "offeringId" },
+        inverseJoinColumn: { name: "industryId" }
+    })
     industryFocus: Industry[];
 
     @OneToMany(() => OfferingFiles, (offeringFile) => offeringFile.offering)

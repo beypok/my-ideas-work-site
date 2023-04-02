@@ -8,8 +8,8 @@ import {
    SimpleChanges,
    ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CreateOfferingDto, UpdateOfferingDto } from '@myideaswork/common/dtos';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {CreateOfferingDto, UpdateOfferingDto} from '@myideaswork/common/dtos';
 import {
    AccountType,
    Collateral,
@@ -19,12 +19,14 @@ import {
    ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
-import { Offering, OfferingFile, User } from '@myideaswork/common/interfaces';
-import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { EnumMapperService } from 'src/app/services/enum-mapper/enum-mapper.service';
-import { selectCurrentUser } from 'src/app/state/authentication';
+import {Industry, Offering, OfferingFile, User} from '@myideaswork/common/interfaces';
+import {Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {EnumMapperService} from 'src/app/services/enum-mapper/enum-mapper.service';
+import {selectCurrentUser} from 'src/app/state/authentication';
+import {selectAllIndustries} from "src/app/state/industry/industry.selector";
+import * as IndustryActions from "src/app/state/industry/industry.actions";
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -56,8 +58,14 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    currentUser: User | null = null;
 
+   industryFocusList$: Observable<Industry[] | null>;
+
    get filesToUpload(): OfferingFile[] {
       return (this.initOffering?.offeringFiles ?? []).filter((f) => f.offeringFileId === 0);
+   }
+
+   compareIndustries(industry1: any, industry2: any) {
+      return industry1 && industry2 ? industry1.id === industry2.id : industry1 === industry2;
    }
 
    get uploadedFiles(): OfferingFile[] {
@@ -71,14 +79,18 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
    constructor(
       private store: Store,
       private fb: FormBuilder,
-      public enumMapper: EnumMapperService,
+      public enumMapper: EnumMapperService
    ) {
       this.buildForm();
+
+      this.industryFocusList$ = this.store.select(selectAllIndustries);
+      this.store.dispatch(IndustryActions.getIndustries());
 
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
          this.currentUser = user;
       });
+
    }
 
    ngOnChanges(changes: SimpleChanges): void {
@@ -95,7 +107,7 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
       e.preventDefault();
       e.stopPropagation();
       if (this.form?.valid) {
-         this.submit.emit({ ...this.form?.getRawValue(), filesToUpload: this.filesToUpload });
+         this.submit.emit({...this.form?.getRawValue(), filesToUpload: this.filesToUpload});
       }
    }
 

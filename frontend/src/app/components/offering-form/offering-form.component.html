@@ -3,7 +3,7 @@
 
    <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput type="text" formControlName="name" />
+      <input matInput type="text" formControlName="name"/>
    </mat-form-field>
 
    <mat-form-field *ngIf="initOffering?.user?.accountType === enumMapper._accountType.Investor">
@@ -31,15 +31,12 @@
       <textarea matInput type="text" formControlName="description"></textarea>
    </mat-form-field>
 
-   <mat-form-field>
+   <mat-form-field *ngIf="industryFocusList$&&currentUser?.accountType ===enumMapper._accountType.Investor">
       <mat-label>Industry Focus</mat-label>
-      <mat-select formControlName="industryFocus" multiple>
-         <mat-option
-            *ngFor="let industry of enumMapper._industriesKeys"
-            [value]="enumMapper.mapEnumKeyToValue(industry, enumMapper._industries)"
-         >
-            {{ enumMapper.mapEnumKeyToValue(industry, enumMapper._industries) }}
-         </mat-option>
+      <mat-select formControlName="industryFocus"
+                  multiple [compareWith]="compareIndustries">
+         <mat-option *ngFor="let industry of industryFocusList$ | async"
+                     [value]="industry">{{ industry.name }}</mat-option>
       </mat-select>
    </mat-form-field>
 
@@ -60,19 +57,19 @@
          *ngIf="initOffering?.user?.accountType === enumMapper._accountType.Advertiser"
       >
          <mat-label>Amount Requested</mat-label>
-         <input matInput type="text" formControlName="amountRequested" />
+         <input matInput type="text" formControlName="amountRequested"/>
       </mat-form-field>
       <span
          class="amount-range"
       >
          <mat-form-field>
             <mat-label>Amount Range Start</mat-label>
-            <input matInput type="text" formControlName="amountRangeStart" />
+            <input matInput type="text" formControlName="amountRangeStart"/>
          </mat-form-field>
          <p>to</p>
          <mat-form-field>
             <mat-label>Amount Range End</mat-label>
-            <input matInput type="text" formControlName="amountRangeEnd" />
+            <input matInput type="text" formControlName="amountRangeEnd"/>
          </mat-form-field>
       </span>
 
@@ -81,7 +78,7 @@
             initOffering?.user?.accountType === enumMapper._accountType.Advertiser
                ? 'Funding Type'
                : 'Project Phase'
-         }}</mat-label>
+            }}</mat-label>
          <mat-select formControlName="projectPhase">
             <mat-option
                *ngFor="let projectPhase of enumMapper._projectPhaseKeys"
@@ -118,7 +115,7 @@
 
       <mat-form-field>
          <mat-label>Contact Email</mat-label>
-         <input matInput type="email" formControlName="contactEmail" />
+         <input matInput type="email" formControlName="contactEmail"/>
       </mat-form-field>
    </div>
 
@@ -131,7 +128,7 @@
                [download]="file.name"
                [href]="file.url"
                *ngFor="let file of uploadedFiles"
-               >{{ file.name }}</a
+            >{{ file.name }}</a
             >
          </div>
       </div>
@@ -144,7 +141,7 @@
                [download]="file.name"
                [href]="file.url"
                *ngFor="let file of filesToUpload"
-               >{{ file.name }}</a
+            >{{ file.name }}</a
             >
          </div>
       </div>
@@ -152,7 +149,7 @@
       <button *ngIf="!readonly" mat-raised-button color="primary" (click)="fileInput.click()">
          <span>Upload Files</span>
          <mat-icon>attach_file</mat-icon>
-         <input hidden multiple (change)="selectFile($event)" #fileInput type="file" id="file" />
+         <input hidden multiple (change)="selectFile($event)" #fileInput type="file" id="file"/>
       </button>
    </div>
 
