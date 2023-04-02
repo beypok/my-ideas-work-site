@@ -1,78 +1,66 @@
-import { Type } from 'class-transformer';
-import {
-   ArrayNotEmpty,
-   IsArray,
-   IsEmail,
-   IsEnum,
-   IsInt,
-   IsOptional,
-   ValidateNested,
-} from 'class-validator';
-import {
-   ApprovalState,
-   Collateral,
-   Industries,
-   InvestorOfferingType,
-   Location,
-   ProjectPhase,
-   Terms,
-} from '../../enums';
-import { BaseOfferingDto } from './BaseOffering.dto';
+import {Type} from 'class-transformer';
+import {ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsInt, IsOptional, ValidateNested,} from 'class-validator';
+import {ApprovalState, Collateral, InvestorOfferingType, Location, ProjectPhase, Terms,Industries} from '../../enums';
+import {BaseOfferingDto} from './BaseOffering.dto';
+import {ResponseIndustryDto} from "../industry";
 
 export class UpdateOfferingsDto {
-   @IsArray()
-   @ArrayNotEmpty()
-   @ValidateNested({ each: true })
-   @Type(() => UpdateOfferingDto)
-   items!: UpdateOfferingDto[];
+    @IsArray()
+    @ArrayNotEmpty()
+    @ValidateNested({each: true})
+    @Type(() => UpdateOfferingDto)
+    items!: UpdateOfferingDto[];
 }
 
 export class UpdateOfferingDto extends BaseOfferingDto {
-   @IsInt()
-   offeringId!: number;
+    @IsInt()
+    offeringId!: number;
 
-   @IsOptional()
-   override name!: string;
+    @IsOptional()
+    override name!: string;
 
-   @IsOptional()
-   override description!: string;
+    @IsOptional()
+    override description!: string;
 
-   @IsOptional()
-   override investorOfferingType!: InvestorOfferingType;
+    @IsOptional()
+    override investorOfferingType!: InvestorOfferingType;
 
-   @IsOptional()
-   override industry!: Industries;
+    @IsOptional()
+    override industry!: Industries;
 
-   @IsEnum(Location)
-   @IsOptional()
-   override location!: Location;
+    @IsOptional()
+    override industryFocus!: ResponseIndustryDto [];
 
-   @IsEnum(Collateral)
-   @IsOptional()
-   override collateral!: Collateral;
+    @IsEnum(Location)
+    @IsOptional()
+    override location!: Location;
 
-   @IsEnum(Terms)
-   @IsOptional()
-   override terms!: Terms;
+    @IsEnum(Collateral)
+    @IsOptional()
+    override collateral!: Collateral;
 
-   @IsEmail()
-   @IsOptional()
-   override contactEmail!: string;
+    @IsEnum(Terms)
+    @IsOptional()
+    override terms!: Terms;
 
-   @IsEnum(ApprovalState)
-   @IsOptional()
-   override approvalState!: ApprovalState;
+    @IsEmail()
+    @IsOptional()
+    override contactEmail!: string;
 
-   @IsEnum(ProjectPhase)
-   @IsOptional()
-   override projectPhase!: ProjectPhase;
+    @IsEnum(ApprovalState)
+    @IsOptional()
+    override approvalState!: ApprovalState;
 
-   @IsOptional()
-   override amountRequested!: number | null;
+    @IsEnum(ProjectPhase)
+    @IsOptional()
+    override projectPhase!: ProjectPhase;
 
-   @IsOptional()
-   override amountRangeStart!: number | null;
+    @IsOptional()
+    override amountRequested!: number | null;
 
-   @IsOptional()
-   override amountRangeEnd!: number | null;
+    @IsOptional()
+    override amountRangeStart!: number | null;
+
+    @IsOptional()
+    override amountRangeEnd!: number | null;
 }

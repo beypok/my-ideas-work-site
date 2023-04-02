@@ -9,6 +9,7 @@ import {
 } from '../enums';
 import { OfferingFile } from './OfferingFile';
 import { User } from './User';
+import {Industry} from "./Industry";
 
 export interface Offering {
    offeringId?: number;
@@ -16,6 +17,7 @@ export interface Offering {
    description?: string;
    investorOfferingType?: InvestorOfferingType;
    industry?: Industries;
+   industryFocus?: Industry[];
    location?: Location;
    collateral?: Collateral;
    terms?: Terms;
