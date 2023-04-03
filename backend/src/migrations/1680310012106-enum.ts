@@ -4,7 +4,7 @@ export class enum1680310012106 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
 
-        await queryRunner.query(`INSERT INTO industry (id, name) VALUES
+        await queryRunner.query(`INSERT IGNORE INTO industry (id, name) VALUES
                                                                        (1, 'Advanced Materials'),
                                                                        (2, 'Advertising (AdTech)'),
                                                                        (3, 'AgTech (FarmTech)'),

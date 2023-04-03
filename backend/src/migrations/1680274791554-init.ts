@@ -23,13 +23,13 @@ export class init1680274791554 implements MigrationInterface {
             ENGINE = InnoDB`);
         await queryRunner.query(`CREATE TABLE IF NOT EXISTS \`introductions\` (\`introductionId\` int UNSIGNED NOT NULL AUTO_INCREMENT, \`createUserId\` int UNSIGNED NULL, \`receiveUserId\` int UNSIGNED NOT NULL, \`offeringId\` int UNSIGNED NOT NULL, \`contactEmail\` varchar(255) NULL, \`message\` varchar(255) NOT NULL, \`approvalState\` tinyint NOT NULL, PRIMARY KEY (\`introductionId\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE IF NOT EXISTS \`offerings_industry_focus_industry\` (\`offeringId\` int UNSIGNED NOT NULL, \`industryId\` int NOT NULL, INDEX \`IDX_32b032a2cb14fb8e7bd7211613\` (\`offeringId\`), INDEX \`IDX_730080556cdd97bee213eb5fad\` (\`industryId\`), PRIMARY KEY (\`offeringId\`, \`industryId\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`ALTER TABLE \`offering_files\` ADD CONSTRAINT \`FK_531bb15cc3c53b256ba573ac05a\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`offerings\` ADD CONSTRAINT \`FK_0a87c7142978a9dd9ec7571b8e5\` FOREIGN KEY (\`userId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_d851ffc9e2622bad7c3e497f6a2\` FOREIGN KEY (\`createUserId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_5984f31ea372beb5d7a240a7bba\` FOREIGN KEY (\`receiveUserId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_8f0cc58ea6a80853ea7294448a0\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE \`offerings_industry_focus_industry\` ADD CONSTRAINT \`FK_32b032a2cb14fb8e7bd72116138\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE \`offerings_industry_focus_industry\` ADD CONSTRAINT \`FK_730080556cdd97bee213eb5fad3\` FOREIGN KEY (\`industryId\`) REFERENCES \`industry\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
+        // await queryRunner.query(`ALTER TABLE \`offering_files\` ADD CONSTRAINT  \`FK_531bb15cc3c53b256ba573ac05a\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE NO ACTION ON UPDATE NO ACTION IF NOT EXISTS`);
+        // await queryRunner.query(`ALTER TABLE \`offerings\` ADD CONSTRAINT \`FK_0a87c7142978a9dd9ec7571b8e5\` FOREIGN KEY (\`userId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        // await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_d851ffc9e2622bad7c3e497f6a2\` FOREIGN KEY (\`createUserId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        // await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_5984f31ea372beb5d7a240a7bba\` FOREIGN KEY (\`receiveUserId\`) REFERENCES \`user\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        // await queryRunner.query(`ALTER TABLE \`introductions\` ADD CONSTRAINT \`FK_8f0cc58ea6a80853ea7294448a0\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        // await queryRunner.query(`ALTER TABLE \`offerings_industry_focus_industry\` ADD CONSTRAINT \`FK_32b032a2cb14fb8e7bd72116138\` FOREIGN KEY (\`offeringId\`) REFERENCES \`offerings\`(\`offeringId\`) ON DELETE CASCADE ON UPDATE CASCADE`);
+        // await queryRunner.query(`ALTER TABLE \`offerings_industry_focus_industry\` ADD CONSTRAINT \`FK_730080556cdd97bee213eb5fad3\` FOREIGN KEY (\`industryId\`) REFERENCES \`industry\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
