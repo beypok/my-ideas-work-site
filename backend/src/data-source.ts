@@ -2,11 +2,11 @@ import {DataSource, DataSourceOptions} from "typeorm";
 
 export const dataSourceOptions: DataSourceOptions = {
     type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'ideaswork',
-    password: 'ideaswork',
-    database: 'ideaswork',
+    host: process.env.MYSQLHOST || 'localhost',
+    port: parseInt(process.env.MYSQLPORT) || 3306,
+    username: process.env.MYSQLUSER || 'ideaswork',
+    password: process.env.MYSQLPASSWORD || 'ideaswork',
+    database: process.env.MYSQLDATABASE || 'ideaswork',
     migrations: ['dist/src/migrations/*.{ts,js}'],
     entities: ['dist/src/**/*.entity.{ts,js}'],
     logging: true,
