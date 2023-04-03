@@ -5,4 +5,5 @@ export enum ProjectPhase {
    Growth = 'Growth',
    Expansion = 'Expansion',
    IPO = 'IPO',
+   PreSeed = 'Pre-seed',
 }

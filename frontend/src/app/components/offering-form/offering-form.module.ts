@@ -9,8 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { OfferingsModule } from 'src/app/state/offerings/offerings.module';
 import { OfferingFormComponent } from './offering-form.component';
-import {IndustryModule} from "../../state/industry/industry.module";
+import {IndustryModule} from "src/app/state/industry/industry.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {ProjectPhaseModule} from "src/app/state/project-phase/project-phase.module";
 
 @NgModule({
    declarations: [OfferingFormComponent],
@@ -26,6 +27,7 @@ import {ReactiveFormsModule} from "@angular/forms";
       MatOptionModule,
       OfferingsModule,
       IndustryModule,
+      ProjectPhaseModule
    ],
    exports: [OfferingFormComponent],
 })

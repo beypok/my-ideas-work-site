@@ -16,10 +16,9 @@ import {
    Industries,
    InvestorOfferingType,
    Location,
-   ProjectPhase,
    Terms,
 } from '@myideaswork/common/enums';
-import {Industry, Offering, OfferingFile, User} from '@myideaswork/common/interfaces';
+import {Industry, ProjectPhase, Offering, OfferingFile, User} from '@myideaswork/common/interfaces';
 import {Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -27,6 +26,8 @@ import {EnumMapperService} from 'src/app/services/enum-mapper/enum-mapper.servic
 import {selectCurrentUser} from 'src/app/state/authentication';
 import {selectAllIndustries} from "src/app/state/industry/industry.selector";
 import * as IndustryActions from "src/app/state/industry/industry.actions";
+import {selectAllProjectPhases} from "src/app/state/project-phase/project-phase.selector";
+import * as ProjectPhaseActions from "src/app/state/project-phase/project-phase.actions";
 
 @Component({
    encapsulation: ViewEncapsulation.None,
@@ -60,12 +61,17 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
    industryFocusList$: Observable<Industry[] | null>;
 
+   projectPhaseList$: Observable<ProjectPhase[] | null>;
+
    get filesToUpload(): OfferingFile[] {
       return (this.initOffering?.offeringFiles ?? []).filter((f) => f.offeringFileId === 0);
    }
 
    compareIndustries(industry1: any, industry2: any) {
       return industry1 && industry2 ? industry1.id === industry2.id : industry1 === industry2;
+   }
+   compareProjectPhases(projectPhase1: any, projectPhase2: any) {
+      return projectPhase1 && projectPhase2 ? projectPhase1.id === projectPhase2.id : projectPhase1 === projectPhase2;
    }
 
    get uploadedFiles(): OfferingFile[] {
@@ -85,6 +91,9 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
 
       this.industryFocusList$ = this.store.select(selectAllIndustries);
       this.store.dispatch(IndustryActions.getIndustries());
+
+      this.projectPhaseList$ = this.store.select(selectAllProjectPhases);
+      this.store.dispatch(ProjectPhaseActions.getProjectPhases());
 
       this.currentUser$ = this.store.select(selectCurrentUser);
       this.currentUser$.pipe(takeUntil(this.destroyed$)).subscribe((user) => {
@@ -126,8 +135,8 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
             this.initOffering?.location ?? Location['United States'],
             Validators.required,
          ),
-         projectPhase: new FormControl(
-            this.initOffering?.projectPhase ?? ProjectPhase.Acquisition,
+         projectPhases: new FormControl(
+            this.initOffering?.projectPhases ?? null,
             Validators.required,
          ),
          collateral: new FormControl(

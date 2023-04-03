@@ -5,4 +5,5 @@ export * from './OfferingFile';
 export * from './PaymentCredentials';
 export * from './PaymentMethod';
 export * from './User';
+export * from './ProjectPhase';
 export * from './Industry';

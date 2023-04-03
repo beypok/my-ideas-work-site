@@ -5,6 +5,7 @@ import { State } from './core.state';
 import * as IntroductionsReducer from './introductions/introductions.reducer';
 import * as OfferingsReducer from './offerings/offerings.reducer';
 import * as IndustryReducer from './industry/industry.reducer';
+import * as ProjectPhaseReducer from './project-phase/project-phase.reducer';
 
 export const reducers: ActionReducerMap<State> = {
    app: AppReducer.reducer,
@@ -12,6 +13,7 @@ export const reducers: ActionReducerMap<State> = {
    offerings: OfferingsReducer.reducer,
    introductions: IntroductionsReducer.reducer,
    industries: IndustryReducer.reducer,
+   projectPhases: ProjectPhaseReducer.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = [];

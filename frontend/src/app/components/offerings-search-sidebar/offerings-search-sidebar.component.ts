@@ -29,7 +29,7 @@ export interface OfferingsSearchSidebarForm {
    industries: FormControl<Industries[] | null>;
    investorOfferingTypes: FormControl<InvestorOfferingType[] | null>;
    continent: FormControl<Continent[] | null>;
-   projectPhase: FormControl<ProjectPhase[] | null>;
+   projectPhases: FormControl<ProjectPhase[] | null>;
    collateral: FormControl<Collateral[] | null>;
    amountRangeStart: FormControl<number | null>;
    amountRangeEnd: FormControl<number | null>;

@@ -3,6 +3,7 @@ import {IsEmail, IsEnum, IsString} from 'class-validator';
 import {ApprovalState, Collateral, InvestorOfferingType, Location, ProjectPhase, Terms,Industries} from '../../enums';
 import {Industry, Offering as IOffering} from '../../interfaces';
 import {ResponseOfferingFileDto} from '../offering-files';
+import {ResponseProjectPhaseDto} from "../project-phase";
 
 export class BaseOfferingDto implements IOffering {
     @IsEnum(InvestorOfferingType)
@@ -44,9 +45,8 @@ export class BaseOfferingDto implements IOffering {
     @Expose()
     approvalState?: ApprovalState;
 
-    @IsEnum(ProjectPhase)
     @Expose()
-    projectPhase!: ProjectPhase;
+    projectPhases!: ResponseProjectPhaseDto[];
 
     @Expose()
     amountRequested!: number | null;

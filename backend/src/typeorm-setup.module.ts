@@ -7,6 +7,7 @@ import {OfferingModule} from './offerings/offerings.module';
 import {StaxModule} from './stax/stax.module';
 import {UserModule} from './users/users.module';
 import {IndustryModule} from "./industry/industry.module";
+import {ProjectPhaseModule} from "./project-phase/project-phase.module";
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import {IndustryModule} from "./industry/industry.module";
         OfferingFilesModule,
         IntroductionModule,
         IndustryModule,
+        ProjectPhaseModule
     ],
 })
 export class TypeOrmSetupModule {

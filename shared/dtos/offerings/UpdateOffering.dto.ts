@@ -3,6 +3,7 @@ import {ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsInt, IsOptional, ValidateNest
 import {ApprovalState, Collateral, InvestorOfferingType, Location, ProjectPhase, Terms,Industries} from '../../enums';
 import {BaseOfferingDto} from './BaseOffering.dto';
 import {ResponseIndustryDto} from "../industry";
+import {ResponseProjectPhaseDto} from "../project-phase";
 
 export class UpdateOfferingsDto {
     @IsArray()
@@ -51,9 +52,8 @@ export class UpdateOfferingDto extends BaseOfferingDto {
     @IsOptional()
     override approvalState!: ApprovalState;
 
-    @IsEnum(ProjectPhase)
     @IsOptional()
-    override projectPhase!: ProjectPhase;
+    override projectPhases!: ResponseProjectPhaseDto[];
 
     @IsOptional()
     override amountRequested!: number | null;

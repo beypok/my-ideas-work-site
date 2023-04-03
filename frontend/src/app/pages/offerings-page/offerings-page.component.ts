@@ -96,7 +96,7 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
          continent: new FormControl(null),
          industries: new FormControl(null),
          investorOfferingTypes: new FormControl(null),
-         projectPhase: new FormControl(null),
+         projectPhases: new FormControl(null),
          collateral: new FormControl(null),
          amountRangeStart: new FormControl(null),
          amountRangeEnd: new FormControl(null),
@@ -113,7 +113,7 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
       const {
          searchText,
          continent,
-         projectPhase,
+         projectPhases,
          collateral,
          amountRangeStart,
          amountRangeEnd,
@@ -130,9 +130,8 @@ export class OfferingsPageComponent implements OnDestroy, OnInit {
       )
          return false;
       if (
-         projectPhase &&
-         projectPhase.length > 0 &&
-         !projectPhase.some((p) => p === o.projectPhase)
+         projectPhases &&
+         projectPhases.length > 0
       )
          return false;
       if (collateral && collateral.length > 0 && !collateral.some((c) => c === o.collateral))

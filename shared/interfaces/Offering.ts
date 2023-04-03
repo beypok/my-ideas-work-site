@@ -4,12 +4,12 @@ import {
    Industries,
    InvestorOfferingType,
    Location,
-   ProjectPhase,
    Terms,
 } from '../enums';
 import { OfferingFile } from './OfferingFile';
 import { User } from './User';
 import {Industry} from "./Industry";
+import {ProjectPhase} from "./ProjectPhase";
 
 export interface Offering {
    offeringId?: number;
@@ -23,7 +23,7 @@ export interface Offering {
    terms?: Terms;
    contactEmail?: string;
    approvalState?: ApprovalState;
-   projectPhase?: ProjectPhase;
+   projectPhases?: ProjectPhase[];
    amountRequested?: number | null;
    amountRangeStart?: number | null;
    amountRangeEnd?: number | null;

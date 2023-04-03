@@ -73,19 +73,16 @@
          </mat-form-field>
       </span>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="projectPhaseList$">
          <mat-label>{{
             initOffering?.user?.accountType === enumMapper._accountType.Advertiser
                ? 'Funding Type'
                : 'Project Phase'
             }}</mat-label>
-         <mat-select formControlName="projectPhase">
-            <mat-option
-               *ngFor="let projectPhase of enumMapper._projectPhaseKeys"
-               [value]="enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases)"
-            >
-               {{ enumMapper.mapEnumKeyToValue(projectPhase, enumMapper._projectPhases) }}
-            </mat-option>
+         <mat-select formControlName="projectPhases"
+                     multiple [compareWith]="compareProjectPhases">
+            <mat-option *ngFor="let projectPhase of projectPhaseList$ | async"
+                        [value]="projectPhase">{{ projectPhase.name }}</mat-option>
          </mat-select>
       </mat-form-field>
 

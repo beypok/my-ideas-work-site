@@ -4,7 +4,6 @@ import {
     Industries,
     InvestorOfferingType,
     Location,
-    ProjectPhase,
     Terms,
 } from '@myideaswork/common/enums';
 import {Introductions} from 'src/introductions/introductions.entity';
@@ -12,6 +11,7 @@ import {OfferingFiles} from 'src/offering-files/offering-files.entity';
 import {User} from 'src/users/users.entity';
 import {Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Industry} from "src/industry/industry.entity";
+import {ProjectPhase} from "src/project-phase/project-phase.entity";
 
 @Entity()
 export class Offerings {
@@ -24,8 +24,8 @@ export class Offerings {
     @Column()
     name: string;
 
-    @Column()
-    description: string;
+    @Column({nullable: true})
+    description?: string;
 
     @Column({enum: InvestorOfferingType, nullable: true})
     investorOfferingType?: InvestorOfferingType;
@@ -48,8 +48,13 @@ export class Offerings {
     @Column({enum: ApprovalState})
     approvalState: ApprovalState;
 
-    @Column({enum: ProjectPhase})
-    projectPhase: ProjectPhase;
+    @ManyToMany(() => ProjectPhase)
+    @JoinTable({
+        name: "offerings_project_phase",
+        joinColumn: { name: "offeringId", referencedColumnName: "offeringId" },
+        inverseJoinColumn: { name: "projectPhaseId" }
+    })
+    projectPhases: ProjectPhase[];
 
     @Column({nullable: true})
     amountRequested: number | null;
@@ -69,7 +74,7 @@ export class Offerings {
 
     @ManyToMany(() => Industry)
     @JoinTable({
-        name: "offerings_industry_focus_industry",
+        name: "offerings_industry_focus",
         joinColumn: { name: "offeringId", referencedColumnName: "offeringId" },
         inverseJoinColumn: { name: "industryId" }
     })
