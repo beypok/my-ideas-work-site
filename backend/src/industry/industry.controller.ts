@@ -2,7 +2,7 @@ import {Controller, Get} from '@nestjs/common'
 import {IndustryService} from "./industry.service";
 import {ResponseIndustryDto} from '@myideaswork/common/dtos';
 
-@Controller('industry')
+@Controller('/industry')
 export class IndustryController {
     constructor(
         private readonly industryService: IndustryService,

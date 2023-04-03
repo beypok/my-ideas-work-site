@@ -5,9 +5,10 @@ import { OfferingFilesModule } from 'src/offering-files/offering-files.module';
 import { OfferingsController } from './offerings.controller';
 import { Offerings } from './offerings.entity';
 import { OfferingsService } from './offerings.service';
+import {IndustryModule} from "src/industry/industry.module";
 
 @Module({
-   imports: [TypeOrmModule.forFeature([Offerings]), OfferingFilesModule, IntroductionModule],
+   imports: [TypeOrmModule.forFeature([Offerings]), OfferingFilesModule, IntroductionModule,IndustryModule],
    controllers: [OfferingsController],
    providers: [OfferingsService],
 })
