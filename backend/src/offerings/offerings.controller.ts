@@ -85,6 +85,7 @@ export class OfferingsController {
         @Body('data') data: BatchSaveOfferingsDataDto,
         @Request() req,
     ): Promise<ResponseOfferingDto[]> {
+
         const offering = await this.offeringsService.batchSaveOffering(
             {
                 data,

@@ -121,7 +121,7 @@ export class OfferingFormComponent implements OnDestroy, OnChanges {
          investorOfferingType: new FormControl(this.initOffering?.investorOfferingType ?? null),
          industry: new FormControl(this.initOffering?.industry ?? null),
          industryFocus: new FormControl(this.initOffering?.industryFocus ?? null),
-         description: new FormControl(this.initOffering?.description ?? null, Validators.required),
+         description: new FormControl(this.initOffering?.description ?? null, this.initOffering?.user?.accountType === AccountType.Advertiser ? Validators.required : null),
          location: new FormControl(
             this.initOffering?.location ?? Location['United States'],
             Validators.required,

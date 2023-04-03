@@ -1,15 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-   CreateOfferingDto,
-   CreateOfferingFileDto,
-   UpdateOfferingDto,
-} from '@myideaswork/common/dtos';
-import { ApprovalState, CallState } from '@myideaswork/common/enums';
-import { Offering, OfferingFile, User } from '@myideaswork/common/interfaces';
-import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { selectCurrentUser } from 'src/app/state/authentication';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CreateOfferingDto, CreateOfferingFileDto, UpdateOfferingDto,} from '@myideaswork/common/dtos';
+import {ApprovalState, CallState} from '@myideaswork/common/enums';
+import {Offering, OfferingFile, User} from '@myideaswork/common/interfaces';
+import {Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {selectCurrentUser} from 'src/app/state/authentication';
 import {
    batchSaveOffering,
    clearOfferingToCreate,
@@ -204,11 +200,11 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
                offering,
             );
          } else {
-            this.offeringsToUpdate.push({ ...this.selectedOffering, ...offering });
+            this.offeringsToUpdate.push({...this.selectedOffering, ...offering});
          }
       }
 
-      this.selectedOffering = { ...this.selectedOffering, ...offering };
+      this.selectedOffering = {...this.selectedOffering, ...offering};
    }
 
    handleUndeleteSelectedForm() {
@@ -219,7 +215,7 @@ export class MyOfferingsPageComponent implements OnDestroy, OnInit {
    private updateOfferingArrayOnChange(array: Offering[], offering: Offering) {
       return array.map((o) => {
          if (o.offeringId === this.selectedOffering?.offeringId) {
-            return { ...o, ...offering };
+            return {...o, ...offering};
          }
          return o;
       });
