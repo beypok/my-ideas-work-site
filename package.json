@@ -21,7 +21,7 @@
     "shared": "npm workspace @myideaswork/common",
     "cache:clean": "npx jest --showConfig | grep cache; rm -rf /tmp/jest_rs; rm -R backend/dist/; rm -R frontend/dist/; rm -R shared/dist/; npm cache clear --force; rm -R node_modules/; rm -R frontend/node_modules/; rm -R backend/node_modules/;rm -R shared/node_modules/; rm yarn.lock; rm package-lock.json; rm backend/yarn.lock; rm backend/package-lock.json; rm frontend/yarn.lock; rm frontend/package-lock.json; rm shared/yarn.lock; rm shared/package-lock.json",
     "backend": "npm run build --workspace @myideaswork/common; npm run build --workspace @myideaswork/backend; npm run start:dev --workspace @myideaswork/backend",
-    "backend:deploy": "npm run cache:clean; npm run build --workspace @myideaswork/common; npm run build --workspace @myideaswork/backend; npm run migration:run",
+    "backend:deploy": "npm run cache:clean; npm i; npm run build --workspace @myideaswork/common; npm run build --workspace @myideaswork/backend; npm run migration:run",
     "migration:run": "npm run migration:run --workspace @myideaswork/backend",
     "migration:generate": "npm run migration:generate ./src/migrations/update --workspace @myideaswork/backend"
   },
