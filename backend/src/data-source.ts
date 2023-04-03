@@ -7,6 +7,7 @@ export const dataSourceOptions: DataSourceOptions = {
     username: process.env.MYSQLUSER || 'ideaswork',
     password: process.env.MYSQLPASSWORD || 'ideaswork',
     database: process.env.MYSQLDATABASE || 'ideaswork',
+    url: process.env.MYSQL_URL,
     migrations: ['dist/src/migrations/*.{ts,js}'],
     entities: ['dist/src/**/*.entity.{ts,js}'],
     logging: true,
